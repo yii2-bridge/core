@@ -77,12 +77,6 @@ $user = \Yii::$app->user->identity;
                     'icon' => 'grav',
                 ],
                 [
-                    'title' => 'Works',
-                    'url' => ['/admin/works/index'],
-                    'active' => ['controller' => 'works'],
-                    'icon' => 'briefcase'
-                ],
-                [
                     'title' => 'Settings',
                     'url' => ['/admin/settings/index'],
                     'active' => ['controller' => 'settings'],
