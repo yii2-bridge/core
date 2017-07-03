@@ -4,7 +4,7 @@ use yii\bootstrap\Html;
 use yii\bootstrap\ActiveForm;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\Users */
+/* @var $model naffiq\bridge\models\Users */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 

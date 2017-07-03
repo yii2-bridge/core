@@ -8,9 +8,10 @@
 
 namespace naffiq\bridge;
 
+use yii\base\BootstrapInterface;
 use yii\base\Module;
 
-class BridgeModule extends Module
+class BridgeModule extends Module implements BootstrapInterface
 {
     /**
      * @inheritdoc
