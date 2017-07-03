@@ -11,6 +11,5 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <div class="row">
     <div class="col-md-12">
-        <h1>Ты охуенен!</h1>
     </div>
 </div>
