@@ -82,7 +82,6 @@ class Users extends ActiveRecord implements IdentityInterface
                 'scenarios' => ['create', 'update'],
                 'path' => '@webroot/media/users/{id}',
                 'url' => '@web/media/users/{id}',
-                'placeholder' => '@webroot/images/avatar@2x.png',
                 'thumbs' => [
                     'preview' => ['width' => 50, 'height' => 50],
                 ]
