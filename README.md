@@ -24,18 +24,14 @@ Add module declaration to your config file:
 <?php
 
 return [
-    'components' => [
-        'urlManager' => [
-            'routes' => [
-                'admin/<controller>/<action>' => 'admin/<controller>/<action>', 
-                'admin/<module>/<controller>/<action>' => 'admin/<module>/<controller>/<action>' 
-            ]            
-        ]
-    ],
     'modules' => [
         'admin' => [
             'class' => '\naffiq\bridge\BridgeModule'
         ]
+    ],
+    'bootstrap' => [
+        // add bootstrap for proper aliases and url routes binding
+        'admin'
     ]
 ];
 
