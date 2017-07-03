@@ -69,6 +69,7 @@ $user = \Yii::$app->user->identity;
                     'url' => ['/admin/users/update', 'id' => $user->id],
                     'active' => ['controller' => 'default', 'action' => 'update'],
                     'image' => $user->getThumbUploadUrl('avatar', 'preview'),
+                    'icon' => 'user'
                 ],
                 [
                     'title' => 'Dashboard',
