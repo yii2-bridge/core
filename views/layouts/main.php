@@ -6,13 +6,13 @@
 use yii\helpers\Html;
 use yii\widgets\Breadcrumbs;
 use yii\widgets\ActiveForm;
-use app\assets\AdminAsset;
-use app\modules\admin\widgets\SideMenu;
+use naffiq\bridge\assets\AdminAsset;
+use naffiq\bridge\widgets\SideMenu;
 
 AdminAsset::register($this);
 
 /**
- * @var $user \app\models\Users
+ * @var $user \naffiq\bridge\models\Users
  */
 $user = \Yii::$app->user->identity;
 ?>
