@@ -1,0 +1,102 @@
+html,
+body {
+  height: 100%; }
+
+.wrap {
+  margin-left: 50px;
+  min-height: calc(100vh - 50px);
+  position: relative; }
+  .wrap .footer {
+    position: absolute;
+    width: 100%;
+    bottom: -61px;
+    padding: 20px 0;
+    background-color: transparent; }
+
+a:not(.btn), a:not(.btn):active, a:not(.btn):visited {
+  color: #3F88C5; }
+
+img {
+  max-width: 100%; }
+
+.main-nav {
+  background-color: #fff;
+  position: relative;
+  height: 50px; }
+  .main-nav .nav-bar {
+    position: relative;
+    margin-left: 50px;
+    height: 50px; }
+    .main-nav .nav-bar .navbar {
+      -webkit-border-radius: 0;
+      -moz-border-radius: 0;
+      border-radius: 0;
+      border: none;
+      background-color: #fff; }
+      .main-nav .nav-bar .navbar .breadcrumb-arrow {
+        margin: 8px 0 0 0; }
+  .main-nav .nav-menu {
+    min-height: 100vh;
+    width: 50px;
+    position: fixed;
+    top: 0;
+    z-index: 9999;
+    background-color: #1B2021; }
+    .main-nav .nav-menu .hamburger {
+      position: relative;
+      width: 50px;
+      height: 50px;
+      color: #FFF;
+      text-align: center;
+      line-height: 50px;
+      font-size: 24px;
+      background-color: #1C5D99; }
+    .main-nav .nav-menu .side-menu {
+      list-style: none;
+      padding-left: 0; }
+      .main-nav .nav-menu .side-menu li.side-menu--item.active {
+        background-color: #3F88C5; }
+        .main-nav .nav-menu .side-menu li.side-menu--item.active a {
+          color: #fff; }
+      .main-nav .nav-menu .side-menu li.side-menu--item a {
+        color: #AAA;
+        display: block;
+        width: 50px;
+        height: 50px;
+        line-height: 50px;
+        text-align: center;
+        font-size: 24px; }
+    .main-nav .nav-menu .form--sign-out {
+      position: absolute;
+      bottom: 0; }
+      .main-nav .nav-menu .form--sign-out .btn-sign-out {
+        background-color: transparent;
+        color: #EF476F; }
+
+.table a.asc:before {
+  content: '\f0de';
+  font-family: FontAwesome;
+  display: inline-block;
+  margin-right: 5px; }
+.table a.desc:before {
+  content: '\f0dd';
+  font-family: FontAwesome;
+  display: inline-block;
+  margin-right: 5px; }
+.table td {
+  vertical-align: middle !important; }
+.table .img-preview {
+  display: inline-block;
+  margin-right: 15px; }
+.table .col--drag-sort {
+  cursor: grab;
+  cursor: -webkit-grab;
+  text-align: center;
+  width: 50px; }
+  .table .col--drag-sort .drag-sort {
+    color: #999; }
+    .table .col--drag-sort .drag-sort:active {
+      cursor: grabbing;
+      cursor: -webkit-grabbing; }
+
+/*# sourceMappingURL=admin.css.map */

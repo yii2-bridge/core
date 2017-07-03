@@ -1,0 +1,27 @@
+html,
+body {
+  height: 100%;
+}
+
+.wrap {
+  margin-left: 50px;
+  min-height: calc(100vh - 50px);
+  position: relative;
+
+  .footer {
+    position: absolute;
+    width: 100%;
+    bottom: -61px;
+    padding: 20px 0;
+    background-color: $footer-bg;
+  }
+}
+
+a:not(.btn) {
+  &, &:active, &:visited {
+    color: $link-color;
+  }
+}
+img {
+  max-width: 100%;
+}

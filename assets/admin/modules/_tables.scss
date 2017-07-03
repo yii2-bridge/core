@@ -1,0 +1,38 @@
+.table {
+  a.asc:before {
+    content: '\f0de';
+    font-family: FontAwesome;
+    display: inline-block;
+    margin-right: 5px;
+  }
+  a.desc:before {
+    content: '\f0dd';
+    font-family: FontAwesome;
+    display: inline-block;
+    margin-right: 5px;
+  }
+
+  td {
+    vertical-align: middle !important;
+  }
+
+  .img-preview {
+    display: inline-block;
+    margin-right: 15px;
+  }
+
+  .col--drag-sort {
+    cursor: grab;
+    cursor: -webkit-grab;
+    text-align: center;
+    width: 50px;
+
+    .drag-sort {
+      color: #999;
+      &:active {
+        cursor: grabbing;
+        cursor: -webkit-grabbing;
+      }
+    }
+  }
+}

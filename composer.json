@@ -1,0 +1,19 @@
+{
+    "name": "naffiq/yii2-bridge",
+    "description": "Yet another Yii2 CRM module",
+    "type": "project",
+    "require": {
+        "yiisoft/yii2": "^2.0",
+        "yii2tech/admin": "^1.0",
+        "2amigos/yii2-tinymce-widget": "^1.1",
+        "mongosoft/yii2-upload-behavior": "^0.1.7"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "naffiq",
+            "email": "naffiq@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable"
+}
