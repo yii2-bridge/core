@@ -19,13 +19,13 @@
     "autoload": {
         "psr-4": {
             "naffiq\\bridge\\": "",
-            "naffiq\\bridge\\assets": "assets",
-            "naffiq\\bridge\\controllers": "controllers",
-            "naffiq\\bridge\\fixtures": "fixtures",
-            "naffiq\\bridge\\modules\\query": "models/query",
-            "naffiq\\bridge\\modules\\search": "models/search",
-            "naffiq\\bridge\\modules": "models",
-            "naffiq\\bridge\\widgets": "widgets"
+            "naffiq\\bridge\\assets\\": "assets",
+            "naffiq\\bridge\\controllers\\": "controllers",
+            "naffiq\\bridge\\fixtures\\": "fixtures",
+            "naffiq\\bridge\\modules\\query\\": "models/query",
+            "naffiq\\bridge\\modules\\search\\": "models/search",
+            "naffiq\\bridge\\modules\\": "models",
+            "naffiq\\bridge\\widgets\\": "widgets"
         }
     }
 }
