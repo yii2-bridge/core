@@ -15,5 +15,15 @@
             "email": "naffiq@gmail.com"
         }
     ],
-    "minimum-stability": "stable"
+    "minimum-stability": "stable",
+    "autoload": {
+        "psr-4": {
+            "naffiq\\bridge\\": "",
+            "naffiq\\bridge\\assets": "",
+            "naffiq\\bridge\\controllers": "",
+            "naffiq\\bridge\\fixtures": "",
+            "naffiq\\bridge\\modules": "",
+            "naffiq\\bridge\\widgets": ""
+        }
+    }
 }
