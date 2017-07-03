@@ -1,7 +1,6 @@
 <?php
 use yii\helpers\Url;
-use yii\helpers\Html;
-use app\modules\admin\widgets\SideMenu;
+use naffiq\bridge\widgets\SideMenu;
 
 /**
  * @var array $items
