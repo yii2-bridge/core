@@ -13,7 +13,7 @@ use yii\web\AssetBundle;
 
 class AdminAsset extends AssetBundle
 {
-    public $sourcePath = '@vendor/naffiq/yii2-bridge/assets/dist';
+    public $sourcePath = '@bridge-assets';
 
     public $css = [
         'css/admin.css',

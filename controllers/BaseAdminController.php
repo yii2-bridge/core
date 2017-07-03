@@ -15,5 +15,5 @@ class BaseAdminController extends CrudController
     /**
      * @var string
      */
-    public $layout = '@app/modules/admin/views/layouts/main';
+    public $layout = '@bridge/views/layouts/main';
 }

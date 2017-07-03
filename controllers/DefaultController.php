@@ -19,7 +19,7 @@ use yii\web\UploadedFile;
 
 class DefaultController extends Controller
 {
-    public $layout = '@app/modules/admin/views/layouts/main';
+    public $layout = '@bridge/views/layouts/main';
 
     /**
      * @inheritdoc
@@ -51,7 +51,7 @@ class DefaultController extends Controller
      */
     public function actionIndex()
     {
-        return $this->render('index', []);
+        return $this->render('index');
     }
 
     /**
@@ -65,7 +65,7 @@ class DefaultController extends Controller
             return $this->goHome();
         }
 
-        $this->layout = '@app/modules/admin/views/layouts/login';
+        $this->layout = '@bridge/views/layouts/login';
 
         $model = new LoginForm();
         if ($model->load(\Yii::$app->request->post()) && $model->login()) {
