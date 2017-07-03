@@ -1,6 +1,6 @@
 {
     "name": "naffiq/yii2-bridge",
-    "description": "Yet another Yii2 CRM module",
+    "description": "Simple admin panel for enthusiasts",
     "type": "project",
     "require": {
         "yiisoft/yii2": "^2.0",
