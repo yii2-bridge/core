@@ -16,13 +16,13 @@ class AdminAsset extends AssetBundle
     public $sourcePath = '@bridge-assets';
 
     public $css = [
-        'css/admin.css',
+        'admin.css',
         '//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css',
         '//bootswatch.com/flatly/bootstrap.min.css',
     ];
 
     public $js = [
-        'js/admin.main.js'
+        'admin.main.js'
     ];
 
     public $depends = [
