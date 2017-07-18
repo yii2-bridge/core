@@ -36,28 +36,6 @@ class TitledImageColumn extends ImageColumn
     public $value;
 
     /**
-     * Gets title
-     *
-     * @param mixed|Model $model
-     * @param mixed $key
-     * @param int $index
-     * @return mixed|null
-     */
-    protected function getTitleValue($model, $key, $index)
-    {
-        if ($this->attribute !== null) {
-            if (is_string($this->attribute)) {
-                return ArrayHelper::getValue($model, $this->attribute);
-            } else {
-                return call_user_func($this->attribute, $model, $key, $index, $this);
-            }
-        } elseif ($this->attribute !== null) {
-            return ArrayHelper::getValue($model, $this->attribute);
-        }
-        return null;
-    }
-
-    /**
      * Adds attribute (title) to image defined in `$imageAttribute`
      *
      * @param mixed|Model $model
@@ -70,5 +48,4 @@ class TitledImageColumn extends ImageColumn
         return $this->getImageTag($this->getImageUrl($model, $key, $index, $this->imageAttribute))
             . ' ' . $this->getAttributeCellValue($model, $key, $index, $this->attribute);
     }
-
 }
