@@ -84,7 +84,7 @@ class ImageColumn extends DataColumn
      * @param null|string image attribute for child classes
      * @return string the data cell value
      */
-    protected function getImageCellValue($model, $key, $index, $attribute = null)
+    protected function getAttributeCellValue($model, $key, $index, $attribute = null)
     {
         if ($this->value !== null) {
             if (is_string($this->value)) {
@@ -132,7 +132,7 @@ class ImageColumn extends DataColumn
         }
 
         if (!$imgUrl) {
-            $imgUrl = $this->getImageCellValue($model, $key, $index, $attribute);
+            $imgUrl = $this->getAttributeCellValue($model, $key, $index, $attribute);
         }
 
         return $imgUrl;

@@ -68,7 +68,7 @@ class TitledImageColumn extends ImageColumn
     public function getDataCellValue($model, $key, $index)
     {
         return $this->getImageTag($this->getImageUrl($model, $key, $index, $this->imageAttribute))
-            . ' ' . $this->getTitleValue($model, $key, $index);
+            . ' ' . $this->getAttributeCellValue($model, $key, $index, $this->attribute);
     }
 
 }
