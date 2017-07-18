@@ -16,7 +16,7 @@ use naffiq\bridge\models\Settings;
         <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
 
         <?php if ($model->type == Settings::TYPE_TEXT) : ?>
-            <?= $form->field($model, 'description')->widget(TinyMce::className(), [
+            <?= $form->field($model, 'value')->widget(TinyMce::className(), [
                 'options' => ['rows' => 6],
             ]) ?>
         <?php elseif ($model->type == Settings::TYPE_IMAGE) : ?>
