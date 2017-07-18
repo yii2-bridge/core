@@ -91,7 +91,7 @@ $user = \Yii::$app->user->identity;
                     'active' => ['controller' => 'users'],
                     'icon' => 'users'
                 ]
-            ], \Yii::$app->module->menu)
+            ], \Yii::$app->controller->module->menu)
         ]) ?>
 
         <?php ActiveForm::begin(['action' => ['/admin/default/logout'], 'options' => [
