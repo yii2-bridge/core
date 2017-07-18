@@ -14,7 +14,6 @@ $this->params['contextMenuItems'] = [
     ['delete', 'id' => $model->id]
 ];
 ?>
-<h1><?= $this->title ?></h1>
 
 <div class="row">
     <div class="col-lg-8 detail-view-wrap">

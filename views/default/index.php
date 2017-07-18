@@ -7,8 +7,6 @@ $this->title = 'Dashboard';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 
-<h1>Welcome!</h1>
-
 <div class="row">
     <div class="col-md-12">
     </div>

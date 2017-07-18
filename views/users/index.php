@@ -16,12 +16,6 @@ $this->params['contextMenuItems'] = [
 ];
 ?>
 
-<div class="pull-right">
-    <a href="<?= Url::to(['create']) ?>" class="btn btn-success"><i class="fa fa-plus"></i> Create</a>
-</div>
-
-<h1><?= $this->title ?></h1>
-
 <?= GridView::widget([
     'dataProvider' => $dataProvider,
     'filterModel' => $searchModel,

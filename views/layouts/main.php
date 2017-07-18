@@ -3,11 +3,12 @@
 /* @var $this \yii\web\View */
 /* @var $content string */
 
-use yii\helpers\Html;
-use yii\widgets\Breadcrumbs;
-use yii\widgets\ActiveForm;
 use naffiq\bridge\assets\AdminAsset;
 use naffiq\bridge\widgets\SideMenu;
+use yii\helpers\Html;
+use yii\widgets\ActiveForm;
+use yii\widgets\Breadcrumbs;
+use yii2tech\admin\widgets\ButtonContextMenu;
 
 AdminAsset::register($this);
 
@@ -105,6 +106,14 @@ $user = \Yii::$app->user->identity;
 <div class="wrap ">
 
     <div class="container-fluid clearfix">
+        <h1><?=  Html::encode(isset($this->params['header']) ? $this->params['header'] : $this->title) ?></h1>
+
+        <p>
+            <?=  ButtonContextMenu::widget([
+                'items' => isset($this->params['contextMenuItems']) ? $this->params['contextMenuItems'] : []
+            ]) ?>
+        </p>
+
         <?= $content ?>
     </div>
 

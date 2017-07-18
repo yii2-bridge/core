@@ -8,7 +8,7 @@ use yii2tech\admin\grid\ActionColumn;
 use app\modules\admin\models\Settings;
 
 /* @var $this yii\web\View */
-/* @var $searchModel app\modules\admin\models\search\Settings */
+/* @var $searchModel naffiq\bridge\models\search\SettingsSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = 'Settings';
@@ -17,12 +17,6 @@ $this->params['contextMenuItems'] = [
     ['create']
 ];
 ?>
-
-<div class="pull-right">
-    <a href="<?= Url::to(['create']) ?>" class="btn btn-success"><i class="fa fa-plus"></i> Create</a>
-</div>
-
-<h1><?= $this->title ?></h1>
 
 <?= GridView::widget([
     'dataProvider' => $dataProvider,
@@ -36,7 +30,7 @@ $this->params['contextMenuItems'] = [
             'format' => 'raw',
             'value' => function ($data) {
                 /**
-                 * @var \app\modules\admin\models\Settings $data
+                 * @var \naffiq\bridge\models\Settings $data
                  */
                 if ($data->type == Settings::TYPE_IMAGE) {
                     return Html::img($data->getThumbUploadUrl('value', 'preview'), [

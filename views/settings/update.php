@@ -8,7 +8,6 @@ $this->params['breadcrumbs'][] = ['label' => 'Settings', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->title, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = 'Update';
 ?>
-<h1><?= $this->title ?></h1>
 
 <?= $this->render('_form', [
     'model' => $model,
