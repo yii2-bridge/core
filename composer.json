@@ -26,7 +26,8 @@
             "naffiq\\bridge\\modules\\query\\": "models/query",
             "naffiq\\bridge\\modules\\search\\": "models/search",
             "naffiq\\bridge\\modules\\": "models",
-            "naffiq\\bridge\\widgets\\": "widgets"
+            "naffiq\\bridge\\widgets\\": "widgets",
+            "naffiq\\bridge\\widgets\\columns\\": "widgets/columns"
         }
     }
 }
