@@ -40,8 +40,6 @@ $this->params['contextMenuItems'] = [
                 return StringHelper::truncate(strip_tags($data->value), 150);
             }
         ],
-        // 'type_settings:ntext',
-
         [
             'class' => ActionColumn::className(),
             'template' => '{update}'

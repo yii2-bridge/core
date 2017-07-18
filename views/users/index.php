@@ -28,21 +28,10 @@ $this->params['contextMenuItems'] = [
             'contentOptions' => ['style' => 'width: 60px; text-align: center;']
         ],
         [
+            'class' => '\naffiq\bridge\widgets\columns\TitledImageColumn',
             'attribute' => 'username',
-            'format' => 'raw',
-            'value' => function ($data) {
-                /**
-                 * @var \app\models\Users $data
-                 */
-                return Html::img($data->getThumbUploadUrl('avatar', 'preview'), [
-                        'class' => 'img-circle img-preview'
-                    ]) . ' ' . $data->username;
-            }
+            'imageAttribute' => 'avatar'
         ],
-        // 'is_active',
-        // 'created_at',
-        // 'updated_at',
-
         [
             'class' => ActionColumn::className(),
         ],

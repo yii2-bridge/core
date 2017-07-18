@@ -5,6 +5,7 @@
 
 use naffiq\bridge\assets\AdminAsset;
 use naffiq\bridge\widgets\SideMenu;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use yii\widgets\Breadcrumbs;
@@ -64,7 +65,7 @@ $user = \Yii::$app->user->identity;
         </div>
 
         <?= SideMenu::widget([
-            'items' => [
+            'items' => ArrayHelper::merge([
                 [
                     'title' => 'Profile',
                     'url' => ['/admin/users/update', 'id' => $user->id],
@@ -90,7 +91,7 @@ $user = \Yii::$app->user->identity;
                     'active' => ['controller' => 'users'],
                     'icon' => 'users'
                 ]
-            ]
+            ], \Yii::$app->module->menu)
         ]) ?>
 
         <?php ActiveForm::begin(['action' => ['/admin/default/logout'], 'options' => [

@@ -13,6 +13,8 @@ use yii\base\Module;
 
 class BridgeModule extends Module implements BootstrapInterface
 {
+    public $menu = [];
+
     /**
      * @inheritdoc
      */
