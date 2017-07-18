@@ -29,22 +29,19 @@ class TinyMce extends BaseTinyMce
 
     public function __construct(array $config = [])
     {
-        $uploadLink = empty($config['imageUploadLink']) ? '/admin/default/image-upload' : $config['imageUploadLink'];
-        if (is_array($uploadLink)) {
-            $uploadLink = Url::to($uploadLink);
-        }
+        $uploadUrl = $this->getUploadUrl($config);
 
         parent::__construct(ArrayHelper::merge([
             'clientOptions' => [
                 'plugins' => ['image', 'link'],
                 'branding' => false,
                 'images_upload_handler' => new \yii\web\JsExpression(<<<JS
-                function (blobInfo, success, failure) {
+function (blobInfo, success, failure) {
     var xhr, formData;
 
     xhr = new XMLHttpRequest();
     xhr.withCredentials = false;
-    xhr.open('POST', '$uploadLink');
+    xhr.open('POST', '$uploadUrl');
 
     xhr.onload = function() {
       var json;
@@ -99,5 +96,19 @@ JS
                 )
             ]
         ], $config));
+    }
+
+    /**
+     * @param array $config
+     * @return string
+     */
+    public function getUploadUrl(array $config)
+    {
+        $uploadLink = empty($config['imageUploadLink']) ? '/admin/default/image-upload' : $config['imageUploadLink'];
+        if (is_array($uploadLink)) {
+            $uploadLink = Url::to($uploadLink);
+        }
+
+        return $uploadLink;
     }
 }
