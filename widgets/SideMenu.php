@@ -40,7 +40,7 @@ class SideMenu extends Widget
                 return false;
             }
 
-            if (isset($active['module']) && $active['module'] != \Yii::$app->module->id) {
+            if (isset($active['module']) && $active['module'] != \Yii::$app->controller->module->id) {
                 return false;
             }
 
