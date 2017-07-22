@@ -26,12 +26,24 @@ Add module declaration to your config file:
 return [
     'modules' => [
         'admin' => [
-            'class' => '\naffiq\bridge\BridgeModule'
+            'class' => '\naffiq\bridge\BridgeModule',
+            // Add your content management module here.
+            'modules' => [
+                'content' => ['class' => '\app\modules\content\Module']
+            ],
+            // Add menu item of your content management module to menu
+            'menu' => [
+                [
+                    'title' => 'Content',
+                    'url' => ['/admin/content/default/index'],
+                    'active' => ['module' => 'content'],
+                    'icon' => 'list'
+                ]
+            ]
         ]
     ],
-    'bootstrap' => [
-        // add bootstrap for proper aliases and url routes binding
-        'admin'
+    'bootstrap' => [        
+        'admin' // add module id to bootstrap for proper aliases and url routes binding
     ]
 ];
 
