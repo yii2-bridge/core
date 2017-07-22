@@ -10,9 +10,20 @@ namespace naffiq\bridge;
 
 use yii\base\BootstrapInterface;
 use yii\base\Module;
+use yii\helpers\ArrayHelper;
 
+/**
+ * Class BridgeModule
+ *
+ * Main module for Bridge admin panel. Register your custom modules as submodules to this class in your config file.
+ *
+ * @package naffiq\bridge
+ */
 class BridgeModule extends Module implements BootstrapInterface
 {
+    /**
+     * @var array Menu items shown in admin panel (except for default ones)
+     */
     public $menu = [];
 
     /**
@@ -30,6 +41,24 @@ class BridgeModule extends Module implements BootstrapInterface
                 ['class' => 'yii\web\UrlRule', 'pattern' => $this->id . '/<controller:[\w\-]+>/<action:[\w\-]+>', 'route' => $this->id . '/<controller>/<action>'],
                 ['class' => 'yii\web\UrlRule', 'pattern' => $this->id . '/<module:[\w\-]+>/<controller:[\w\-]+>/<action:[\w\-]+>', 'route' => $this->id . '/<module>/<controller>/<action>'],
             ], false);
+        }
+    }
+
+    /**
+     * @inheritdoc
+     *
+     * Adds menu items loaded from config to View params
+     */
+    public function init()
+    {
+        parent::init();
+
+        if (empty(\Yii::$app->view->params['admin-menu'])) {
+            \Yii::$app->view->params['admin-menu'] = $this->menu;
+        } else {
+            \Yii::$app->view->params['admin-menu'] = ArrayHelper::merge(
+                \Yii::$app->view->params['admin-menu'], $this->menu
+            );
         }
     }
 }
