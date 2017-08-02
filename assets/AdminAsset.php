@@ -18,7 +18,7 @@ class AdminAsset extends AssetBundle
     public $css = [
         'admin.css',
         '//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css',
-        '//bootswatch.com/flatly/bootstrap.min.css',
+        '//maxcdn.bootstrapcdn.com/bootswatch/latest/flatly/bootstrap.min.css',
     ];
 
     public $js = [
