@@ -7,12 +7,15 @@
  */
 
 namespace naffiq\bridge\widgets;
+
 use kartik\select2\Select2;
 use kartik\widgets\DatePicker;
 use kartik\widgets\DateTimePicker;
 use kartik\widgets\FileInput;
-use yii\db\ActiveRecord;
+use kartik\widgets\SwitchInput;
+use mongosoft\file\UploadBehavior;
 use yii\helpers\ArrayHelper;
+use yii\helpers\Html;
 
 /**
  * Class ActiveField
@@ -32,18 +35,51 @@ class ActiveField extends \yii\widgets\ActiveField
         return $this->widget(TinyMce::className(), $options);
     }
 
+    public function fileUpload($options = [])
+    {
+        $initialPreview = [];
+        if (empty($options['pluginOptions']['initialPreview']) && !empty($this->getUploadUrl())) {
+            $initialPreview[] = Html::tag('div',
+                Html::tag('h2', Html::tag('i', '', ['class' => 'fa fa-file-o']))
+                . Html::a(basename($this->getUploadUrl()), $this->getUploadUrl(), ['target' => '_blank']),
+                [
+                    'class' => 'file-preview-text'
+                ]
+            );
+        }
+
+        return $this->widget(FileInput::className(), ArrayHelper::merge([
+            'pluginOptions' => [
+                'showUpload' => false,
+                'showRemove' => false,
+                'initialPreview' => $initialPreview
+            ]
+        ], $options));
+    }
+
     /**
      * @param array $options
      * @return $this
      */
     public function imageUpload($options = [])
     {
-        return $this->widget(FileInput::className(), ArrayHelper::merge([
+        $initialPreview = [];
+        if (!empty($this->getUploadUrl())) {
+            $initialPreview[] = Html::img($this->getUploadUrl(), [
+                'class' => 'file-preview-image',
+                'title' => $this->model->getAttributeLabel($this->attribute),
+                'alt' => $this->model->getAttributeLabel($this->attribute),
+                'style' => 'max-height: 170px;'
+            ]);
+        }
+
+        return $this->fileUpload(ArrayHelper::merge($options, [
             'pluginOptions' => [
                 'showUpload' => false,
                 'showRemove' => false,
+                'initialPreview' => $initialPreview
             ]
-        ], $options));
+        ]));
     }
 
     /**
@@ -95,5 +131,28 @@ class ActiveField extends \yii\widgets\ActiveField
         return $this->widget(DateTimePicker::className(), $options);
     }
 
+    /**
+     * @param array $options
+     * @return $this
+     */
+    public function switchInput($options = [])
+    {
+        return $this->widget(SwitchInput::className(), $options);
+    }
 
+    protected function getUploadUrl()
+    {
+        $uploadUrl = null;
+        foreach ($this->model->getBehaviors() as $behavior) {
+            if ($behavior instanceof UploadBehavior && $behavior->attribute == $this->attribute) {
+                /**
+                 * @var $behavior UploadBehavior
+                 */
+                $uploadUrl = call_user_func([$behavior, 'getUploadUrl'], $this->attribute);
+                break;
+            }
+        }
+
+        return $uploadUrl;
+    }
 }
