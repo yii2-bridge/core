@@ -46,6 +46,11 @@ class BridgeModule extends Module implements BootstrapInterface
 
             $app->user->loginUrl = [$this->id . '/default/login'];
             $app->user->identityClass = Users::className();
+
+            $app->i18n->translations['yii2tech-admin'] = [
+                'class' => 'yii\i18n\PhpMessageSource',
+                'basePath' => '@yii2tech/admin/messages',
+            ];
         }
     }
 
