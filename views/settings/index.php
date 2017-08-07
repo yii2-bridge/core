@@ -5,7 +5,7 @@ use yii\helpers\Url;
 use yii\helpers\Html;
 use yii\helpers\StringHelper;
 use yii2tech\admin\grid\ActionColumn;
-use app\modules\admin\models\Settings;
+use naffiq\bridge\models\Settings;
 
 /* @var $this yii\web\View */
 /* @var $searchModel naffiq\bridge\models\search\SettingsSearch */
