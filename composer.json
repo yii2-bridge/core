@@ -28,7 +28,12 @@
             "naffiq\\bridge\\modules\\search\\": "models/search",
             "naffiq\\bridge\\modules\\": "models",
             "naffiq\\bridge\\widgets\\": "widgets",
-            "naffiq\\bridge\\widgets\\columns\\": "widgets/columns"
+            "naffiq\\bridge\\widgets\\columns\\": "widgets/columns",
+            "naffiq\\bridge\\gii\\crud\\": "gii/crud",
+            "naffiq\\bridge\\gii\\model\\": "gii/model"
         }
+    },
+    "require-dev": {
+        "yiisoft/yii2-gii": "^2.0"
     }
 }

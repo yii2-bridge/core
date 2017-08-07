@@ -51,6 +51,16 @@ class BridgeModule extends Module implements BootstrapInterface
                 'class' => 'yii\i18n\PhpMessageSource',
                 'basePath' => '@yii2tech/admin/messages',
             ];
+
+
+            if (!empty($app->getModule('gii'))) {
+                $app->getModule('gii')->generators['adminCrud'] = [
+                    'class' => 'naffiq\bridge\gii\crud\Generator'
+                ];
+                $app->getModule('gii')->generators['model'] = [
+                    'class' => 'naffiq\bridge\gii\model\Generator'
+                ];
+            }
         }
     }
 
