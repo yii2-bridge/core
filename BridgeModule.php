@@ -8,6 +8,7 @@
 
 namespace naffiq\bridge;
 
+use naffiq\bridge\models\Users;
 use yii\base\BootstrapInterface;
 use yii\base\Module;
 use yii\helpers\ArrayHelper;
@@ -33,6 +34,7 @@ class BridgeModule extends Module implements BootstrapInterface
     {
         \Yii::setAlias('@bridge', \Yii::getAlias('@vendor/naffiq/yii2-bridge'));
         \Yii::setAlias('@bridge-assets', \Yii::getAlias('@vendor/naffiq/yii2-bridge/assets/dist/'));
+        \Yii::setAlias('@bridge-migrations', \Yii::getAlias('@vendor/naffiq/yii2-bridge/migrations/'));
 
         if ($app instanceof \yii\web\Application) {
             $app->getUrlManager()->addRules([
@@ -41,6 +43,9 @@ class BridgeModule extends Module implements BootstrapInterface
                 ['class' => 'yii\web\UrlRule', 'pattern' => $this->id . '/<controller:[\w\-]+>/<action:[\w\-]+>', 'route' => $this->id . '/<controller>/<action>'],
                 ['class' => 'yii\web\UrlRule', 'pattern' => $this->id . '/<module:[\w\-]+>/<controller:[\w\-]+>/<action:[\w\-]+>', 'route' => $this->id . '/<module>/<controller>/<action>'],
             ], false);
+
+            $app->user->loginUrl = [$this->id . '/default/login'];
+            $app->user->identityClass = Users::className();
         }
     }
 
