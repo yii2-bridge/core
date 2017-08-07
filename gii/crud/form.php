@@ -9,6 +9,8 @@ echo $form->field($generator, 'controllerClass');
 echo $form->field($generator, 'viewPath');
 echo $form->field($generator, 'contextClass');
 echo $form->field($generator, 'baseControllerClass');
+echo $form->field($generator, 'createScenario');
+echo $form->field($generator, 'updateScenario');
 echo $form->field($generator, 'indexWidgetType')->dropDownList([
     'grid' => 'GridView',
     'list' => 'ListView',
