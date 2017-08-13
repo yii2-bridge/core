@@ -24,11 +24,13 @@ class Settings extends \yii\db\ActiveRecord
     const TYPE_STRING = 1;
     const TYPE_TEXT = 2;
     const TYPE_IMAGE = 3;
+    const TYPE_SWITCH = 4;
 
     public static $types = [
         self::TYPE_STRING => 'String',
         self::TYPE_TEXT => 'Text',
         self::TYPE_IMAGE => 'Image',
+        self::TYPE_SWITCH => 'Checkbox'
     ];
 
     /**

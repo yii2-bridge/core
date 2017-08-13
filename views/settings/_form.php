@@ -1,13 +1,11 @@
 <?php
 
 use yii\bootstrap\Html;
-use yii\bootstrap\ActiveForm;
-use naffiq\bridge\widgets\TinyMce;
+use naffiq\bridge\widgets\ActiveForm;
 use naffiq\bridge\models\Settings;
 
 /* @var $this yii\web\View */
 /* @var $model Settings */
-/* @var $form yii\widgets\ActiveForm */
 ?>
 <?php $form = ActiveForm::begin(); ?>
 
@@ -16,12 +14,12 @@ use naffiq\bridge\models\Settings;
         <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
 
         <?php if ($model->type == Settings::TYPE_TEXT) : ?>
-            <?= $form->field($model, 'value')->widget(TinyMce::className(), [
-                'options' => ['rows' => 6],
-            ]) ?>
+            <?= $form->field($model, 'value')->richTextArea(['options' => ['rows' => 6]]) ?>
         <?php elseif ($model->type == Settings::TYPE_IMAGE) : ?>
             <?= Html::img($model->getUploadUrl('value'), ['class' => 'img-thumbnail']) ?>
-            <?= $form->field($model, 'value')->fileInput(['accept' => 'image/*']) ?>
+            <?= $form->field($model, 'value')->imageUpload(['accept' => 'image/*']) ?>
+        <?php elseif ($model->type == Settings::TYPE_SWITCH): ?>
+            <?= $form->field($model, 'value')->switchInput() ?>
         <?php else: ?>
             <?= $form->field($model, 'value')->textInput() ?>
         <?php endif; ?>
@@ -43,7 +41,7 @@ use naffiq\bridge\models\Settings;
 
             <?= $form->field($model, 'key')->textInput(['maxlength' => true]) ?>
 
-            <?= $form->field($model, 'type')->dropDownList(Settings::$types) ?>
+            <?= $form->field($model, 'type')->select2(Settings::$types) ?>
 
             <?= $form->field($model, 'type_settings')->textarea(['rows' => 6]) ?>
         </div>
