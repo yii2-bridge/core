@@ -7,6 +7,7 @@ echo $form->field($generator, 'modelClass');
 echo $form->field($generator, 'searchModelClass');
 echo $form->field($generator, 'controllerClass');
 echo $form->field($generator, 'viewPath');
+echo $form->field($generator, 'generateCustomFields')->checkbox();
 echo $form->field($generator, 'contextClass');
 echo $form->field($generator, 'baseControllerClass');
 echo $form->field($generator, 'createScenario');
