@@ -2,9 +2,10 @@
 
 use yii\helpers\Inflector;
 use yii\helpers\StringHelper;
+use naffiq\bridge\gii\helpers\ColumnHelper;
 
 /* @var $this yii\web\View */
-/* @var $generator yii2tech\admin\gii\crud\Generator */
+/* @var $generator \naffiq\bridge\gii\crud\Generator */
 
 $urlParams = $generator->generateUrlParams();
 $nameAttribute = $generator->getNameAttribute();
@@ -55,6 +56,7 @@ $this->params['contextMenuItems'] = [
 <?php if ($generator->indexWidgetType === 'grid'): ?>
 <?= "<?= " ?>GridView::widget([
     'dataProvider' => $dataProvider,
+    'options' => ['class' => 'grid-view table-responsive'],
     <?= !empty($generator->searchModelClass) ? "'filterModel' => \$searchModel,\n    'columns' => [\n" : "'columns' => [\n"; ?>
         ['class' => 'yii\grid\SerialColumn'],
 
@@ -70,11 +72,18 @@ if (($tableSchema = $generator->getTableSchema()) === false) {
     }
 } else {
     foreach ($tableSchema->columns as $column) {
-        $format = $generator->generateColumnFormat($column);
-        if (++$count < 6) {
-            echo "        '" . $column->name . ($format === 'text' ? "" : ":" . $format) . "',\n";
+        $format = $generator->generateGridColumnFormat($column);
+        if ($format === false) continue;
+
+        echo '        ' . (++$count > 5 ? '// ' : '');
+        if (is_array($format)) {
+            echo "[\n";
+            foreach ($format as $item => $value) {
+                echo ColumnHelper::pushTab(3) . "'{$item}' => " . (is_string($value) ? "'{$value}'" : $value) . ",\n";
+            }
+            echo ColumnHelper::pushTab(2) . "],\n";
         } else {
-            echo "        // '" . $column->name . ($format === 'text' ? "" : ":" . $format) . "',\n";
+            echo "'" . $column->name . ($format === 'text' ? "" : ":" . $format) . "',\n";
         }
     }
 }

@@ -34,4 +34,11 @@ class ColumnHelper
             return strpos($columnName, $endString) === strlen($columnName) - strlen($endString);
         }
     }
+
+    public static function pushTab($n = 1)
+    {
+        $tab = '    ';
+        for ($result = ''; strlen($result) / strlen($tab) < $n; $result .= $tab);
+        return $result;
+    }
 }

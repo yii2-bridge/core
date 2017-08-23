@@ -10,6 +10,9 @@ namespace naffiq\bridge\gii\crud;
 
 
 use naffiq\bridge\gii\helpers\ColumnHelper;
+use naffiq\bridge\widgets\columns\ImageColumn;
+use naffiq\bridge\widgets\columns\TitledImageColumn;
+use naffiq\bridge\widgets\columns\TruncatedTextColumn;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Inflector;
 use yii\helpers\VarDumper;
@@ -74,6 +77,78 @@ class Generator extends \yii2tech\admin\gii\crud\Generator
         ]);
     }
 
+    private $skipColumns = [];
+
+    /**
+     * Generates column format
+     * @param \yii\db\ColumnSchema $column
+     * @return string|array|bool
+     */
+    public function generateGridColumnFormat($column)
+    {
+        if (in_array($column->name, $this->skipColumns)) {
+            return false;
+        }
+
+        if ($column->name === 'title') {
+            if ($this->tableSchema->getColumn('avatar')) {
+                $this->skipColumns[] = 'avatar';
+                return [
+                    'class' => TitledImageColumn::className(),
+                    'attribute' => 'title',
+                    'imageAttribute' => 'avatar'
+                ];
+            } elseif ($this->tableSchema->getColumn('image')) {
+                $this->skipColumns[] = 'image';
+                return [
+                    'class' => TitledImageColumn::className(),
+                    'attribute' => 'title',
+                    'imageAttribute' => 'image'
+                ];
+            }
+        } elseif ($column->name === 'avatar') {
+            if ($this->tableSchema->getColumn('title')) {
+                $this->skipColumns[] = 'title';
+                return [
+                    'class' => TitledImageColumn::className(),
+                    'attribute' => 'title',
+                    'imageAttribute' => 'avatar'
+                ];
+            }
+        } elseif ($column->name === 'image') {
+            if ($this->tableSchema->getColumn('title')) {
+                $this->skipColumns[] = 'title';
+                return [
+                    'class' => TitledImageColumn::className(),
+                    'attribute' => 'title',
+                    'imageAttribute' => 'image'
+                ];
+            }
+        }
+
+        if ($column->phpType === 'boolean') {
+            return 'boolean';
+        } elseif ($column->type === 'text') {
+            return [
+                'class' => TruncatedTextColumn::className(),
+                'attribute' => $column->name
+            ];
+        } elseif (stripos($column->name, 'time') !== false && $column->phpType === 'integer') {
+            return 'datetime';
+        } elseif (stripos($column->name, 'email') !== false) {
+            return 'email';
+        } elseif (stripos($column->name, 'url') !== false) {
+            return 'url';
+        } elseif (ColumnHelper::endsWith($column, ['image', 'avatar'])) {
+            return [
+                'class' => ImageColumn::className(),
+                'attribute' => $column->name
+            ];
+        } else {
+            return 'text';
+        }
+    }
+
     /**
      * @inheritdoc
      */
@@ -92,7 +167,7 @@ class Generator extends \yii2tech\admin\gii\crud\Generator
 
         if (preg_match('/^(password|pass|passwd|passcode)$/i', $column->name)) {
             $input = 'passwordInput';
-        } elseif ($this->generateCustomFields && ColumnHelper::endsWith($column, 'image')) {
+        } elseif ($this->generateCustomFields && ColumnHelper::endsWith($column, ['image', 'avatar'])) {
             $input = 'imageUpload';
             $cancelMaxLength = true;
         } elseif ($this->generateCustomFields && ColumnHelper::endsWith($column, 'file')) {
