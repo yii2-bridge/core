@@ -8,7 +8,8 @@
         "2amigos/yii2-tinymce-widget": "^1.1",
         "mongosoft/yii2-upload-behavior": "^0.1.7",
         "yiisoft/yii2-bootstrap": "^2.0",
-        "kartik-v/yii2-widgets": "^3.4"
+        "kartik-v/yii2-widgets": "^3.4",
+        "phpdocumentor/reflection-docblock": "^4.1"
     },
     "license": "MIT",
     "authors": [

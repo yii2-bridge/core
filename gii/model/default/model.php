@@ -13,6 +13,7 @@
 /* @var $rules string[] list of validation rules */
 /* @var $relations array list of relations (name => relation declaration) */
 /* @var $behaviors array list of behaviors */
+/* @var $behaviorMethods array list of methods, given to model by behaviors */
 
 echo "<?php\n";
 ?>
@@ -29,9 +30,15 @@ use Yii;
 <?php endforeach; ?>
 <?php if (!empty($relations)): ?>
  *
-    <?php foreach ($relations as $name => $relation): ?>
+<?php foreach ($relations as $name => $relation): ?>
  * @property <?= $relation[1] . ($relation[2] ? '[]' : '') . ' $' . lcfirst($name) . "\n" ?>
-    <?php endforeach; ?>
+<?php endforeach; ?>
+<?php endif; ?>
+<?php if (!empty($behaviorMethods)): ?>
+ *
+<?php foreach($behaviorMethods as $methodName => $methodData): ?>
+ * @method <?= $methodData['returnType'] ?> <?= $methodName ?>(<?= implode(', ', $methodData['arguments']) ?>) <?= $methodData['description'] . PHP_EOL ?>
+<?php endforeach ?>
 <?php endif; ?>
  */
 class <?= $className ?> extends <?= '\\' . ltrim($generator->baseClass, '\\') . "\n" ?>
@@ -68,9 +75,9 @@ class <?= $className ?> extends <?= '\\' . ltrim($generator->baseClass, '\\') . 
     public function attributeLabels()
     {
         return [
-        <?php foreach ($labels as $name => $label): ?>
+<?php foreach ($labels as $name => $label): ?>
             <?= "'$name' => " . $generator->generateString($label) . ",\n" ?>
-        <?php endforeach; ?>
+<?php endforeach; ?>
         ];
     }
 <?php foreach ($relations as $name => $relation): ?>
@@ -105,13 +112,13 @@ class <?= $className ?> extends <?= '\\' . ltrim($generator->baseClass, '\\') . 
     public function behaviors()
     {
         return [
-        <?php foreach($behaviors as $behaviorName => $behavior): ?>
+<?php foreach($behaviors as $behaviorName => $behavior): ?>
             '<?= $behaviorName ?>' => [
-                <?php foreach($behavior as $parameter => $data): ?>
+<?php foreach($behavior as $parameter => $data): ?>
                 '<?= $parameter ?>' => <?= is_string($data) ? "'$data'" : $data ?>,
-                <?php endforeach ?>
+<?php endforeach ?>
             ]
-        <?php endforeach ?>
+<?php endforeach ?>
         ];
     }
 <?php endif; ?>

@@ -27,7 +27,8 @@ class ArrayString
     {
         $output = [];
         foreach ($this->data as $key => $value) {
-            $output[] = $this->noKeys ? "'$value'" : "'$key' => '$value'";
+            $outputValue = is_string($value) ? "'$value'" : $value;
+            $output[] = $this->noKeys ? "$outputValue" : "'$key' => $outputValue";
         }
         return '[' .implode(', ', $output). ']';
     }

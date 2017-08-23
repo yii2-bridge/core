@@ -8,8 +8,11 @@
 
 namespace naffiq\bridge\gii\model;
 
+use mongosoft\file\UploadBehavior;
 use mongosoft\file\UploadImageBehavior;
 use naffiq\bridge\gii\helpers\ArrayString;
+use phpDocumentor\Reflection\DocBlock;
+use phpDocumentor\Reflection\DocBlockFactory;
 use yii\base\NotSupportedException;
 use yii\db\ColumnSchema;
 use yii\db\Schema;
@@ -80,7 +83,8 @@ class Generator extends \yii\gii\generators\model\Generator
                 'labels' => $this->generateLabels($tableSchema),
                 'rules' => $this->generateRules($tableSchema),
                 'relations' => isset($relations[$tableName]) ? $relations[$tableName] : [],
-                'behaviors' => $behaviors
+                'behaviors' => $behaviors,
+                'behaviorMethods' => $this->generateBehaviorMethods($behaviors)
             ];
             $files[] = new CodeFile(
                 Yii::getAlias('@' . str_replace('\\', '/', $this->ns)) . '/' . $modelClassName . '.php',
@@ -118,12 +122,20 @@ class Generator extends \yii\gii\generators\model\Generator
                     'path' => '@webroot/media/'.$table->name.'/{id}',
                     'url' => '@web/media/'.$table->name.'/{id}',
                     'scenarios' => new ArrayString(['create', 'update'], true),
+                    'thumbs' => new ArrayString([
+                        'thumb' => new ArrayString(['width' => 200, 'height' => 200, 'quality' => 90]),
+                        'preview' => new ArrayString(['width' => 50, 'height' => 50, 'quality' => 90])
+                    ])
                 ];
             }
 
             if ($this->endsWith($column, 'file')) {
                 $behaviors[$column->name . 'File'] = [
-
+                    'class' => UploadBehavior::className(),
+                    'attribute' => $column->name,
+                    'path' => '@webroot/media/'.$table->name.'/{id}',
+                    'url' => '@web/media/'.$table->name.'/{id}',
+                    'scenarios' => new ArrayString(['create', 'update'], true),
                 ];
             }
         }
@@ -131,9 +143,141 @@ class Generator extends \yii\gii\generators\model\Generator
         return $behaviors;
     }
 
+    /**
+     * Generates phpDoc for given behaviors (result of `Generator::generateBehaviors()` method)
+     *
+     * @param $behaviors
+     * @return array
+     */
     protected function generateBehaviorMethods($behaviors)
     {
+        $methods = [];
 
+        foreach ($behaviors as $behavior) {
+            if (empty($behavior['class'])) {
+                continue;
+            }
+            $reflection = new \ReflectionClass($behavior['class']);
+            $baseClassReflection = new \ReflectionClass($this->baseClass);
+
+            foreach ($reflection->getMethods() as $method) {
+                if (!$method->isPublic()) {
+                    continue;
+                }
+
+                $methodName = $method->getName();
+                if (strpos($methodName, '__') === 0) {
+                    continue;
+                }
+
+                if ($baseClassReflection->hasMethod($methodName)) {
+                    continue;
+                }
+
+                if (in_array($methodName, ['events', 'attach', 'detach'])) {
+                    continue;
+                }
+
+                $arguments = $this->getMethodArguments($method);
+
+                $methods[$methodName] = [
+                    'returnType' => $this->getMethodReturnType($method),
+                    'arguments' => $arguments,
+                    'description' => $this->getMethodSummary($method)
+                ];
+            }
+        }
+
+        return $methods;
+    }
+
+    /**
+     * Returns method's arguments as an array of strings
+     *
+     * @param \ReflectionMethod $method
+     * @return array
+     */
+    protected function getMethodArguments(\ReflectionMethod $method)
+    {
+        $result = [];
+        foreach ($method->getParameters() as $parameter) {
+            $parameterType = '';
+            if (method_exists($parameter, 'hasType') && $parameter->getType()) {
+                $parameterType = $parameter->getType() . ' ';
+            }
+
+            $defaultValue = '';
+            if ($parameter->isDefaultValueAvailable()) {
+                if ($parameter->getDefaultValue() === null) {
+                    $defaultValue = ' = null';
+                } elseif($parameter->getDefaultValue() === false) {
+                    $defaultValue = ' = false';
+                } elseif ($parameter->isDefaultValueConstant()) {
+                    $defaultValue = ' = ' . $parameter->getDefaultValueConstantName();
+                } else {
+                    $value = $parameter->getDefaultValue();
+
+                    if (is_numeric($value)) {
+                        $defaultValue = ' = ' . $value;
+                    } else {
+                        $defaultValue = " = '{$value}'";
+                    }
+                }
+            }
+
+            $result[] = $parameterType . '$'.$parameter->getName() . $defaultValue;
+        }
+        return $result;
+    }
+
+    /**
+     * Returns method summary
+     *
+     * @param \ReflectionMethod $method
+     * @return string
+     */
+    protected function getMethodSummary(\ReflectionMethod $method)
+    {
+        return $this->getMethodDocBlock($method)->getSummary() ?: '';
+    }
+
+    /**
+     * Returns method docBlock return tag value
+     *
+     * @param \ReflectionMethod $method
+     * @return string
+     */
+    protected function getMethodReturnType(\ReflectionMethod $method)
+    {
+        $docBlock = $this->getMethodDocBlock($method);
+
+        if ($docBlock->hasTag('return')) {
+            $tag = $docBlock->getTagsByName('return')[0];
+            $trimmedTag = trim(str_replace('@return', '', $tag->render()));
+
+            return explode(' ', $trimmedTag)[0];
+        }
+
+        return 'mixed';
+    }
+
+    /**
+     * Returns DocBlock for given method to generate further attributes and stuff
+     *
+     * @param \ReflectionMethod $method
+     * @return DocBlock
+     */
+    protected function getMethodDocBlock(\ReflectionMethod $method): DocBlock
+    {
+        $factory  = DocBlockFactory::createInstance();
+
+        $methodComment = $method->getDocComment();
+        if (strpos(strtolower($methodComment), '@inheritdoc')) {
+            $parentClassMethod = $method->getDeclaringClass()->getParentClass()->getMethod($method->name);
+            return $this->getMethodDocBlock($parentClassMethod);
+        }
+
+        return $factory->create($methodComment);
     }
 
     /**
@@ -165,6 +309,7 @@ class Generator extends \yii\gii\generators\model\Generator
     {
         $types = [];
         $lengths = [];
+        $files = [];
         foreach ($table->columns as $column) {
             if ($column->autoIncrement) {
                 continue;
@@ -174,7 +319,9 @@ class Generator extends \yii\gii\generators\model\Generator
             }
 
             if ($this->generateBehaviors && $this->endsWith($column, 'image')) {
-                $type['image'][] = $column->name;
+                $files["['gif', 'jpg', 'png', 'jpeg']"][] = $column->name;
+            } elseif ($this->generateBehaviors && $this->endsWith($column, 'file')) {
+                $files["null"][] = $column->name;
             } else {
                 switch ($column->type) {
                     case Schema::TYPE_SMALLINT:
@@ -213,6 +360,10 @@ class Generator extends \yii\gii\generators\model\Generator
         }
         foreach ($lengths as $length => $columns) {
             $rules[] = "[['" . implode("', '", $columns) . "'], 'string', 'max' => $length]";
+        }
+
+        foreach ($files as $extensions => $columns) {
+            $rules[] = "[['" . implode("', '", $columns) . "'], 'file', 'on' => ['create', 'update'], 'extensions' => $extensions]";
         }
 
         $db = $this->getDbConnection();
