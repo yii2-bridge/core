@@ -11,6 +11,7 @@ namespace naffiq\bridge\gii\model;
 use mongosoft\file\UploadBehavior;
 use mongosoft\file\UploadImageBehavior;
 use naffiq\bridge\gii\helpers\ArrayString;
+use naffiq\bridge\gii\helpers\ColumnHelper;
 use phpDocumentor\Reflection\DocBlock;
 use phpDocumentor\Reflection\DocBlockFactory;
 use yii\base\NotSupportedException;
@@ -115,7 +116,7 @@ class Generator extends \yii\gii\generators\model\Generator
     {
         $behaviors = [];
         foreach ($table->columns as $column) {
-            if ($this->endsWith($column, 'image')) {
+            if (ColumnHelper::endsWith($column, 'image')) {
                 $behaviors[$column->name . 'Upload'] = [
                     'class' => UploadImageBehavior::className(),
                     'attribute' => $column->name,
@@ -129,7 +130,7 @@ class Generator extends \yii\gii\generators\model\Generator
                 ];
             }
 
-            if ($this->endsWith($column, 'file')) {
+            if (ColumnHelper::endsWith($column, 'file')) {
                 $behaviors[$column->name . 'File'] = [
                     'class' => UploadBehavior::className(),
                     'attribute' => $column->name,
@@ -281,26 +282,6 @@ class Generator extends \yii\gii\generators\model\Generator
     }
 
     /**
-     * @param ColumnSchema $column
-     * @param string|array $endString
-     * @return bool
-     */
-    private function endsWith($column, $endString)
-    {
-        $columnName = strtolower($column->name);
-        if (is_array($endString)) {
-            foreach ($endString as $string) {
-                if ($this->endsWith($column, $string)) {
-                    return true;
-                }
-            }
-            return false;
-        } else {
-            return strpos($columnName, $endString) === strlen($columnName) - strlen($endString);
-        }
-    }
-
-    /**
      * Generates validation rules for the specified table.
      * @param \yii\db\TableSchema $table the table schema
      * @return array the generated validation rules
@@ -318,9 +299,9 @@ class Generator extends \yii\gii\generators\model\Generator
                 $types['required'][] = $column->name;
             }
 
-            if ($this->generateBehaviors && $this->endsWith($column, 'image')) {
+            if ($this->generateBehaviors && ColumnHelper::endsWith($column, 'image')) {
                 $files["['gif', 'jpg', 'png', 'jpeg']"][] = $column->name;
-            } elseif ($this->generateBehaviors && $this->endsWith($column, 'file')) {
+            } elseif ($this->generateBehaviors && ColumnHelper::endsWith($column, 'file')) {
                 $files["null"][] = $column->name;
             } else {
                 switch ($column->type) {
