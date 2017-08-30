@@ -14,6 +14,7 @@ use yii\base\Module;
 use yii\console\Application as ConsoleApplication;
 use yii\console\controllers\MigrateController;
 use yii\helpers\ArrayHelper;
+use yii\rbac\DbManager;
 use yii\web\Application as WebApplication;
 
 
@@ -55,13 +56,9 @@ class BridgeModule extends Module implements BootstrapInterface
                 'class' => 'yii\i18n\PhpMessageSource',
                 'basePath' => '@yii2tech/admin/messages',
             ];
+
         } elseif ($app instanceof ConsoleApplication) {
 
-        }
-
-        // Registering yii2-usuario module
-        if (!$app->getModule('user') || !($app->getModule('user') instanceof \Da\User\Module)) {
-            $app->setModule('user', ['class' => 'Da\User\Module']);
         }
 
         // Registering custom Gii generators
@@ -72,6 +69,17 @@ class BridgeModule extends Module implements BootstrapInterface
             $app->getModule('gii')->generators['model'] = [
                 'class' => 'naffiq\bridge\gii\model\Generator'
             ];
+        }
+
+        // Registering yii2-usuario module
+        if (!$app->getModule('user') || !($app->getModule('user') instanceof \Da\User\Module)) {
+            $app->setModule('user', ['class' => 'Da\User\Module']);
+        }
+
+        // AuthManager config for yii2-usuario
+        $authManager = $app->get('authManager', false);
+        if (empty($authManager === null) || !($authManager instanceof DbManager)) {
+            $app->set('authManager', ['class' => DbManager::class]);
         }
     }
 
