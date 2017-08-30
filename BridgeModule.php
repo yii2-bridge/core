@@ -8,13 +8,13 @@
 
 namespace naffiq\bridge;
 
-use naffiq\bridge\models\Users;
+use Da\User\Bootstrap;
+use Da\User\Component\AuthDbManagerComponent;
+use Da\User\Model\User;
 use yii\base\BootstrapInterface;
 use yii\base\Module;
 use yii\console\Application as ConsoleApplication;
-use yii\console\controllers\MigrateController;
 use yii\helpers\ArrayHelper;
-use yii\rbac\DbManager;
 use yii\web\Application as WebApplication;
 
 
@@ -31,6 +31,12 @@ class BridgeModule extends Module implements BootstrapInterface
      * @var array Menu items shown in admin panel (except for default ones)
      */
     public $menu = [];
+
+    /**
+     * @var array Configuration passed to yii2-usuario module
+     * @see \Da\User\Module
+     */
+    public $userSettings = [];
 
     /**
      * @inheritdoc
@@ -50,15 +56,10 @@ class BridgeModule extends Module implements BootstrapInterface
             ], false);
 
             $app->user->loginUrl = [$this->id . '/default/login'];
-            $app->user->identityClass = Users::className();
-
-            $app->i18n->translations['yii2tech-admin'] = [
-                'class' => 'yii\i18n\PhpMessageSource',
-                'basePath' => '@yii2tech/admin/messages',
-            ];
+            $app->user->identityClass = User::className();
 
         } elseif ($app instanceof ConsoleApplication) {
-
+            $app->controllerMap['create-user'] = ['class' => \Da\User\Command\CreateController::class];
         }
 
         // Registering custom Gii generators
@@ -72,15 +73,30 @@ class BridgeModule extends Module implements BootstrapInterface
         }
 
         // Registering yii2-usuario module
+//        $this->setModule('user', ['class' => 'Da\User\Module']);
         if (!$app->getModule('user') || !($app->getModule('user') instanceof \Da\User\Module)) {
-            $app->setModule('user', ['class' => 'Da\User\Module']);
+            $app->setModule('user', ArrayHelper::merge([
+                'class' => 'Da\User\Module',
+                'mailParams' => [
+                    'fromEmail' => 'noreply@bridge.dev',
+                    'welcomeMailSubject' => 'Welcome to Yii2 bridge'
+                ]
+            ], $this->userSettings));
         }
 
         // AuthManager config for yii2-usuario
         $authManager = $app->get('authManager', false);
-        if (empty($authManager === null) || !($authManager instanceof DbManager)) {
-            $app->set('authManager', ['class' => DbManager::class]);
+        if (empty($authManager === null) || !($authManager instanceof AuthDbManagerComponent)) {
+            $app->set('authManager', ['class' => AuthDbManagerComponent::class]);
         }
+
+        $app->i18n->translations['yii2tech-admin'] = [
+            'class' => 'yii\i18n\PhpMessageSource',
+            'basePath' => '@yii2tech/admin/messages',
+        ];
+
+        $bootstrap = new Bootstrap();
+        $bootstrap->bootstrap($app);
     }
 
     /**

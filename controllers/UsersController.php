@@ -2,12 +2,19 @@
 
 namespace naffiq\bridge\controllers;
 
+use Da\User\Controller\AdminController;
+
 /**
  * UsersController implements the CRUD actions for [[app\models\Users]] model.
  * @see \naffiq\bridge\models\Users
  */
-class UsersController extends BaseAdminController
+class UsersController extends AdminController
 {
+    /**
+     * @inheritdoc
+     */
+    public $layout = '@bridge/views/layouts/main';
+
     /**
      * @inheritdoc
      */
