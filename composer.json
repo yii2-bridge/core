@@ -9,8 +9,8 @@
         "mongosoft/yii2-upload-behavior": "^0.1.7",
         "yiisoft/yii2-bootstrap": "^2.0",
         "kartik-v/yii2-widgets": "^3.4",
-        "phpdocumentor/reflection-docblock": "^4.1",
-        "2amigos/yii2-usuario": "^1.0"
+        "2amigos/yii2-usuario": "^1.0",
+        "phpdocumentor/reflection-docblock": "^3.2.2"
     },
     "license": "MIT",
     "authors": [
