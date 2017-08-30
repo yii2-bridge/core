@@ -11,7 +11,11 @@ namespace naffiq\bridge;
 use naffiq\bridge\models\Users;
 use yii\base\BootstrapInterface;
 use yii\base\Module;
+use yii\console\Application as ConsoleApplication;
+use yii\console\controllers\MigrateController;
 use yii\helpers\ArrayHelper;
+use yii\web\Application as WebApplication;
+
 
 /**
  * Class BridgeModule
@@ -36,7 +40,7 @@ class BridgeModule extends Module implements BootstrapInterface
         \Yii::setAlias('@bridge-assets', \Yii::getAlias('@vendor/naffiq/yii2-bridge/assets/dist/'));
         \Yii::setAlias('@bridge-migrations', \Yii::getAlias('@vendor/naffiq/yii2-bridge/migrations/'));
 
-        if ($app instanceof \yii\web\Application) {
+        if ($app instanceof WebApplication) {
             $app->getUrlManager()->addRules([
                 ['class' => 'yii\web\UrlRule', 'pattern' => $this->id, 'route' => $this->id . '/default/index'],
                 ['class' => 'yii\web\UrlRule', 'pattern' => $this->id . '/<id:\w+>', 'route' => $this->id . '/default/view'],
@@ -51,16 +55,23 @@ class BridgeModule extends Module implements BootstrapInterface
                 'class' => 'yii\i18n\PhpMessageSource',
                 'basePath' => '@yii2tech/admin/messages',
             ];
+        } elseif ($app instanceof ConsoleApplication) {
 
+        }
 
-            if (!empty($app->getModule('gii'))) {
-                $app->getModule('gii')->generators['adminCrud'] = [
-                    'class' => 'naffiq\bridge\gii\crud\Generator'
-                ];
-                $app->getModule('gii')->generators['model'] = [
-                    'class' => 'naffiq\bridge\gii\model\Generator'
-                ];
-            }
+        // Registering yii2-usuario module
+        if (!$app->getModule('user') || !($app->getModule('user') instanceof \Da\User\Module)) {
+            $app->setModule('user', ['class' => 'Da\User\Module']);
+        }
+
+        // Registering custom Gii generators
+        if (!empty($app->getModule('gii'))) {
+            $app->getModule('gii')->generators['adminCrud'] = [
+                'class' => 'naffiq\bridge\gii\crud\Generator'
+            ];
+            $app->getModule('gii')->generators['model'] = [
+                'class' => 'naffiq\bridge\gii\model\Generator'
+            ];
         }
     }
 
@@ -81,4 +92,6 @@ class BridgeModule extends Module implements BootstrapInterface
             );
         }
     }
+
+
 }
