@@ -27,5 +27,9 @@ return [
     'Latest release info' => 'Последнее обновление',
     'Sign&nbsp;out' => 'Выход',
     'Login' => 'Вход',
-    'Forgot password?' => 'Забыли пароль?'
+    'Forgot password?' => 'Забыли пароль?',
+    'String' => 'Строка',
+    'Text' => 'Текст',
+    'Image' => 'Изображение',
+    'Checkbox' => 'Галочка'
 ];

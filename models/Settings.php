@@ -26,12 +26,20 @@ class Settings extends \yii\db\ActiveRecord
     const TYPE_IMAGE = 3;
     const TYPE_SWITCH = 4;
 
-    public static $types = [
-        self::TYPE_STRING => 'String',
-        self::TYPE_TEXT => 'Text',
-        self::TYPE_IMAGE => 'Image',
-        self::TYPE_SWITCH => 'Checkbox'
-    ];
+    /**
+     * Returns list of available types
+     *
+     * @return array
+     */
+    public static function getTypes()
+    {
+        return [
+            self::TYPE_STRING => Yii::t('bridge', 'String'),
+            self::TYPE_TEXT => Yii::t('bridge', 'Text'),
+            self::TYPE_IMAGE => Yii::t('bridge', 'Image'),
+            self::TYPE_SWITCH => Yii::t('bridge', 'Checkbox')
+        ];
+    }
 
     /**
      * @inheritdoc

@@ -41,7 +41,7 @@ use naffiq\bridge\models\Settings;
 
             <?= $form->field($model, 'key')->textInput(['maxlength' => true]) ?>
 
-            <?= $form->field($model, 'type')->select2(Settings::$types) ?>
+            <?= $form->field($model, 'type')->select2(Settings::getTypes()) ?>
 
             <?= $form->field($model, 'type_settings')->textarea(['rows' => 6]) ?>
         </div>
