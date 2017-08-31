@@ -10,6 +10,7 @@ namespace naffiq\bridge;
 
 use Da\User\Bootstrap;
 use Da\User\Component\AuthDbManagerComponent;
+use naffiq\bridge\modules\user\AdminModule;
 use yii\base\Application;
 use yii\base\BootstrapInterface;
 use yii\base\Module;
@@ -40,12 +41,17 @@ class BridgeModule extends Module implements BootstrapInterface
 
     public $userClass = '\Da\User\Model\User';
 
+    public $version = 'v0.4.2';
+
+    public $repoDataUrl = 'https://api.github.com/repos/naffiq/yii2-bridge/releases/latest';
+
     /**
      * @inheritdoc
      */
     public function bootstrap($app)
     {
         $this->registerAliases();
+        $this->registerTranslations($app);
 
         if ($app instanceof WebApplication) {
             $this->registerRoutes($app);
@@ -59,7 +65,6 @@ class BridgeModule extends Module implements BootstrapInterface
         $this->registerGiiGenerators($app);
 
         $this->registerUsuario($app);
-        $this->registerTranslations($app);
     }
 
     /**
@@ -114,17 +119,18 @@ class BridgeModule extends Module implements BootstrapInterface
     private function registerUsuario(Application $app)
     {
         // Registering yii2-usuario module
-        if (!$app->getModule('user') || !($app->getModule('user') instanceof \Da\User\Module)) {
-            $app->setModule('user', ArrayHelper::merge([
+        if (!$app->hasModule('user') || !($app->getModule('user') instanceof \Da\User\Module)) {
+            $moduleConfig = ArrayHelper::merge([
                 'class' => \Da\User\Module::class,
                 'mailParams' => [
                     'fromEmail' => 'noreply@bridge.dev',
-                    'welcomeMailSubject' => 'Welcome to Yii2 bridge'
+                    'welcomeMailSubject' => \Yii::t('bridge', 'Welcome to {0}', [$app->name]),
                 ],
                 'administratorPermissionName' => 'admin',
-            ], $this->userSettings));
+                'layout' => '@bridge/views/layouts/main'
+            ], $this->userSettings);
 
-            $this->setModule('user', $app->getModule('user'));
+            $app->setModule('user', $moduleConfig);
         }
 
         // AuthManager config for yii2-usuario
@@ -136,6 +142,7 @@ class BridgeModule extends Module implements BootstrapInterface
         // Bootstrapping usuario module
         $usuarioBootstrap = new Bootstrap();
         $usuarioBootstrap->bootstrap($app);
+
     }
 
     /**

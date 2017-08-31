@@ -9,9 +9,11 @@
 namespace naffiq\bridge\controllers;
 
 
+use naffiq\bridge\controllers\actions\DashboardAction;
 use naffiq\bridge\models\LoginForm;
 use yii\base\Exception;
 use yii\filters\AccessControl;
+use yii\helpers\ArrayHelper;
 use yii\helpers\FileHelper;
 use yii\web\Controller;
 use yii\web\Response;
@@ -44,14 +46,13 @@ class DefaultController extends Controller
         ];
     }
 
-    /**
-     * Index dashboard
-     *
-     * @return string
-     */
-    public function actionIndex()
+    public function actions()
     {
-        return $this->render('index');
+        return ArrayHelper::merge(parent::actions(), [
+            'index' => [
+                'class' => DashboardAction::class
+            ]
+        ]);
     }
 
     /**
