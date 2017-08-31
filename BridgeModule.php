@@ -10,7 +10,7 @@ namespace naffiq\bridge;
 
 use Da\User\Bootstrap;
 use Da\User\Component\AuthDbManagerComponent;
-use Da\User\Model\User;
+use yii\base\Application;
 use yii\base\BootstrapInterface;
 use yii\base\Module;
 use yii\console\Application as ConsoleApplication;
@@ -38,40 +38,81 @@ class BridgeModule extends Module implements BootstrapInterface
      */
     public $userSettings = [];
 
+    public $userClass = '\Da\User\Model\User';
+
     /**
      * @inheritdoc
      */
     public function bootstrap($app)
     {
+        $this->registerAliases();
+
+        if ($app instanceof WebApplication) {
+            $this->registerRoutes($app);
+
+            $app->user->loginUrl = [$this->id . '/default/login'];
+            $app->user->identityClass = $this->userClass;
+
+        } elseif ($app instanceof ConsoleApplication) {
+        }
+
+        $this->registerGiiGenerators($app);
+
+        $this->registerUsuario($app);
+        $this->registerTranslations($app);
+    }
+
+    /**
+     * Registering app aliases
+     */
+    private function registerAliases()
+    {
         \Yii::setAlias('@bridge', \Yii::getAlias('@vendor/naffiq/yii2-bridge'));
         \Yii::setAlias('@bridge-assets', \Yii::getAlias('@vendor/naffiq/yii2-bridge/assets/dist/'));
         \Yii::setAlias('@bridge-migrations', \Yii::getAlias('@vendor/naffiq/yii2-bridge/migrations/'));
+    }
 
-        if ($app instanceof WebApplication) {
-            $app->getUrlManager()->addRules([
-                ['class' => 'yii\web\UrlRule', 'pattern' => $this->id, 'route' => $this->id . '/default/index'],
-                ['class' => 'yii\web\UrlRule', 'pattern' => $this->id . '/<id:\w+>', 'route' => $this->id . '/default/view'],
-                ['class' => 'yii\web\UrlRule', 'pattern' => $this->id . '/<controller:[\w\-]+>/<action:[\w\-]+>', 'route' => $this->id . '/<controller>/<action>'],
-                ['class' => 'yii\web\UrlRule', 'pattern' => $this->id . '/<module:[\w\-]+>/<controller:[\w\-]+>/<action:[\w\-]+>', 'route' => $this->id . '/<module>/<controller>/<action>'],
-            ], false);
+    /**
+     * Registering `yii\web\Application` routes for navigating in admin panel
+     *
+     * @param WebApplication $app
+     */
+    protected function registerRoutes(WebApplication $app)
+    {
+        $app->getUrlManager()->addRules([
+            ['class' => 'yii\web\UrlRule', 'pattern' => $this->id, 'route' => $this->id . '/default/index'],
+            ['class' => 'yii\web\UrlRule', 'pattern' => $this->id . '/<id:\w+>', 'route' => $this->id . '/default/view'],
+            ['class' => 'yii\web\UrlRule', 'pattern' => $this->id . '/<controller:[\w\-]+>/<action:[\w\-]+>', 'route' => $this->id . '/<controller>/<action>'],
+            ['class' => 'yii\web\UrlRule', 'pattern' => $this->id . '/<module:[\w\-]+>/<controller:[\w\-]+>/<action:[\w\-]+>', 'route' => $this->id . '/<module>/<controller>/<action>'],
+        ], false);
+    }
 
-            $app->user->loginUrl = [$this->id . '/default/login'];
-            $app->user->identityClass = User::className();
+    /**
+     * Reginstering yii2tech-admin and bridge translations
+     *
+     * @param Application $app
+     */
+    private function registerTranslations(Application $app)
+    {
+        $app->i18n->translations['yii2tech-admin'] = [
+            'class' => 'yii\i18n\PhpMessageSource',
+            'basePath' => '@yii2tech/admin/messages',
+        ];
 
-        } elseif ($app instanceof ConsoleApplication) {
-            $app->controllerMap['create-user'] = ['class' => \Da\User\Command\CreateController::class];
-        }
+        $app->i18n->translations['bridge'] = [
+            'class' => 'yii\i18n\PhpMessageSource',
+            'basePath' => '@bridge/translations',
+        ];
+    }
 
-        // Registering custom Gii generators
-        if (!empty($app->getModule('gii'))) {
-            $app->getModule('gii')->generators['adminCrud'] = [
-                'class' => 'naffiq\bridge\gii\crud\Generator'
-            ];
-            $app->getModule('gii')->generators['model'] = [
-                'class' => 'naffiq\bridge\gii\model\Generator'
-            ];
-        }
-
+    /**
+     * Configuring `\Da\User\Component\AuthDbManagerComponent`, `\Da\User\Module` and bootstrapping yii2-usuario
+     * package
+     *
+     * @param Application $app
+     */
+    private function registerUsuario(Application $app)
+    {
         // Registering yii2-usuario module
         if (!$app->getModule('user') || !($app->getModule('user') instanceof \Da\User\Module)) {
             $app->setModule('user', ArrayHelper::merge([
@@ -81,17 +122,9 @@ class BridgeModule extends Module implements BootstrapInterface
                     'welcomeMailSubject' => 'Welcome to Yii2 bridge'
                 ],
                 'administratorPermissionName' => 'admin',
-                'layout' => '@bridge/views/layouts/main',
-                'prefix' => 'admin-user',
-                'routes' => [
-                    'profile/<id:\d+>' => 'profile/show',
-                    '<action:(login|logout)>' => 'security/<action>',
-                    '<action:(register|resend)>' => 'registration/<action>',
-                    'confirm/<id:\d+>/<code:[A-Za-z0-9_-]+>' => 'registration/confirm',
-                    'forgot' => 'recovery/request',
-                    'recover/<id:\d+>/<code:[A-Za-z0-9_-]+>' => 'recovery/reset',
-                ],
             ], $this->userSettings));
+
+            $this->setModule('user', $app->getModule('user'));
         }
 
         // AuthManager config for yii2-usuario
@@ -100,14 +133,26 @@ class BridgeModule extends Module implements BootstrapInterface
             $app->set('authManager', ['class' => AuthDbManagerComponent::class]);
         }
 
-        $app->i18n->translations['yii2tech-admin'] = [
-            'class' => 'yii\i18n\PhpMessageSource',
-            'basePath' => '@yii2tech/admin/messages',
-        ];
-
         // Bootstrapping usuario module
         $usuarioBootstrap = new Bootstrap();
         $usuarioBootstrap->bootstrap($app);
+    }
+
+    /**
+     * Registering custom Gii generators
+     *
+     * @param Application $app
+     */
+    private function registerGiiGenerators(Application $app)
+    {
+        if (!empty($app->getModule('gii'))) {
+            $app->getModule('gii')->generators['adminCrud'] = [
+                'class' => 'naffiq\bridge\gii\crud\Generator'
+            ];
+            $app->getModule('gii')->generators['model'] = [
+                'class' => 'naffiq\bridge\gii\model\Generator'
+            ];
+        }
     }
 
     /**
@@ -127,4 +172,6 @@ class BridgeModule extends Module implements BootstrapInterface
             );
         }
     }
+
+
 }
