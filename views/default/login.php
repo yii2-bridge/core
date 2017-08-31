@@ -2,18 +2,16 @@
 
 /* @var $this yii\web\View */
 /* @var $form yii\bootstrap\ActiveForm */
-/* @var $model app\models\LoginForm */
+/* @var $model naffiq\bridge\models\LoginForm */
 
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 
-$this->title = 'Login';
+$this->title = Yii::t('bridge', 'Login');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="site-login">
-    <h1><?= Html::encode($this->title) ?></h1>
-
-    <p>Please fill out the following fields to login:</p>
+    <p><?= Yii::t('bridge', 'Please fill out the following fields to login') ?>:</p>
 
     <?php $form = ActiveForm::begin([
         'id' => 'login-form',
@@ -34,13 +32,13 @@ $this->params['breadcrumbs'][] = $this->title;
 
         <div class="form-group">
             <div class="col-lg-offset-1 col-lg-11">
-                <?= Html::submitButton('Login', ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
+                <?= Html::submitButton(Yii::t('bridge', 'Login'), ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
             </div>
         </div>
 
     <?php ActiveForm::end(); ?>
 
     <div class="col-lg-offset-1" style="color:#999;">
-        In order to recover your password request support from <b><a href="mailto:me@naffiq.com">me@naffiq.com</a></b>.
+        <?= Html::a(Yii::t('bridge', 'Forgot password?'), ['/user/forgot']) ?>
     </div>
 </div>

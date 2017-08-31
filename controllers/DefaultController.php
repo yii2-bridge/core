@@ -9,7 +9,7 @@
 namespace naffiq\bridge\controllers;
 
 
-use naffiq\bridge\controllers\actions\DashboardAction;
+use naffiq\bridge\BridgeModule;
 use naffiq\bridge\models\LoginForm;
 use yii\base\Exception;
 use yii\filters\AccessControl;
@@ -22,6 +22,11 @@ use yii\web\UploadedFile;
 class DefaultController extends Controller
 {
     public $layout = '@bridge/views/layouts/main';
+
+    /**
+     * @var BridgeModule
+     */
+    public $module;
 
     /**
      * @inheritdoc
@@ -50,7 +55,7 @@ class DefaultController extends Controller
     {
         return ArrayHelper::merge(parent::actions(), [
             'index' => [
-                'class' => DashboardAction::class
+                'class' => $this->module->dashboardAction
             ]
         ]);
     }
@@ -65,8 +70,6 @@ class DefaultController extends Controller
         if (!\Yii::$app->user->isGuest) {
             return $this->goHome();
         }
-
-        $this->layout = '@bridge/views/layouts/login';
 
         $model = new LoginForm();
         if ($model->load(\Yii::$app->request->post()) && $model->login()) {

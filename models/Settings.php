@@ -71,11 +71,11 @@ JS
     {
         return [
             'id' => 'ID',
-            'title' => 'Title',
-            'key' => 'Key',
-            'value' => 'Value',
-            'type' => 'Type',
-            'type_settings' => 'Type Settings',
+            'title' => Yii::t('bridge', 'Title'),
+            'key' => Yii::t('bridge', 'Key'),
+            'value' => Yii::t('bridge', 'Value'),
+            'type' => Yii::t('bridge', 'Type'),
+            'type_settings' => Yii::t('bridge', 'Type Settings'),
         ];
     }
 

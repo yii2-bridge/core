@@ -11,7 +11,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <div class="row">
     <div class="col-md-4">
-        <h3>Updates</h3>
+        <h3><?= Yii::t('bridge', 'Updates') ?></h3>
         <?php if ($repoData['tag_name'] > $currentVersion) : ?>
             <div class="alert alert-warning">
                 <i class="fa fa-exclamation"></i>
@@ -26,10 +26,10 @@ $this->params['breadcrumbs'][] = $this->title;
     </div>
 
     <div class="col-md-8">
-        <h3>Latest release info</h3>
+        <h3><?= Yii::t('bridge', 'Latest release info') ?></h3>
         <div class="well">
             <h2><?= $repoData['name'] ?></h2>
-            <h4>Version — <?= $repoData['tag_name'] ?></h4>
+            <h4><?= Yii::t('bridge', 'Version') ?> — <?= $repoData['tag_name'] ?></h4>
             <p>
                 <?= $repoData['body'] ?>
             </p>

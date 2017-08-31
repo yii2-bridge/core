@@ -34,6 +34,11 @@ class BridgeModule extends Module implements BootstrapInterface
     public $menu = [];
 
     /**
+     * @var string class name for main admin dashboard action
+     */
+    public $dashboardAction = '\naffiq\bridge\controllers\actions\DashboardAction';
+
+    /**
      * @var array Configuration passed to yii2-usuario module
      * @see \Da\User\Module
      */
@@ -127,7 +132,8 @@ class BridgeModule extends Module implements BootstrapInterface
                     'welcomeMailSubject' => \Yii::t('bridge', 'Welcome to {0}', [$app->name]),
                 ],
                 'administratorPermissionName' => 'admin',
-                'layout' => '@bridge/views/layouts/main'
+                'layout' => '@bridge/views/layouts/main',
+                'enableRegistration' => false
             ], $this->userSettings);
 
             $app->setModule('user', $moduleConfig);

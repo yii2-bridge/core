@@ -29,14 +29,14 @@ use naffiq\bridge\models\Settings;
         <button type="button" class="btn btn-default"
                 data-toggle="collapse" data-target="#advancedSettings" aria-expanded="false"
                 aria-controls="advancedSettings">
-            Advanced settings
+            <?= Yii::t('bridge', 'Advanced settings') ?>
         </button>
 
         <div id="advancedSettings" class="collapse">
             <br/>
 
             <div class="alert alert-danger">
-                <b>Warning!</b> Don't edit, if you are not familiar what those do!
+                <b><?= Yii::t('bridge', 'Warning') ?>!</b> <?= Yii::t('bridge', 'Don\'t edit, if you are not familiar what those do!') ?>
             </div>
 
             <?= $form->field($model, 'key')->textInput(['maxlength' => true]) ?>
@@ -48,7 +48,7 @@ use naffiq\bridge\models\Settings;
     </div>
 </div>
 <div class="form-group clearfix">
-    <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+    <?= Html::submitButton(\Yii::t('bridge', $model->isNewRecord ?  'Create' : 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
 </div>
 
 <?php ActiveForm::end(); ?>

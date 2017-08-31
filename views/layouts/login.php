@@ -40,7 +40,7 @@ AdminAsset::register($this);
                         'options' => ['class' => 'breadcrumb breadcrumb-arrow'],
                         'activeItemTemplate' => "<li class=\"active\"><span>{link}</span></li>\n",
                         'homeLink' => [
-                            'label' => 'Home',
+                            'label' => \Yii::t('bridge', 'Home'),
                             'url' => ['/admin/']
                         ]
                     ]) ?>

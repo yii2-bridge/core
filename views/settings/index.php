@@ -11,7 +11,7 @@ use naffiq\bridge\models\Settings;
 /* @var $searchModel naffiq\bridge\models\search\SettingsSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Settings';
+$this->title = Yii::t('bridge', 'Settings');
 $this->params['breadcrumbs'][] = $this->title;
 $this->params['contextMenuItems'] = [
     ['create']

@@ -1,10 +1,10 @@
 <?php
 
 /* @var $this yii\web\View */
-/* @var $model app\modules\admin\models\Settings */
+/* @var $model naffiq\bridge\models\Settings */
 
-$this->title = 'Create Settings';
-$this->params['breadcrumbs'][] = ['label' => 'Settings', 'url' => ['index']];
+$this->title = Yii::t('bridge', 'Create Settings');
+$this->params['breadcrumbs'][] = ['label' => Yii::t('bridge', 'Settings'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 

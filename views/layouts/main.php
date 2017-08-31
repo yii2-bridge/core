@@ -49,7 +49,7 @@ $user = \Yii::$app->user->identity;
                         'options' => ['class' => 'breadcrumb breadcrumb-arrow'],
                         'activeItemTemplate' => "<li class=\"active\"><span>{link}</span></li>\n",
                         'homeLink' => [
-                            'label' => 'Home',
+                            'label' => \Yii::t('bridge', 'Home'),
                             'url' => ['/admin/']
                         ]
                     ]) ?>
@@ -64,43 +64,45 @@ $user = \Yii::$app->user->identity;
             &beta;
         </div>
 
-        <?= SideMenu::widget([
-            'items' => ArrayHelper::merge([
-                [
-                    'title' => 'Profile',
-                    'url' => ['/user/admin/update', 'id' => $user->id],
-                    'active' => ['module' => 'user', 'controller' => 'admin', 'action' => 'update'],
+        <?php if (!\Yii::$app->user->isGuest) : ?>
+            <?= SideMenu::widget([
+                'items' => ArrayHelper::merge([
+                    [
+                        'title' => \Yii::t('bridge', 'Profile'),
+                        'url' => ['/user/admin/update', 'id' => $user->id],
+                        'active' => ['module' => 'user', 'controller' => 'admin', 'action' => 'update'],
 //                    'image' => $user->getThumbUploadUrl('avatar', 'preview'),
-                    'icon' => 'user'
-                ],
-                [
-                    'title' => 'Dashboard',
-                    'url' => ['/admin/default/index'],
-                    'active' => ['controller' => 'default'],
-                    'icon' => 'grav',
-                ],
-                [
-                    'title' => 'Settings',
-                    'url' => ['/admin/settings/index'],
-                    'active' => ['controller' => 'settings'],
-                    'icon' => 'gear'
-                ],
-                [
-                    'title' => 'Users',
-                    'url' => ['/user/admin/index'],
-                    'active' => ['module' => 'user'],
-                    'icon' => 'users'
-                ]
-            ], empty($this->params['admin-menu']) ? [] : $this->params['admin-menu'])
-        ]) ?>
+                        'icon' => 'user'
+                    ],
+                    [
+                        'title' => \Yii::t('bridge', 'Dashboard'),
+                        'url' => ['/admin/default/index'],
+                        'active' => ['controller' => 'default'],
+                        'icon' => 'grav',
+                    ],
+                    [
+                        'title' => \Yii::t('bridge', 'Settings'),
+                        'url' => ['/admin/settings/index'],
+                        'active' => ['controller' => 'settings'],
+                        'icon' => 'gear'
+                    ],
+                    [
+                        'title' => \Yii::t('bridge', 'Users'),
+                        'url' => ['/user/admin/index'],
+                        'active' => ['module' => 'user'],
+                        'icon' => 'users'
+                    ]
+                ], empty($this->params['admin-menu']) ? [] : $this->params['admin-menu'])
+            ]) ?>
 
-        <?php ActiveForm::begin(['action' => ['/admin/default/logout'], 'options' => [
-            'class' => 'form--sign-out'
-        ]]) ?>
-        <button type="submit" class="btn btn-sign-out" data-toggle="tooltip" data-placement="right" title="Sign&nbsp;out">
-            <i class="fa fa-sign-out"></i>
-        </button>
-        <?php ActiveForm::end(); ?>
+            <?php ActiveForm::begin(['action' => ['/admin/default/logout'], 'options' => [
+                'class' => 'form--sign-out'
+            ]]) ?>
+            <button type="submit" class="btn btn-sign-out" data-toggle="tooltip" data-placement="right" title="<?= Yii::t('bridge', 'Sign&nbsp;out') ?>">
+                <i class="fa fa-sign-out"></i>
+            </button>
+            <?php ActiveForm::end(); ?>
+        <?php endif; ?>
     </div>
 </div>
 
