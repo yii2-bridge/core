@@ -73,14 +73,24 @@ class BridgeModule extends Module implements BootstrapInterface
         }
 
         // Registering yii2-usuario module
-//        $this->setModule('user', ['class' => 'Da\User\Module']);
         if (!$app->getModule('user') || !($app->getModule('user') instanceof \Da\User\Module)) {
             $app->setModule('user', ArrayHelper::merge([
-                'class' => 'Da\User\Module',
+                'class' => \Da\User\Module::class,
                 'mailParams' => [
                     'fromEmail' => 'noreply@bridge.dev',
                     'welcomeMailSubject' => 'Welcome to Yii2 bridge'
-                ]
+                ],
+                'administratorPermissionName' => 'admin',
+                'layout' => '@bridge/views/layouts/main',
+                'prefix' => 'admin-user',
+                'routes' => [
+                    'profile/<id:\d+>' => 'profile/show',
+                    '<action:(login|logout)>' => 'security/<action>',
+                    '<action:(register|resend)>' => 'registration/<action>',
+                    'confirm/<id:\d+>/<code:[A-Za-z0-9_-]+>' => 'registration/confirm',
+                    'forgot' => 'recovery/request',
+                    'recover/<id:\d+>/<code:[A-Za-z0-9_-]+>' => 'recovery/reset',
+                ],
             ], $this->userSettings));
         }
 
@@ -95,8 +105,9 @@ class BridgeModule extends Module implements BootstrapInterface
             'basePath' => '@yii2tech/admin/messages',
         ];
 
-        $bootstrap = new Bootstrap();
-        $bootstrap->bootstrap($app);
+        // Bootstrapping usuario module
+        $usuarioBootstrap = new Bootstrap();
+        $usuarioBootstrap->bootstrap($app);
     }
 
     /**
@@ -116,6 +127,4 @@ class BridgeModule extends Module implements BootstrapInterface
             );
         }
     }
-
-
 }

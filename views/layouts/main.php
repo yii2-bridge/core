@@ -14,7 +14,7 @@ use yii2tech\admin\widgets\ButtonContextMenu;
 AdminAsset::register($this);
 
 /**
- * @var $user \naffiq\bridge\models\Users
+ * @var $user \Da\User\Model\User
  */
 $user = \Yii::$app->user->identity;
 ?>
@@ -68,8 +68,8 @@ $user = \Yii::$app->user->identity;
             'items' => ArrayHelper::merge([
                 [
                     'title' => 'Profile',
-                    'url' => ['/admin/users/update', 'id' => $user->id],
-                    'active' => ['controller' => 'default', 'action' => 'update'],
+                    'url' => ['/user/admin/update', 'id' => $user->id],
+                    'active' => ['module' => 'user', 'controller' => 'admin', 'action' => 'update'],
 //                    'image' => $user->getThumbUploadUrl('avatar', 'preview'),
                     'icon' => 'user'
                 ],
@@ -87,8 +87,8 @@ $user = \Yii::$app->user->identity;
                 ],
                 [
                     'title' => 'Users',
-                    'url' => ['/admin/users/index'],
-                    'active' => ['controller' => 'users'],
+                    'url' => ['/user/admin/index'],
+                    'active' => ['module' => 'user'],
                     'icon' => 'users'
                 ]
             ], empty($this->params['admin-menu']) ? [] : $this->params['admin-menu'])
