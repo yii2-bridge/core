@@ -9,6 +9,9 @@
 namespace naffiq\bridge\assets;
 
 
+use naffiq\bridge\BridgeModule;
+use yii\base\InvalidConfigException;
+use yii\helpers\ArrayHelper;
 use yii\web\AssetBundle;
 
 class AdminAsset extends AssetBundle
@@ -30,4 +33,21 @@ class AdminAsset extends AssetBundle
         'yii\bootstrap\BootstrapAsset',
         'yii\bootstrap\BootstrapPluginAsset',
     ];
+
+    /**
+     * @inheritdoc
+     */
+    public function init()
+    {
+        parent::init();
+
+        $adminModule = \Yii::$app->getModule('admin');
+
+        if (!$adminModule instanceof BridgeModule) {
+            throw new InvalidConfigException('You have to set `admin` module key in app config to BridgeModule::class');
+        }
+
+        $this->js = ArrayHelper::merge($this->js, $adminModule->extraJs);
+        $this->css = ArrayHelper::merge($this->css, $adminModule->extraCss);
+    }
 }

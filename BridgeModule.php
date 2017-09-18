@@ -46,9 +46,19 @@ class BridgeModule extends Module implements BootstrapInterface
 
     public $userClass = '\Da\User\Model\User';
 
-    public $version = 'v0.4.2';
+    public $version = 'v0.4.5';
 
     public $repoDataUrl = 'https://api.github.com/repos/naffiq/yii2-bridge/releases/latest';
+
+    /**
+     * @var array additional js files for AdminAsset
+     */
+    public $extraJs = [];
+
+    /**
+     * @var array additional css files for AdminAsset
+     */
+    public $extraCss = [];
 
     /**
      * @inheritdoc
