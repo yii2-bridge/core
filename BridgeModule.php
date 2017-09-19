@@ -44,11 +44,10 @@ class BridgeModule extends Module implements BootstrapInterface
      */
     public $userSettings = [];
 
+    /**
+     * @var string String representation of class name, that will be used as UserIdentity for project
+     */
     public $userClass = '\Da\User\Model\User';
-
-    public $version = 'v0.4.5';
-
-    public $repoDataUrl = 'https://api.github.com/repos/naffiq/yii2-bridge/releases/latest';
 
     /**
      * @var array additional js files for AdminAsset
@@ -59,6 +58,31 @@ class BridgeModule extends Module implements BootstrapInterface
      * @var array additional css files for AdminAsset
      */
     public $extraCss = [];
+
+    /**
+     * @var array asset dependencies. Each element should be string representing class that extends AssetBundle
+     *
+     * Example:
+     * ```php
+     * [
+     *     'class' => 'naffiq\bridge\BridgeModule',
+     *     'extraAssets' => [
+     *         'app\assets\AdminAppAsset'
+     *     ]
+     * ]
+     * ```
+     */
+    public $extraAssets = [];
+
+    /**
+     * @var string Module version
+     */
+    public $version = 'v0.4.6';
+
+    /**
+     * @var string Module repository API URL, used to fetch latest version
+     */
+    public $repoDataUrl = 'https://api.github.com/repos/naffiq/yii2-bridge/releases/latest';
 
     /**
      * @inheritdoc

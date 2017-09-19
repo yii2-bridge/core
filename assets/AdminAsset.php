@@ -49,5 +49,16 @@ class AdminAsset extends AssetBundle
 
         $this->js = ArrayHelper::merge($this->js, $adminModule->extraJs);
         $this->css = ArrayHelper::merge($this->css, $adminModule->extraCss);
+
+        if (!is_array($adminModule->extraAssets)) {
+            throw new InvalidConfigException('Invalid `admin` module config for `extraAssets` — it should be array with AssetBundle classes');
+        }
+        foreach ($adminModule->extraAssets as $asset) {
+            if (!is_subclass_of($asset, AssetBundle::className())) {
+                throw new InvalidConfigException('Invalid `admin` module config for `extraAssets` — it should be array with AssetBundle classes');
+            }
+
+            $this->depends[] = $asset;
+        }
     }
 }
