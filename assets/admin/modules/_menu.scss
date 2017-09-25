@@ -36,13 +36,24 @@
     li.side-menu--item {
       height: 50px;
 
+      &:hover {
+        background-color: rgba(0, 0, 0, 1);
+      }
+
       &.active {
+        &:hover {
+          background-color: $side-menu--active-item;
+        }
+
         background-color: $side-menu--active-item;
         a div {
           color: #fff;
         }
       }
       a {
+        display: block;
+        height: 50px;
+        text-decoration: none;
         .icon {
           color: $side-menu--item-link;
           display: inline-block;
