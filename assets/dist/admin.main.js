@@ -36,4 +36,7 @@ $(function() {
             $('.bridge-wrap').toggleClass('nav-wide');
         }
     }
+
+    $('.side-menu').perfectScrollbar();
+    $('.side-menu').css({height: window.innerHeight - 100 + 'px'});
 });

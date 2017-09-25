@@ -33,6 +33,10 @@ img {
     width: 250px; }
     .nav-menu.wide .side-menu .side-menu--item a .title {
       display: inline; }
+    .nav-menu.wide .hamburger {
+      width: 100%;
+      text-align: left;
+      padding: 0 15px; }
   .nav-menu .hamburger {
     position: relative;
     cursor: pointer;
@@ -45,7 +49,9 @@ img {
     background-color: #1C5D99; }
   .nav-menu .side-menu {
     list-style: none;
-    padding-left: 0; }
+    padding-left: 0;
+    height: calc(100% - 150px);
+    overflow-y: scroll; }
     .nav-menu .side-menu li.side-menu--item {
       height: 50px; }
       .nav-menu .side-menu li.side-menu--item:hover {
