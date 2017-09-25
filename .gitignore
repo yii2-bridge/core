@@ -2,3 +2,4 @@
 vendor
 tests/_output/*
 composer.lock
+.sass-cache

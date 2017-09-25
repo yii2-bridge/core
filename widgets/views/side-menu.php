@@ -14,11 +14,16 @@ use naffiq\bridge\widgets\SideMenu;
             data-toggle="tooltip" data-placement="right" title="<?= $item['title'] ?>"
         >
             <a href="<?= Url::to($item['url']) ?>">
-                <?php if (!empty($item['image'])) : ?>
-                    <img src="<?= $item['image'] ?>" alt="" class="img-circle" width="30">
-                <?php else: ?>
-                    <i class="fa fa-<?= $item['icon'] ?>"></i>
-                <?php endif; ?>
+                <div class="icon">
+                    <?php if (!empty($item['image'])) : ?>
+                        <img src="<?= $item['image'] ?>" alt="" class="img-circle" width="30">
+                    <?php else: ?>
+                        <i class="fa fa-<?= $item['icon'] ?>"></i>
+                    <?php endif; ?>
+                </div>
+                <div class="title">
+                    <?= $item['title'] ?>
+                </div>
             </a>
         </li>
     <?php endforeach ?>

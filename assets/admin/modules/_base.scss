@@ -3,8 +3,12 @@ body {
   height: 100%;
 }
 
-.wrap {
+.bridge-wrap {
   margin-left: 50px;
+  padding-top: 7px;
+  &.nav-wide {
+    margin-left: 250px;
+  }
   min-height: calc(100vh - 50px);
   position: relative;
 

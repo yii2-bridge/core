@@ -1,80 +1,77 @@
-.main-nav {
-  background-color: #fff;
-  position: relative;
-  height: 50px;
+.nav-menu {
+  min-height: 100vh;
+  width: 50px;
+  position: fixed;
+  top: 0;
+  z-index: 9999;
 
-  .nav-bar {
-    position: relative;
-    margin-left: 50px;
-    height: 50px;
+  &.wide {
+    width: 250px;
 
-    .navbar {
-      -webkit-border-radius: 0;
-      -moz-border-radius: 0;
-      border-radius: 0;
-      border: none;
-      background-color: #fff;
-
-      .breadcrumb-arrow {
-        margin: 8px 0 0 0;
-      }
+    .side-menu .side-menu--item a .title {
+      display: inline;
     }
   }
 
-  .nav-menu {
-    min-height: 100vh;
+  background-color: $side-menu-bg;
+
+  .hamburger {
+    position: relative;
+    cursor: pointer;
     width: 50px;
-    position: fixed;
-    top: 0;
-    z-index: 9999;
+    height: 50px;
 
-    background-color: $side-menu-bg;
+    color: #FFF;
+    text-align: center;
+    line-height: 50px;
+    font-size: 24px;
 
-    .hamburger {
-      position: relative;
-      width: 50px;
+    background-color: $hamburger-bg;
+  }
+
+  .side-menu {
+    list-style: none;
+    padding-left: 0;
+
+    li.side-menu--item {
       height: 50px;
 
-      color: #FFF;
-      text-align: center;
-      line-height: 50px;
-      font-size: 24px;
-
-      background-color: $hamburger-bg;
-    }
-
-    .side-menu {
-      list-style: none;
-      padding-left: 0;
-
-      li.side-menu--item {
-
-        &.active {
-          background-color: $side-menu--active-item;
-          a {
-            color: #fff;
-          }
+      &.active {
+        background-color: $side-menu--active-item;
+        a div {
+          color: #fff;
         }
-        a {
+      }
+      a {
+        .icon {
           color: $side-menu--item-link;
-          display: block;
+          display: inline-block;
 
           width: 50px;
           height: 50px;
           line-height: 50px;
           text-align: center;
-          font-size: 24px;
+          font-size: 20px;
+        }
+
+        .title {
+          color: $side-menu--item-link;
+          display: none;
+          line-height: 50px;
+          font-size: 16px;
+          width: calc(100% - 50px);
+          padding-left: 15px;
         }
       }
     }
+  }
 
-    .form--sign-out {
-      position: absolute;
-      bottom: 0;
-      .btn-sign-out {
-        background-color: transparent;
-        color: $btn--sign-out;
-      }
+  .form--sign-out {
+    position: absolute;
+    bottom: 0;
+    .btn-sign-out {
+      background-color: transparent;
+      color: $btn--sign-out;
     }
   }
 }
