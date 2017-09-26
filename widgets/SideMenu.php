@@ -30,6 +30,14 @@ class SideMenu extends Widget
      */
     public static function isActive($item)
     {
+        if (!empty($item['items'])) {
+            foreach ($item['items'] as $subItem) {
+                if (self::isActive($subItem)) {
+                    return true;
+                }
+            }
+        }
+
         if (empty($item['active'])) {
             return false;
         }

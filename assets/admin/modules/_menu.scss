@@ -42,8 +42,6 @@
     overflow-y: scroll;
 
     li.side-menu--item {
-      height: 50px;
-
       &:hover {
         background-color: rgba(0, 0, 0, 1);
       }
@@ -79,7 +77,25 @@
           line-height: 50px;
           font-size: 16px;
           width: calc(100% - 50px);
-          padding-left: 15px;
+          padding-left: 10px;
+        }
+      }
+
+      .sub-menu {
+        background-color: rgba(255, 255, 255, .1);
+        list-style: none;
+        padding-left: 0;
+        li.side-menu--item {
+          a {
+            padding-left: 10px;
+            .icon {
+              font-size: 18px;
+            }
+            .title {
+              font-size: 14px;
+              padding-left: 0;
+            }
+          }
         }
       }
     }
