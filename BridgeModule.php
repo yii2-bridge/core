@@ -50,6 +50,11 @@ class BridgeModule extends Module implements BootstrapInterface
     public $userClass = '\Da\User\Model\User';
 
     /**
+     * @var array|string
+     */
+    public $loginUrl = null;
+
+    /**
      * @var array additional js files for AdminAsset
      */
     public $extraJs = [];
@@ -95,7 +100,7 @@ class BridgeModule extends Module implements BootstrapInterface
         if ($app instanceof WebApplication) {
             $this->registerRoutes($app);
 
-            $app->user->loginUrl = [$this->id . '/default/login'];
+            $app->user->loginUrl = $this->loginUrl ?: [$this->id . '/default/login'];
             $app->user->identityClass = $this->userClass;
 
         } elseif ($app instanceof ConsoleApplication) {
