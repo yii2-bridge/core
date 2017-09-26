@@ -5,6 +5,8 @@ body {
 .bridge-wrap {
   margin-left: 50px;
   padding-top: 7px;
+  -webkit-transition: margin-left .2s;
+  transition: margin-left .2s;
   min-height: calc(100vh - 50px);
   position: relative; }
   .bridge-wrap.nav-wide {
@@ -25,9 +27,23 @@ img {
 .nav-menu {
   min-height: 100vh;
   width: 50px;
+  -webkit-transition: width .2s;
+  transition: width .2s;
   position: fixed;
   top: 0;
   z-index: 9999;
+  -webkit-touch-callout: none;
+  /* iOS Safari */
+  -webkit-user-select: none;
+  /* Safari */
+  -khtml-user-select: none;
+  /* Konqueror HTML */
+  -moz-user-select: none;
+  /* Firefox */
+  -ms-user-select: none;
+  /* Internet Explorer/Edge */
+  user-select: none;
+  /* Non-prefixed version */
   background-color: #1B2021; }
   .nav-menu.wide {
     width: 250px; }
@@ -37,11 +53,35 @@ img {
       width: 100%;
       text-align: left;
       padding: 0 15px; }
+    .nav-menu.wide .form--sign-out .sign-out--title {
+      display: inline-block;
+      text-align: center;
+      margin-right: 15px; }
+  .nav-menu:not(.wide) .side-menu li.side-menu--item.with--sub-menu:hover ul.sub-menu {
+    display: block;
+    background-color: #1a1a1a;
+    border-left: 3px #1C5D99 solid;
+    height: auto !important; }
+  .nav-menu:not(.wide) .side-menu li.side-menu--item.with--sub-menu .sub-menu {
+    border-left: 3px #1C5D99 solid;
+    background-color: #1a1a1a;
+    position: fixed;
+    left: 50px;
+    margin-top: -50px;
+    z-index: 9999;
+    width: 250px; }
+    .nav-menu:not(.wide) .side-menu li.side-menu--item.with--sub-menu .sub-menu .side-menu--link {
+      padding-left: 0; }
+    .nav-menu:not(.wide) .side-menu li.side-menu--item.with--sub-menu .sub-menu .title {
+      width: calc(100% - 55px);
+      display: inline-block; }
   .nav-menu .hamburger {
     position: relative;
     cursor: pointer;
-    width: 50px;
+    width: 100%;
     height: 50px;
+    -webkit-transition: text-align .2s;
+    transition: text-align .2s;
     color: #FFF;
     text-align: center;
     line-height: 50px;
@@ -51,7 +91,7 @@ img {
     list-style: none;
     padding-left: 0;
     height: calc(100% - 150px);
-    overflow-y: scroll; }
+    overflow-y: hidden; }
     .nav-menu .side-menu li.side-menu--item:hover {
       background-color: black; }
     .nav-menu .side-menu li.side-menu--item.active {
@@ -76,9 +116,12 @@ img {
         color: #AAA;
         display: none;
         line-height: 50px;
-        font-size: 16px;
+        font-size: 14px;
         width: calc(100% - 50px);
-        padding-left: 10px; }
+        padding-left: 10px;
+        white-space: nowrap;
+        -ms-text-overflow: ellipsis;
+        text-overflow: ellipsis; }
     .nav-menu .side-menu li.side-menu--item .sub-menu {
       background-color: rgba(255, 255, 255, 0.1);
       list-style: none;
@@ -88,30 +131,39 @@ img {
         .nav-menu .side-menu li.side-menu--item .sub-menu li.side-menu--item a .icon {
           font-size: 18px; }
         .nav-menu .side-menu li.side-menu--item .sub-menu li.side-menu--item a .title {
-          font-size: 14px;
+          font-size: 12px;
           padding-left: 0; }
   .nav-menu .form--sign-out {
     position: absolute;
-    bottom: 0; }
+    bottom: 0;
+    width: 100%; }
     .nav-menu .form--sign-out .btn-sign-out {
+      width: 100%;
       background-color: transparent;
-      color: #EF476F; }
+      color: #EF476F;
+      display: block; }
+    .nav-menu .form--sign-out .sign-out--title {
+      display: none; }
 
 .table a.asc:before {
   content: '\f0de';
   font-family: FontAwesome;
   display: inline-block;
   margin-right: 5px; }
+
 .table a.desc:before {
   content: '\f0dd';
   font-family: FontAwesome;
   display: inline-block;
   margin-right: 5px; }
+
 .table td {
   vertical-align: middle !important; }
+
 .table .img-preview {
   display: inline-block;
   margin-right: 15px; }
+
 .table .col--drag-sort {
   cursor: grab;
   cursor: -webkit-grab;
@@ -122,5 +174,3 @@ img {
     .table .col--drag-sort .drag-sort:active {
       cursor: grabbing;
       cursor: -webkit-grabbing; }
-
-/*# sourceMappingURL=admin.css.map */

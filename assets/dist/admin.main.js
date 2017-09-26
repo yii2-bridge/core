@@ -20,21 +20,23 @@ $(function() {
         toggleMenuWide();
 
         if ($('.nav-menu').hasClass('wide')) {
+            $('.side-menu--collapsable').attr('data-toggle', 'collapse');
             $('ul.side-menu li.side-menu--item, .form--sign-out button').tooltip('destroy');
         } else {
             $('ul.side-menu li.side-menu--item, .form--sign-out button').tooltip();
+            $('.side-menu--collapsable').removeAttr('data-toggle');
+            $('.side-menu--item .sub-menu').removeClass('in');
         }
     }
 
     $('.nav-menu .hamburger').click(hamburgerClick);
 
-    if (localStorage) {
-        if (!isMenuWide()) {
-            $('ul.side-menu li.side-menu--item, .form--sign-out button').tooltip();
-        } else {
-            $('.nav-menu').toggleClass('wide');
-            $('.bridge-wrap').toggleClass('nav-wide');
-        }
+    if (!isMenuWide()) {
+        $('ul.side-menu li.side-menu--item, .form--sign-out button').tooltip();
+        $('.side-menu--collapsable').removeAttr('data-toggle');
+    } else {
+        $('.nav-menu').toggleClass('wide');
+        $('.bridge-wrap').toggleClass('nav-wide');
     }
 
     $('.side-menu').perfectScrollbar();

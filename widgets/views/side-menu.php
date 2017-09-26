@@ -1,4 +1,5 @@
 <?php
+
 use yii\helpers\Url;
 use naffiq\bridge\widgets\SideMenu;
 
@@ -9,15 +10,22 @@ use naffiq\bridge\widgets\SideMenu;
 ?>
 
 
-<ul class="side-menu" id="bridge--side-menu">
+<ul class="side-menu" id="bridge--side-menu" role="tablist" aria-multiselectable="false">
     <?php foreach ($items as $key => $item): ?>
-        <li class="side-menu--item <?= SideMenu::isActive($item) ? 'active' : '' ?>"
+        <li class="side-menu--item<?= SideMenu::isActive($item) ? ' active' : '' ?><?= !empty($item['items']) ? ' with--sub-menu' : '' ?>"
             data-toggle="tooltip" data-placement="right" title="<?= $item['title'] ?>"
+        <?php if (!empty($item['items'])) : ?>
+            role="tab" id="heading<?= $key ?>"
+        <?php endif; ?>
         >
             <?php if (!empty($item['url'])) : ?>
                 <?= $this->render('_site-menu--item', ['item' => $item]); ?>
-            <?php elseif(!empty($item['items'])) : ?>
-                <a data-toggle="collapse" data-parent="#bridge--side-menu" href="#collapse-<?= $key ?>" aria-expanded="true" aria-controls="collapse<?= $key ?>" class="side-menu--link">
+            <?php elseif (!empty($item['items'])) : ?>
+
+                <a data-toggle="collapse" data-parent="#bridge--side-menu"
+                   aria-expanded="false" aria-controls="collapse-<?= $key ?>"
+                   href="#collapse-<?= $key ?>" class="side-menu--link side-menu--collapsable"
+                >
                     <div class="icon">
                         <?php if (!empty($item['image'])) : ?>
                             <img src="<?= $item['image'] ?>" alt="" class="img-circle" width="30">
@@ -29,15 +37,16 @@ use naffiq\bridge\widgets\SideMenu;
                         <?= $item['title'] ?>
                     </div>
                 </a>
-                <ul class="sub-menu panel-collapse collapse<?= SideMenu::isActive($item) ? ' in' : '' ?>" id="collapse-<?= $key ?>">
-                    <?php foreach($item['items'] as $subItem): ?>
+                <ul class="sub-menu collapse<?= SideMenu::isActive($item) ? ' in' : '' ?>"
+                    id="collapse-<?= $key ?>" role="tabpanel" aria-labelledby="heading<?= $key ?>">
+                    <?php foreach ($item['items'] as $subItem): ?>
                         <li class="side-menu--item">
                             <?= $this->render('_site-menu--item', ['item' => $subItem]) ?>
                         </li>
                     <?php endforeach ?>
                 </ul>
-            <?php endif; ?>
 
+            <?php endif; ?>
 
 
         </li>

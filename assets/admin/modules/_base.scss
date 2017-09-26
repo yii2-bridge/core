@@ -6,8 +6,12 @@ body {
 .bridge-wrap {
   margin-left: 50px;
   padding-top: 7px;
+
+  -webkit-transition: margin-left .2s;
+  transition: margin-left .2s;
   &.nav-wide {
     margin-left: 250px;
+
   }
   min-height: calc(100vh - 50px);
   position: relative;

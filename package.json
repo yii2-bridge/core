@@ -1,0 +1,28 @@
+{
+  "name": "yii2-bridge",
+  "version": "0.4.5",
+  "description": "Yii2 Bridge CMF",
+  "main": "index.js",
+  "scripts": {
+    "scss": "./node_modules/.bin/node-sass -w assets/admin/admin.scss assets/dist/admin.css"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/naffiq/yii2-bridge.git"
+  },
+  "keywords": [
+    "yii2",
+    "php",
+    "cmf"
+  ],
+  "author": "naffiq <me@naffiq.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/naffiq/yii2-bridge/issues"
+  },
+  "homepage": "https://github.com/naffiq/yii2-bridge#readme",
+  "dependencies": {},
+  "devDependencies": {
+    "node-sass": "^4.5.3"
+  }
+}

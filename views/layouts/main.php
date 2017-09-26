@@ -72,7 +72,9 @@ $user = \Yii::$app->user->identity;
         ]]) ?>
         <button type="submit" class="btn btn-sign-out" data-toggle="tooltip" data-placement="right"
                 title="<?= Yii::t('bridge', 'Sign&nbsp;out') ?>">
-            <i class="fa fa-sign-out"></i>
+            <span class="sign-out--title">
+                <?= Yii::t('bridge', 'Logout') ?>
+            </span> <i class="fa fa-sign-out"></i>
         </button>
         <?php ActiveForm::end(); ?>
     <?php endif; ?>

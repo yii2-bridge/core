@@ -27,6 +27,7 @@ return [
     'Latest release info' => 'Последнее обновление',
     'Sign&nbsp;out' => 'Выход',
     'Login' => 'Вход',
+    'Logout' => 'Выйти',
     'Forgot password?' => 'Забыли пароль?',
     'String' => 'Строка',
     'Text' => 'Текст',

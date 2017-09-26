@@ -1,9 +1,19 @@
 .nav-menu {
   min-height: 100vh;
   width: 50px;
+  -webkit-transition: width .2s;
+  transition: width .2s;
   position: fixed;
   top: 0;
   z-index: 9999;
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none; /* Non-prefixed version */
+
+  background-color: $side-menu-bg;
 
   &.wide {
     width: 250px;
@@ -17,15 +27,54 @@
       text-align: left;
       padding: 0 15px;
     }
+    .form--sign-out .sign-out--title {
+      display: inline-block;
+      text-align: center;
+      margin-right: 15px;
+    }
+  }
+  &:not(.wide) {
+    .side-menu li.side-menu--item.with--sub-menu {
+      &:hover {
+        ul.sub-menu {
+          display: block;
+          background-color: #1a1a1a;
+          border-left: 3px $hamburger-bg solid;
+          height: auto !important;
+        }
+      }
+      
+      //position: relative;
+      .sub-menu {
+        border-left: 3px $hamburger-bg solid;
+        background-color: #1a1a1a;
+        position: fixed;
+        left: 50px;
+        margin-top: -50px;
+        z-index: 9999;
+        width: 250px;
+
+        .side-menu--link {
+          padding-left: 0;
+        }
+
+        .title {
+          width: calc(100% - 55px);
+          display: inline-block;
+        }
+      }
+    }
   }
 
-  background-color: $side-menu-bg;
 
   .hamburger {
     position: relative;
     cursor: pointer;
-    width: 50px;
+    width: 100%;
     height: 50px;
+
+    -webkit-transition: text-align .2s;
+    transition: text-align .2s;
 
     color: #FFF;
     text-align: center;
@@ -39,9 +88,12 @@
     list-style: none;
     padding-left: 0;
     height: calc(100% - 150px);
-    overflow-y: scroll;
+    overflow-y: hidden;
+    //overflow-x: hidden;
 
     li.side-menu--item {
+      //position: relative;
+
       &:hover {
         background-color: rgba(0, 0, 0, 1);
       }
@@ -75,9 +127,13 @@
           color: $side-menu--item-link;
           display: none;
           line-height: 50px;
-          font-size: 16px;
+          font-size: 14px;
           width: calc(100% - 50px);
           padding-left: 10px;
+
+          white-space: nowrap;
+          -ms-text-overflow: ellipsis;
+          text-overflow: ellipsis;
         }
       }
 
@@ -92,7 +148,7 @@
               font-size: 18px;
             }
             .title {
-              font-size: 14px;
+              font-size: 12px;
               padding-left: 0;
             }
           }
@@ -104,9 +160,15 @@
   .form--sign-out {
     position: absolute;
     bottom: 0;
+    width: 100%;
     .btn-sign-out {
+      width: 100%;
       background-color: transparent;
       color: $btn--sign-out;
+      display: block;
+    }
+    .sign-out--title {
+      display: none;
     }
   }
 }
