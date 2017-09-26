@@ -47,6 +47,10 @@ img {
   background-color: #1B2021; }
   .nav-menu.wide {
     width: 250px; }
+    .nav-menu.wide .side-menu .side-menu--item.with--sub-menu a[aria-expanded="true"] {
+      background-color: #3F88C5; }
+      .nav-menu.wide .side-menu .side-menu--item.with--sub-menu a[aria-expanded="true"] .title, .nav-menu.wide .side-menu .side-menu--item.with--sub-menu a[aria-expanded="true"] .icon {
+        color: #FFF; }
     .nav-menu.wide .side-menu .side-menu--item a .title {
       display: inline; }
     .nav-menu.wide .hamburger {
@@ -123,7 +127,7 @@ img {
         -ms-text-overflow: ellipsis;
         text-overflow: ellipsis; }
     .nav-menu .side-menu li.side-menu--item .sub-menu {
-      background-color: rgba(255, 255, 255, 0.1);
+      background-color: #1a1a1a;
       list-style: none;
       padding-left: 0; }
       .nav-menu .side-menu li.side-menu--item .sub-menu li.side-menu--item a {

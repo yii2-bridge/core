@@ -18,8 +18,21 @@
   &.wide {
     width: 250px;
 
-    .side-menu .side-menu--item a .title {
-      display: inline;
+    .side-menu .side-menu--item {
+      &.with--sub-menu {
+        a[aria-expanded="true"] {
+          background-color: $side-menu--active-item;
+
+          .title, .icon {
+            color: #FFF;
+          }
+        }
+      }
+      a {
+        .title {
+          display: inline;
+        }
+      }
     }
 
     .hamburger {
@@ -43,8 +56,7 @@
           height: auto !important;
         }
       }
-      
-      //position: relative;
+
       .sub-menu {
         border-left: 3px $hamburger-bg solid;
         background-color: #1a1a1a;
@@ -112,6 +124,7 @@
         display: block;
         height: 50px;
         text-decoration: none;
+
         .icon {
           color: $side-menu--item-link;
           display: inline-block;
@@ -138,7 +151,7 @@
       }
 
       .sub-menu {
-        background-color: rgba(255, 255, 255, .1);
+        background-color: #1a1a1a;
         list-style: none;
         padding-left: 0;
         li.side-menu--item {
