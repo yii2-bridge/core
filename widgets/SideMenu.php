@@ -39,7 +39,7 @@ class SideMenu extends Widget
             }
         }
 
-        if (empty($item['active'])) {
+        if (empty($item['active']) && !empty($item['url'])) {
 
             if (Url::current() == Url::to($item['url'])) {
                 return true;
