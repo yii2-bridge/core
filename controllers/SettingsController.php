@@ -4,7 +4,7 @@ namespace naffiq\bridge\controllers;
 
 /**
  * SettingsController implements the CRUD actions for [[app\modules\admin\models\Settings]] model.
- * @see naffiq\bridge\models\Settings
+ * @see \naffiq\bridge\models\Settings
  */
 class SettingsController extends BaseAdminController
 {
@@ -26,4 +26,17 @@ class SettingsController extends BaseAdminController
      * @var string
      */
     public $createScenario = 'create';
+
+    /**
+     * @inheritdoc
+     */
+    public function accessRules()
+    {
+        return [
+            [
+                'allow' => true,
+                'roles' => ['admin'],
+            ],
+        ];
+    }
 }

@@ -41,7 +41,7 @@ $user = \Yii::$app->user->identity;
             'items' => ArrayHelper::merge([
                 [
                     'title' => \Yii::t('bridge', 'Profile'),
-                    'url' => ['/user/admin/update', 'id' => $user->id],
+                    'url' => ['/user/profile', 'id' => $user->id],
                     'active' => ['module' => 'user', 'controller' => 'admin', 'action' => 'update'],
 //                    'image' => $user->getThumbUploadUrl('avatar', 'preview'),
                     'icon' => 'user'
@@ -49,20 +49,22 @@ $user = \Yii::$app->user->identity;
                 [
                     'title' => \Yii::t('bridge', 'Dashboard'),
                     'url' => ['/admin/default/index'],
-                    'active' => ['controller' => 'default'],
+                    'active' => ['module' => 'admin', 'controller' => 'default'],
                     'icon' => 'grav',
                 ],
                 [
                     'title' => \Yii::t('bridge', 'Settings'),
                     'url' => ['/admin/settings/index'],
-                    'active' => ['controller' => 'settings'],
-                    'icon' => 'gear'
+                    'active' => ['module' => 'admin', 'controller' => 'settings'],
+                    'icon' => 'gear',
+                    'isVisible' => ['admin']
                 ],
                 [
                     'title' => \Yii::t('bridge', 'Users'),
                     'url' => ['/user/admin/index'],
                     'active' => ['module' => 'user'],
-                    'icon' => 'users'
+                    'icon' => 'users',
+                    'isVisible' => ['admin']
                 ]
             ], empty($this->params['admin-menu']) ? [] : $this->params['admin-menu'])
         ]) ?>
