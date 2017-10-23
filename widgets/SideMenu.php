@@ -39,30 +39,27 @@ class SideMenu extends Widget
             }
         }
 
-        if (empty($item['active']) && !empty($item['url'])) {
-
-            if (Url::current() == Url::to($item['url'])) {
-                return true;
-            }
-
-            return false;
+        if (empty($item['active'])) {
+            return !empty($item['url']) && Url::current() === Url::to($item['url']);
         }
+
         $active = $item['active'];
 
         if (is_array($active)) {
             if (!isset($active['module']) && !isset($active['controller']) && !isset($active['action'])) {
                 return false;
             }
+            $controller = \Yii::$app->controller;
 
-            if (isset($active['module']) && $active['module'] != \Yii::$app->controller->module->id) {
+            if (isset($active['module']) && $active['module'] != $controller->module->id) {
                 return false;
             }
 
-            if (isset($active['controller']) && $active['controller'] != \Yii::$app->controller->id) {
+            if (isset($active['controller']) && $active['controller'] != $controller->id) {
                 return false;
             }
 
-            if (isset($active['action']) && $active['action'] != \Yii::$app->controller->action->id) {
+            if (isset($active['action']) && $active['action'] != $controller->action->id) {
                 return false;
             }
 

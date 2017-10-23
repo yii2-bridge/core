@@ -43,7 +43,6 @@ $user = \Yii::$app->user->identity;
                     'title' => \Yii::t('bridge', 'Profile'),
                     'url' => ['/user/profile', 'id' => $user->id],
                     'active' => ['module' => 'user', 'controller' => 'admin', 'action' => 'update'],
-//                    'image' => $user->getThumbUploadUrl('avatar', 'preview'),
                     'icon' => 'user'
                 ],
                 [

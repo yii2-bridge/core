@@ -50,7 +50,6 @@ use naffiq\bridge\widgets\SideMenu;
 
             <?php endif; ?>
 
-
         </li>
     <?php endforeach ?>
 </ul>
