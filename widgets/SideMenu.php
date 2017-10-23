@@ -9,6 +9,7 @@
 namespace naffiq\bridge\widgets;
 
 use yii\base\Widget;
+use yii\helpers\Url;
 
 class SideMenu extends Widget
 {
@@ -39,6 +40,11 @@ class SideMenu extends Widget
         }
 
         if (empty($item['active'])) {
+
+            if (Url::current() == Url::to($item['url'])) {
+                return true;
+            }
+
             return false;
         }
         $active = $item['active'];
@@ -66,5 +72,39 @@ class SideMenu extends Widget
         }
 
         return false;
+    }
+
+    /**
+     * Checks if menu item should be visible
+     *
+     * @param array $item
+     * @return bool
+     */
+    public static function isVisible($item) {
+        if (empty($item['isVisible'])) {
+            return true;
+        }
+
+        $isVisible = $item['isVisible'];
+
+        if (is_callable($isVisible)) {
+            return $isVisible($item);
+        }
+
+        if (is_array($isVisible)) {
+            foreach ($isVisible as $role) {
+                if (\Yii::$app->user->can($role)) {
+                    return true;
+                }
+
+                return false;
+            }
+        }
+
+        if (is_bool($isVisible)) {
+            return $isVisible;
+        }
+
+        throw new \InvalidArgumentException('Invalid key type provided for `isVisible` in menu');
     }
 }

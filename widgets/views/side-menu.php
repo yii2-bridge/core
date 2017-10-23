@@ -12,6 +12,7 @@ use naffiq\bridge\widgets\SideMenu;
 
 <ul class="side-menu" id="bridge--side-menu" role="tablist" aria-multiselectable="false">
     <?php foreach ($items as $key => $item): ?>
+        <?php if(!SideMenu::isVisible($item)) continue ?>
         <li class="side-menu--item<?= SideMenu::isActive($item) ? ' active' : '' ?><?= !empty($item['items']) ? ' with--sub-menu' : '' ?>"
             data-toggle="tooltip" data-placement="right" title="<?= $item['title'] ?>"
         <?php if (!empty($item['items'])) : ?>
@@ -40,6 +41,7 @@ use naffiq\bridge\widgets\SideMenu;
                 <ul class="sub-menu collapse<?= SideMenu::isActive($item) ? ' in' : '' ?>"
                     id="collapse-<?= $key ?>" role="tabpanel" aria-labelledby="heading<?= $key ?>">
                     <?php foreach ($item['items'] as $subItem): ?>
+                        <?php if(!SideMenu::isVisible($subItem)) continue ?>
                         <li class="side-menu--item">
                             <?= $this->render('_site-menu--item', ['item' => $subItem]) ?>
                         </li>
