@@ -19,17 +19,18 @@ $ php yii migrate --migrationPath=@vendor/naffiq/yii2-bridge/migrations
 
 ## Configuration
 
-Add module declaration to your config file:
+Add module declaration to your config file for web config:
 ```php
 <?php
 
 return [
+    // ... your config
     'modules' => [
         'admin' => [
             'class' => '\naffiq\bridge\BridgeModule',
-            // Add your content management module here.
+            // Add your projects modules here to keep right routing.
             'modules' => [
-                'content' => ['class' => '\app\modules\content\Module']
+                'customModule' => ['class' => '\app\modules\your\CustomModule']
             ],
             // Add menu item of your content management module to menu
             'menu' => [
@@ -39,7 +40,28 @@ return [
                     'active' => ['module' => 'content'],
                     'icon' => 'list'
                 ]
-            ]
+            ],
+            // Alternatively you can define different menu items for different
+            // roles. In that case it will override default menu items, such as
+            // settings, users and dashboard
+            'composeMenu' => function ($user, $roles, $authManager) {
+                 /**
+                  * @var \yii\web\User $user 
+                  * @var string[] $roles
+                  * @var \Da\User\Component\AuthDbManagerComponent $authManager 
+                  */
+                 if (in_array('admin', $roles)) {
+                     return require __DIR__ . '/menu-admin.php';
+                 }
+                 if (in_array('editor', $roles)) {
+                     return require __DIR__ . '/menu-editor.php';
+                 }
+                 if (in_array('manager', $roles)) {
+                     return require __DIR__ . '/menu-manager.php';
+                 }
+                 
+                 return __DIR__ . '/menu-default.php';
+            }
         ]
     ],
     'bootstrap' => [        
@@ -48,3 +70,62 @@ return [
 ];
 
 ```
+
+And for console config, in order to run migrations:
+
+```php
+<?php
+return [
+    // ... your config
+    'modules' => [
+        'admin' => ['class' => '\naffiq\bridge\BridgeModule']
+    ],
+    'bootstrap' => [        
+        'admin' // add module id to bootstrap for proper aliases and url routes binding
+    ]
+]; 
+
+```
+
+
+## Setup
+
+After installing and config setup (including database), you should have installation
+executable in your vendor folder. You can run all the migrations required with single 
+command:
+
+```bash
+$ ./vendor/bin/bridge-install
+```
+
+> Warning! This command is running with `--interactive=0` flag, which means it will not ask
+confirmation for it.
+
+## Usage
+
+After running every step above you should have your admin panel running on `/admin` route.
+The only thing left is to run command to create users. 
+
+### Creating first user
+
+Run following command to generate users:
+```bash
+$ php yii user/create EMAIL USERNAME PASSWORD ROLE 
+```
+
+So the correct command to create user with admin role for admin panel would be:
+```bash
+$ php yii user/create admin@sitename.kz admin PASSWORD admin
+``` 
+
+## Gii
+
+Gii that is provided with bridge is packed with some improvements to basic gii.
+When generating model with db fields ending by `image` or `file`, it would
+automatically add corresponding upload behavior.
+You can turn this behaviors off by clicking on checkbox in generator interface.
+
+And also it has `Admin CRUD generator`, which will generate necessary fields 
+inputs and display it nicely to the index table.  
+
+ 
