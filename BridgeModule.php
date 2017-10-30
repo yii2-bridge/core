@@ -89,6 +89,8 @@ class BridgeModule extends Module implements BootstrapInterface
      */
     public $repoDataUrl = 'https://api.github.com/repos/naffiq/yii2-bridge/releases/latest';
 
+    public $allowedRoles = ['admin'];
+
     /**
      * @inheritdoc
      */
