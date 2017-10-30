@@ -65,7 +65,7 @@ class BaseAdminController extends CrudController
             throw new InvalidConfigException('Module \'admin\' is not set in app, please configure it for further usage');
         }
 
-        if ($module instanceof BridgeModule) {
+        if (!$module instanceof BridgeModule) {
             throw new InvalidConfigException('Module \'admin\' should be instance of BridgeModule');
         }
 
