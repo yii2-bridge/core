@@ -10,7 +10,6 @@ namespace naffiq\bridge;
 
 use Da\User\Bootstrap;
 use Da\User\Component\AuthDbManagerComponent;
-use naffiq\bridge\modules\user\AdminModule;
 use yii\base\Application;
 use yii\base\BootstrapInterface;
 use yii\base\Module;
@@ -96,16 +95,17 @@ class BridgeModule extends Module implements BootstrapInterface
      */
     public function bootstrap($app)
     {
-        $this->registerAliases();
         $this->registerTranslations($app);
 
         if ($app instanceof WebApplication) {
+            $this->registerAliases();
             $this->registerRoutes($app);
 
             $app->user->loginUrl = $this->loginUrl ?: [$this->id . '/default/login'];
             $app->user->identityClass = $this->userClass;
 
         } elseif ($app instanceof ConsoleApplication) {
+            \Yii::setAlias('@bridge-migrations', \Yii::getAlias('@vendor/naffiq/yii2-bridge/migrations/'));
         }
 
         $this->registerGiiGenerators($app);
@@ -120,7 +120,6 @@ class BridgeModule extends Module implements BootstrapInterface
     {
         \Yii::setAlias('@bridge', \Yii::getAlias('@vendor/naffiq/yii2-bridge'));
         \Yii::setAlias('@bridge-assets', \Yii::getAlias('@vendor/naffiq/yii2-bridge/assets/dist/'));
-        \Yii::setAlias('@bridge-migrations', \Yii::getAlias('@vendor/naffiq/yii2-bridge/migrations/'));
     }
 
     /**
@@ -199,13 +198,11 @@ class BridgeModule extends Module implements BootstrapInterface
      */
     private function registerGiiGenerators(Application $app)
     {
-        if (!empty($app->getModule('gii'))) {
-            $app->getModule('gii')->generators['adminCrud'] = [
-                'class' => 'naffiq\bridge\gii\crud\Generator'
-            ];
-            $app->getModule('gii')->generators['model'] = [
-                'class' => 'naffiq\bridge\gii\model\Generator'
-            ];
+        /** @var \yii\gii\Module $giiModule */
+        $giiModule = $app->getModule('gii');
+        if (!empty($giiModule)) {
+            $giiModule->generators['adminCrud'] = ['class' => 'naffiq\bridge\gii\crud\Generator'];
+            $giiModule->generators['model'] = ['class' => 'naffiq\bridge\gii\model\Generator'];
         }
     }
 
