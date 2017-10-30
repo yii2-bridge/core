@@ -33,6 +33,11 @@ class BridgeModule extends Module implements BootstrapInterface
     public $menu = [];
 
     /**
+     * @var array Links displayed in admin for guest users
+     */
+    public $guestMenu = [];
+
+    /**
      * @var string class name for main admin dashboard action
      */
     public $dashboardAction = '\naffiq\bridge\controllers\actions\DashboardAction';
@@ -93,6 +98,27 @@ class BridgeModule extends Module implements BootstrapInterface
      * you can override property `allowedRoles` inside that controller.
      */
     public $allowedRoles = ['admin'];
+
+    /**
+     * @var null|callable Function for evaluating menu for different roles. Instance of `\yii\web\User`,
+     * array of roles as `$roles` and `$authManager` are passed to evaluate required menu items.
+     *
+     * Example:
+     * ```php
+     *  'composeMenu' => function ($user, $roles, $authManager) {
+     *      if (in_array('admin', $roles)) {
+     *          return require __DIR__ . '/menu-admin.php';
+     *      }
+     *      if (in_array('editor', $roles)) {
+     *          return require __DIR__ . '/menu-editor.php';
+     *      }
+     *      if (in_array('manager', $roles)) {
+     *          return require __DIR__ . '/menu-manager.php';
+     *      }
+     *  }
+     * ```
+     */
+    public $composeMenu;
 
     /**
      * @inheritdoc
@@ -229,4 +255,50 @@ class BridgeModule extends Module implements BootstrapInterface
     }
 
 
+    /**
+     * @return array|mixed
+     */
+    public function getMenuItems()
+    {
+        $user = \Yii::$app->user;
+
+        if ($user->isGuest) {
+            return $this->guestMenu;
+        }
+
+        $authManager = \Yii::$app->authManager;
+
+        if ($this->composeMenu === null) {
+            return ArrayHelper::merge([
+                [
+                    'title' => \Yii::t('bridge', 'Profile'),
+                    'url' => ['/user/profile', 'id' => $user->id],
+                    'active' => ['module' => 'user', 'controller' => 'admin', 'action' => 'update'],
+                    'icon' => 'user'
+                ],
+                [
+                    'title' => \Yii::t('bridge', 'Dashboard'),
+                    'url' => ['/admin/default/index'],
+                    'active' => ['module' => 'admin', 'controller' => 'default'],
+                    'icon' => 'grav',
+                ],
+                [
+                    'title' => \Yii::t('bridge', 'Settings'),
+                    'url' => ['/admin/settings/index'],
+                    'active' => ['module' => 'admin', 'controller' => 'settings'],
+                    'icon' => 'gear',
+                    'isVisible' => ['admin']
+                ],
+                [
+                    'title' => \Yii::t('bridge', 'Users'),
+                    'url' => ['/user/admin/index'],
+                    'active' => ['module' => 'user'],
+                    'icon' => 'users',
+                    'isVisible' => ['admin']
+                ]
+            ], empty($this->menu) ? [] : $this->menu);
+        }
+
+        return call_user_func([$this, 'composeMenu'], $user, $authManager->getRolesByUser($user->id), $authManager);
+    }
 }

@@ -13,10 +13,10 @@ use yii2tech\admin\widgets\ButtonContextMenu;
 
 AdminAsset::register($this);
 
-/**
- * @var $user \Da\User\Model\User
- */
+/** @var $user \Da\User\Model\User */
 $user = \Yii::$app->user->identity;
+/** @var \naffiq\bridge\BridgeModule $adminModule */
+$adminModule = \Yii::$app->getModule('admin');
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
@@ -38,34 +38,7 @@ $user = \Yii::$app->user->identity;
 
     <?php if (!\Yii::$app->user->isGuest) : ?>
         <?= SideMenu::widget([
-            'items' => ArrayHelper::merge([
-                [
-                    'title' => \Yii::t('bridge', 'Profile'),
-                    'url' => ['/user/profile', 'id' => $user->id],
-                    'active' => ['module' => 'user', 'controller' => 'admin', 'action' => 'update'],
-                    'icon' => 'user'
-                ],
-                [
-                    'title' => \Yii::t('bridge', 'Dashboard'),
-                    'url' => ['/admin/default/index'],
-                    'active' => ['module' => 'admin', 'controller' => 'default'],
-                    'icon' => 'grav',
-                ],
-                [
-                    'title' => \Yii::t('bridge', 'Settings'),
-                    'url' => ['/admin/settings/index'],
-                    'active' => ['module' => 'admin', 'controller' => 'settings'],
-                    'icon' => 'gear',
-                    'isVisible' => ['admin']
-                ],
-                [
-                    'title' => \Yii::t('bridge', 'Users'),
-                    'url' => ['/user/admin/index'],
-                    'active' => ['module' => 'user'],
-                    'icon' => 'users',
-                    'isVisible' => ['admin']
-                ]
-            ], empty($this->params['admin-menu']) ? [] : $this->params['admin-menu'])
+            'items' => $adminModule->getMenuItems()
         ]) ?>
 
         <?php ActiveForm::begin(['action' => ['/admin/default/logout'], 'options' => [
