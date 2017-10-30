@@ -1,6 +1,7 @@
 <?php
 
 /* @var $this \yii\web\View */
+
 /* @var $content string */
 
 use naffiq\bridge\assets\AdminAsset;
@@ -36,11 +37,11 @@ $adminModule = \Yii::$app->getModule('admin');
         <i class="fa fa-bars"></i>
     </div>
 
-    <?php if (!\Yii::$app->user->isGuest) : ?>
-        <?= SideMenu::widget([
-            'items' => $adminModule->getMenuItems()
-        ]) ?>
+    <?= SideMenu::widget([
+        'items' => $adminModule->getMenuItems()
+    ]) ?>
 
+    <?php if (!\Yii::$app->user->isGuest) : ?>
         <?php ActiveForm::begin(['action' => ['/admin/default/logout'], 'options' => [
             'class' => 'form--sign-out'
         ]]) ?>
