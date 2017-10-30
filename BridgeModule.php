@@ -86,7 +86,7 @@ class BridgeModule extends Module implements BootstrapInterface
     /**
      * @var string Module version
      */
-    public $version = 'v0.5.6';
+    public $version = 'v0.5.7';
 
     /**
      * @var string Module repository API URL, used to fetch latest version
@@ -299,6 +299,6 @@ class BridgeModule extends Module implements BootstrapInterface
             ], empty($this->menu) ? [] : $this->menu);
         }
 
-        return call_user_func([$this, 'composeMenu'], $user, $authManager->getRolesByUser($user->id), $authManager);
+        return call_user_func($this->composeMenu, $user, $authManager->getRolesByUser($user->id), $authManager);
     }
 }

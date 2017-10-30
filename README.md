@@ -47,18 +47,19 @@ return [
             'composeMenu' => function ($user, $roles, $authManager) {
                  /**
                   * @var \yii\web\User $user 
-                  * @var string[] $roles
+                  * @var \Da\User\Model\Role[] $roles
                   * @var \Da\User\Component\AuthDbManagerComponent $authManager 
                   */
-                 if (in_array('admin', $roles)) {
+                 if (isset($roles['admin'])) {
                      return require __DIR__ . '/menu-admin.php';
                  }
-                 if (in_array('editor', $roles)) {
+                 if ($user->can('editor')) {
                      return require __DIR__ . '/menu-editor.php';
                  }
-                 if (in_array('manager', $roles)) {
+                 if (in_array($user->id, $authManager->getUserIdsByRole('manager'))) {
                      return require __DIR__ . '/menu-manager.php';
                  }
+                 // Or any other available method
                  
                  return __DIR__ . '/menu-default.php';
             }
