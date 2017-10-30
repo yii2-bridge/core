@@ -81,7 +81,7 @@ if (($tableSchema = $generator->getTableSchema()) === false) {
             foreach ($format as $item => $value) {
                 echo ColumnHelper::pushTab(3) . (++$count > 5 ? '// ' : '') . "'{$item}' => " . (is_string($value) ? "'{$value}'" : $value) . ",\n";
             }
-            echo ColumnHelper::pushTab(2) . (++$count > 5 ? '// ' : '') . "],\n";
+            echo ColumnHelper::pushTab(2) . ($count > 5 ? '// ' : '') . "],\n";
         } else {
             echo "'" . $column->name . ($format === 'text' ? "" : ":" . $format) . "',\n";
         }
