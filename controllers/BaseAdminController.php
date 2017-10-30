@@ -19,6 +19,11 @@ class BaseAdminController extends CrudController
      */
     public $layout = '@bridge/views/layouts/main';
 
+    /**
+     * @var array|null contains roles, that have access to the controller. If value is `null`, then
+     * it will be initialized from `naffiq\bridge\BridgeModule` config.
+     * Default value: `['admin']`
+     */
     public $allowedRoles = null;
 
     /**
@@ -41,7 +46,7 @@ class BaseAdminController extends CrudController
         return [
             [
                 'allow' => true,
-                'roles' => ['admin'],
+                'roles' => $this->allowedRoles,
             ],
         ];
     }

@@ -88,6 +88,10 @@ class BridgeModule extends Module implements BootstrapInterface
      */
     public $repoDataUrl = 'https://api.github.com/repos/naffiq/yii2-bridge/releases/latest';
 
+    /**
+     * @var array contains roles, that allowed to access admin panel. In order to change specific controllers behavior
+     * you can override property `allowedRoles` inside that controller.
+     */
     public $allowedRoles = ['admin'];
 
     /**
