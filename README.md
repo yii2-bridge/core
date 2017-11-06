@@ -12,10 +12,7 @@ Add it as Composer dependency by running
 $ composer require naffiq/yii2-bridge
 ```
 
-Run migrations from package by specifying `--migrationPath` such as follows:
-```bash
-$ php yii migrate --migrationPath=@vendor/naffiq/yii2-bridge/migrations
-```
+####  Be sure to configure module (instructions below), before running migrations.
 
 ## Configuration
 
