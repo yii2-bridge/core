@@ -117,7 +117,7 @@ class <?= $className ?> extends <?= '\\' . ltrim($generator->baseClass, '\\') . 
 <?php foreach($behavior as $parameter => $data): ?>
                 '<?= $parameter ?>' => <?= is_string($data) ? "'$data'" : $data ?>,
 <?php endforeach ?>
-            ]
+            ],
 <?php endforeach ?>
         ];
     }
