@@ -1,6 +1,6 @@
 # Yii2 Bridge [![Build Status](https://travis-ci.org/naffiq/yii2-bridge.svg?branch=master)](https://travis-ci.org/naffiq/yii2-bridge)
 
-![Yet another admin panel](https://raw.githubusercontent.com/naffiq/yii2-bridge/master/assets/dist/bridge.jpg)
+![Yet another admin panel](https://raw.githubusercontent.com/naffiq/yii2-bridge/master/src/assets/dist/bridge.jpg)
 
 Bridge delivers you simple content management system that utilizes best production-tested
 components and plugins for Yii2.
