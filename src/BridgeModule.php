@@ -10,12 +10,14 @@ namespace naffiq\bridge;
 
 use Da\User\Bootstrap;
 use Da\User\Component\AuthDbManagerComponent;
+use naffiq\bridge\models\Settings;
 use yii\base\Application;
 use yii\base\BootstrapInterface;
 use yii\base\Module;
 use yii\console\Application as ConsoleApplication;
 use yii\helpers\ArrayHelper;
 use yii\web\Application as WebApplication;
+use yii\web\View;
 
 
 /**
@@ -141,6 +143,11 @@ class BridgeModule extends Module implements BootstrapInterface
         $this->registerGiiGenerators($app);
 
         $this->registerUsuario($app);
+
+        \Yii::$app->on(\yii\web\Application::EVENT_BEFORE_ACTION, function () {
+            $this->registerGoogleAnalytics();
+            $this->registerYandexMetrika();
+        });
     }
 
     /**
@@ -218,7 +225,6 @@ class BridgeModule extends Module implements BootstrapInterface
         // Bootstrapping usuario module
         $usuarioBootstrap = new Bootstrap();
         $usuarioBootstrap->bootstrap($app);
-
     }
 
     /**
@@ -285,5 +291,48 @@ class BridgeModule extends Module implements BootstrapInterface
     protected function getDefaultMenuItems()
     {
         return require __DIR__ . '/config/menu.php';
+    }
+
+    /**
+     * Registers google analytics script
+     */
+    protected function registerGoogleAnalytics()
+    {
+        try {
+            $gaKey = Settings::get('google-analytics-key');
+//            \Yii::$app->view->on(View::EVENT)
+            \Yii::$app->view->registerJs(<<<JS
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', {$gaKey->value}, 'auto');
+    ga('send', 'pageview');
+JS
+    , View::POS_HEAD);
+        } catch (\Exception $e) {}
+    }
+
+    /**
+     * Registers yandex metrika script
+     */
+    protected function registerYandexMetrika()
+    {
+        try {
+            $ymKey = Settings::get('yandex-metrika-key');
+            \Yii::$app->view->on(View::EVENT_BEGIN_BODY, function () use ($ymKey) {
+                echo <<<HTML
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript">(function (d, w, c) { (w[c] = w[c] || []).push(function() 
+{ try { w.yaCounter28278981 = new Ya.Metrika({id:{$ymKey->value}, webvisor:true, clickmap:true, trackLinks:true, accurateTrackBounce:true, trackHash:true}); }
+catch(e) { } }); var n = d.getElementsByTagName("script")[0], s = d.createElement("script"), f = function () 
+{ n.parentNode.insertBefore(s, n); }; s.type = "text/javascript"; s.async = true; s.src = (d.location.protocol == "https:" ? "https:" : "http:") + 
+"//mc.yandex.ru/metrika/watch.js"; if (w.opera == "[object Opera]") { d.addEventListener("DOMContentLoaded", f, false); } else { f(); } })
+(document, window, "yandex_metrika_callbacks");</script>
+<noscript><div><img src="//mc.yandex.ru/watch/{$ymKey->value}" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+HTML;
+            });
+        } catch (\Exception $e) {}
     }
 }
