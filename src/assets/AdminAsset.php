@@ -56,7 +56,7 @@ class AdminAsset extends AssetBundle
             throw new InvalidConfigException('Invalid `admin` module config for `extraAssets` — it should be array with AssetBundle classes');
         }
         foreach ($adminModule->extraAssets as $asset) {
-            if (!is_subclass_of($asset, AssetBundle::className())) {
+            if (!$asset instanceof AssetBundle) {
                 throw new InvalidConfigException('Invalid `admin` module config for `extraAssets` — it should be array with AssetBundle classes');
             }
 
