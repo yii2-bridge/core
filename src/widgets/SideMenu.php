@@ -11,6 +11,13 @@ namespace naffiq\bridge\widgets;
 use yii\base\Widget;
 use yii\helpers\Url;
 
+/**
+ * Class SideMenu
+ *
+ * Renders side menu in admin panel
+ *
+ * @package naffiq\bridge\widgets
+ */
 class SideMenu extends Widget
 {
     /**
@@ -46,29 +53,40 @@ class SideMenu extends Widget
         $active = $item['active'];
 
         if (is_array($active)) {
-            if (!isset($active['module']) && !isset($active['controller']) && !isset($active['action'])) {
-                return false;
-            }
-            $controller = \Yii::$app->controller;
-
-            if (isset($active['module']) && $active['module'] != $controller->module->id) {
-                return false;
-            }
-
-            if (isset($active['controller']) && $active['controller'] != $controller->id) {
-                return false;
-            }
-
-            if (isset($active['action']) && $active['action'] != $controller->action->id) {
-                return false;
-            }
-
-            return true;
+            return static::isArrayItemActive($active);
         } elseif (is_callable($active)) {
             return $active($item);
         }
 
         return false;
+    }
+
+    /**
+     * Returns true if menu item should be active for array configured items (`active` key)
+     *
+     * @param array $active
+     * @return bool
+     */
+    protected static function isArrayItemActive($active)
+    {
+        if (!isset($active['module']) && !isset($active['controller']) && !isset($active['action'])) {
+            return false;
+        }
+        $controller = \Yii::$app->controller;
+
+        if (isset($active['module']) && $active['module'] != $controller->module->id) {
+            return false;
+        }
+
+        if (isset($active['controller']) && $active['controller'] != $controller->id) {
+            return false;
+        }
+
+        if (isset($active['action']) && $active['action'] != $controller->action->id) {
+            return false;
+        }
+
+        return true;
     }
 
     /**
