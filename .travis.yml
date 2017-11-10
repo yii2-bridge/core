@@ -1,18 +1,16 @@
 language: php
 php:
-  - '7.0'
-  - '7.1'
+- '7.0'
+- '7.1'
 
-#addons:
-#  code_climate:
-#    repo_token: 1d0616f7b6a83a05ea671fcbab495da212dcead88e7bd212cfe3b75a57fa1e86
+before_install:
+  - composer config --global github-oauth.github.com "$GITHUB_TOKEN"
 
 install:
-  - composer global require "fxp/composer-asset-plugin"
-  - composer install
-
+- composer global require "fxp/composer-asset-plugin"
+- composer install
 script:
-  - ./vendor/bin/phpunit --verbose $PHPUNIT_FLAGS
-
-#after_success:
-#  - ./vendor/bin/test-reporter
+- "./vendor/bin/phpunit --verbose $PHPUNIT_FLAGS"
+env:
+  global:
+    secure: AwqLbutNTpOuhEMI4wR56hwPh5uTjhqkS9q6mkquBV3LabgSK74/f3Mp49RS4Vs0yX9Eex0BCMmJjyuYuNW+IGp4S8kJHa/X+jAwWGWmRiuTvYx6t/650dmyQ/8pN/KcXCWbt+I6u5Ju4+sO6ZweTMvDQQ5PxJmZ2EZ/mamqtnckpQmjCb9HeHQYGWGGyi7g8xODaRn/e+UsqUrlYRJah3A+OXzG16SRqXUIkQJZtfsUak5qX+uW3KJLn5S5smBuPybrsJCcV2hyxvPB0F+gxcVbta5gwI4+zsIGELfQvSWvl6JfBkT4B/F7OJMsQaW3nf0czgiATx+sstkTAFIqBOzrOF3YTWRSOUUYvtXrPr5gyZGAs2eR5EmoCcFgzWddg6DqgAIHzeidT3T/xDaf+/ZcPtznxGxaJXSOPDCXLcTugFerN1MhMi8B2FM/VUr7BPxadBU4Rm4IZQCCny0sMoW7KHMSAgOUu4zbxxneKojAGnCxVYVDIkJTEF6Hx7/jKfLPHgbet3bkxWkVtlvfxu6VxJxOTBxgTTwTzm9qp18tWe4aQeK2Y00dzoNP5zEg9wM82W5tGpHI2QW1A44vOguaK9R/98Wowgg7r4ICRS2UvMFiEe4ynbH0dDdDl9KlFbwT7bHw1dhGjdMJTbtW0t5id0M4iY2ztLM+YIWz9U8=
