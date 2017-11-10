@@ -125,7 +125,7 @@ JS
      * Looks for setting with provided `$key`
      *
      * @param string $key key to be looking for
-     * @return string
+     * @return Settings
      * @throws InvalidParamException when settings with key provided wasn't found
      */
     public static function get($key)
