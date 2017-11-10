@@ -9,6 +9,7 @@
 namespace naffiq\bridge\widgets;
 
 use yii\base\Widget;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Url;
 
 /**
@@ -74,15 +75,9 @@ class SideMenu extends Widget
         }
         $controller = \Yii::$app->controller;
 
-        if (isset($active['module']) && $active['module'] != $controller->module->id) {
-            return false;
-        }
-
-        if (isset($active['controller']) && $active['controller'] != $controller->id) {
-            return false;
-        }
-
-        if (isset($active['action']) && $active['action'] != $controller->action->id) {
+        if (ArrayHelper::getValue($active, 'module') != $controller->module->id
+            || ArrayHelper::getValue($active, 'controller') != $controller->id
+            || ArrayHelper::getValue($active, 'action') != $controller->action->id) {
             return false;
         }
 
@@ -94,6 +89,7 @@ class SideMenu extends Widget
      *
      * @param array $item
      * @return bool
+     * @throws \InvalidArgumentException
      */
     public static function isVisible($item) {
         if (empty($item['isVisible'])) {
@@ -107,13 +103,7 @@ class SideMenu extends Widget
         }
 
         if (is_array($isVisible)) {
-            foreach ($isVisible as $role) {
-                if (\Yii::$app->user->can($role)) {
-                    return true;
-                }
-
-                return false;
-            }
+            return static::checkMenuItemRoles($isVisible);
         }
 
         if (is_bool($isVisible)) {
@@ -121,5 +111,20 @@ class SideMenu extends Widget
         }
 
         throw new \InvalidArgumentException('Invalid key type provided for `isVisible` in menu');
+    }
+
+    /**
+     * Checks roles in `isVisible` menu item key if it's an array.
+     *
+     * @param array $isVisible
+     * @return bool item visibility for role
+     */
+    public static function checkMenuItemRoles($isVisible) {
+        foreach ($isVisible as $role) {
+            if (\Yii::$app->user->can($role)) {
+                return true;
+            }
+        }
+        return false;
     }
 }
