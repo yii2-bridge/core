@@ -1,6 +1,5 @@
 # Yii2 Bridge [![Build Status](https://travis-ci.org/naffiq/yii2-bridge.svg?branch=master)](https://travis-ci.org/naffiq/yii2-bridge) [![Maintainability](https://api.codeclimate.com/v1/badges/179010503a3350d57f81/maintainability)](https://codeclimate.com/github/naffiq/yii2-bridge/maintainability)
 
-
 ![Yet another admin panel](https://raw.githubusercontent.com/naffiq/yii2-bridge/master/src/assets/dist/bridge.jpg)
 
 Bridge delivers you simple content management system that utilizes best production-tested

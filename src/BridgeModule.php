@@ -256,6 +256,8 @@ class BridgeModule extends Module implements BootstrapInterface
 
 
     /**
+     * Composes menu for admin panel from config
+     *
      * @return array|mixed
      */
     public function getMenuItems()
@@ -269,36 +271,19 @@ class BridgeModule extends Module implements BootstrapInterface
         $authManager = \Yii::$app->authManager;
 
         if ($this->composeMenu === null) {
-            return ArrayHelper::merge([
-                [
-                    'title' => \Yii::t('bridge', 'Profile'),
-                    'url' => ['/user/profile', 'id' => $user->id],
-                    'active' => ['module' => 'user', 'controller' => 'admin', 'action' => 'update'],
-                    'icon' => 'user'
-                ],
-                [
-                    'title' => \Yii::t('bridge', 'Dashboard'),
-                    'url' => ['/admin/default/index'],
-                    'active' => ['module' => 'admin', 'controller' => 'default'],
-                    'icon' => 'grav',
-                ],
-                [
-                    'title' => \Yii::t('bridge', 'Settings'),
-                    'url' => ['/admin/settings/index'],
-                    'active' => ['module' => 'admin', 'controller' => 'settings'],
-                    'icon' => 'gear',
-                    'isVisible' => ['admin']
-                ],
-                [
-                    'title' => \Yii::t('bridge', 'Users'),
-                    'url' => ['/user/admin/index'],
-                    'active' => ['module' => 'user'],
-                    'icon' => 'users',
-                    'isVisible' => ['admin']
-                ]
-            ], empty($this->menu) ? [] : $this->menu);
+            return ArrayHelper::merge($this->getDefaultMenuItems(), empty($this->menu) ? [] : $this->menu);
         }
 
         return call_user_func($this->composeMenu, $user, $authManager->getRolesByUser($user->id), $authManager);
+    }
+
+    /**
+     * Returns default menu items
+     *
+     * @return mixed
+     */
+    protected function getDefaultMenuItems()
+    {
+        return require __DIR__ . '/config/menu.php';
     }
 }
