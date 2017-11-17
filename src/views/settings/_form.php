@@ -16,7 +16,6 @@ use naffiq\bridge\models\Settings;
         <?php if ($model->type == Settings::TYPE_TEXT) : ?>
             <?= $form->field($model, 'value')->richTextArea(['options' => ['rows' => 6]]) ?>
         <?php elseif ($model->type == Settings::TYPE_IMAGE) : ?>
-            <?= Html::img($model->getUploadUrl('value'), ['class' => 'img-thumbnail']) ?>
             <?= $form->field($model, 'value')->imageUpload() ?>
         <?php elseif ($model->type == Settings::TYPE_SWITCH): ?>
             <?= $form->field($model, 'value')->switchInput() ?>
