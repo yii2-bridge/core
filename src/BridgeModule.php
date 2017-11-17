@@ -156,7 +156,7 @@ class BridgeModule extends Module implements BootstrapInterface
     private function registerAliases()
     {
         \Yii::setAlias('@bridge', \Yii::getAlias('@vendor/naffiq/yii2-bridge/src'));
-        \Yii::setAlias('@bridge-assets', \Yii::getAlias('@vendor/naffiq/yii2-bridge/assets/dist/src'));
+        \Yii::setAlias('@bridge-assets', \Yii::getAlias('@vendor/naffiq/yii2-bridge/src/assets/dist/'));
     }
 
     /**
