@@ -10,9 +10,11 @@ namespace naffiq\bridge;
 
 use Da\User\Bootstrap;
 use Da\User\Component\AuthDbManagerComponent;
+use Da\User\Model\User;
 use naffiq\bridge\models\Settings;
 use yii\base\Application;
 use yii\base\BootstrapInterface;
+use yii\base\InvalidConfigException;
 use yii\base\Module;
 use yii\console\Application as ConsoleApplication;
 use yii\helpers\ArrayHelper;
@@ -133,11 +135,20 @@ class BridgeModule extends Module implements BootstrapInterface
             $this->registerAliases();
             $this->registerRoutes($app);
 
-            $app->user->loginUrl = $this->loginUrl ?: [$this->id . '/default/login'];
-            $app->user->identityClass = $this->userClass;
+            if ($app->user->identityClass !== User::className() && !is_subclass_of($app->user->identityClass, User::className())) {
+                if ($this->userClass !== User::className() && !is_subclass_of($this->userClass, User::className())) {
+                    throw new InvalidConfigException(
+                        "Either \"\\Yii::\$app->user->identityClass\" or \"BridgeModule::userClass\" should be subclass of \"\\Da\\User\\Model\\User\"."
+                        . ' Please configure your app appropriately.'
+                    );
+                }
+
+                $app->user->identityClass = $this->userClass;
+            }
 
         } elseif ($app instanceof ConsoleApplication) {
             \Yii::setAlias('@bridge-migrations', \Yii::getAlias('@vendor/naffiq/yii2-bridge/src/migrations/'));
+            \Yii::setAlias('@naffiq/bridge', \Yii::getAlias('@vendor/naffiq/yii2-bridge/src/'));
         }
 
         $this->registerGiiGenerators($app);
@@ -148,6 +159,22 @@ class BridgeModule extends Module implements BootstrapInterface
             $this->registerGoogleAnalytics();
             $this->registerYandexMetrika();
         });
+    }
+
+    /**
+     * @inheritdoc
+     *
+     * Redefine login URL for admin actions
+     */
+    public function beforeAction($action)
+    {
+        $app = \Yii::$app;
+
+        if ($app instanceof \yii\web\Application) {
+            \Yii::$app->user->loginUrl = $this->loginUrl ?: [$this->id . '/default/login'];
+        }
+
+        return parent::beforeAction($action);
     }
 
     /**
@@ -309,8 +336,9 @@ class BridgeModule extends Module implements BootstrapInterface
         ga('create', {$gaKey->value}, 'auto');
     ga('send', 'pageview');
 JS
-    , View::POS_HEAD);
-        } catch (\Exception $e) {}
+                , View::POS_HEAD);
+        } catch (\Exception $e) {
+        }
     }
 
     /**
@@ -333,6 +361,7 @@ catch(e) { } }); var n = d.getElementsByTagName("script")[0], s = d.createElemen
 <!-- /Yandex.Metrika counter -->
 HTML;
             });
-        } catch (\Exception $e) {}
+        } catch (\Exception $e) {
+        }
     }
 }
