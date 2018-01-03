@@ -32,7 +32,8 @@ class ActiveField extends \yii\widgets\ActiveField
      */
     public function richTextArea($options = [])
     {
-        return $this->widget(TinyMce::className(), $options);
+        return $this->widget(TinyMce::className(), ArrayHelper::merge($options, [
+        ]));
     }
 
     public function fileUpload($options = [])

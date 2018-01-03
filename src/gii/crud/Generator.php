@@ -179,6 +179,9 @@ class Generator extends \yii2tech\admin\gii\crud\Generator
         } elseif ($this->generateCustomFields && ColumnHelper::endsWith($column, ['date'])) {
             $input = 'datePicker';
             $cancelMaxLength = true;
+        } elseif ($this->generateCustomFields && ColumnHelper::beginsWith($column, 'is_')) {
+            $input = 'switchInput';
+            $cancelMaxLength = true;
         } else {
             $input = 'textInput';
         }
