@@ -2,6 +2,7 @@
  * Created by naffiq on 6/11/2017.
  */
 $(function() {
+    var menuToggleUrl = $('body').data('menu-toggle-url');
 
     function isMenuWide() {
         if (!localStorage) return false;
@@ -9,9 +10,13 @@ $(function() {
     }
 
     function toggleMenuWide() {
+        var shouldBeWide = !isMenuWide();
+
         if (localStorage) {
-            localStorage.setItem('bridge/wide-menu', !isMenuWide())
+            localStorage.setItem('bridge/wide-menu', shouldBeWide)
         }
+
+        $.get(menuToggleUrl + '?state=' + (shouldBeWide ? 'true' : 'false'));
     }
 
     function hamburgerClick() {
@@ -34,9 +39,14 @@ $(function() {
     if (!isMenuWide()) {
         $('ul.side-menu li.side-menu--item, .form--sign-out button').tooltip();
         $('.side-menu--collapsable').removeAttr('data-toggle');
+
+        $('.nav-menu').removeClass('wide');
+        $('.bridge-wrap').removeClass('nav-wide');
     } else {
-        $('.nav-menu').toggleClass('wide');
-        $('.bridge-wrap').toggleClass('nav-wide');
+        $.get(menuToggleUrl + '?state=true');
+
+        $('.nav-menu').addClass('wide');
+        $('.bridge-wrap').addClass('nav-wide');
     }
 
     $('.side-menu').perfectScrollbar();

@@ -11,6 +11,7 @@ namespace naffiq\bridge;
 use Da\User\Bootstrap;
 use Da\User\Component\AuthDbManagerComponent;
 use Da\User\Model\User;
+use naffiq\bridge\assets\ElFinderTheme;
 use naffiq\bridge\models\Settings;
 use yii\base\Application;
 use yii\base\BootstrapInterface;
@@ -124,6 +125,8 @@ class BridgeModule extends Module implements BootstrapInterface
      */
     public $composeMenu;
 
+    public $elFinderConfig = [];
+
     /**
      * @inheritdoc
      */
@@ -134,6 +137,7 @@ class BridgeModule extends Module implements BootstrapInterface
         if ($app instanceof WebApplication) {
             $this->registerAliases();
             $this->registerRoutes($app);
+            $this->registerElFinder();
 
             if ($app->user->identityClass !== User::className() && !is_subclass_of($app->user->identityClass, User::className())) {
                 if ($this->userClass !== User::className() && !is_subclass_of($this->userClass, User::className())) {
@@ -145,7 +149,6 @@ class BridgeModule extends Module implements BootstrapInterface
 
                 $app->user->identityClass = $this->userClass;
             }
-
         } elseif ($app instanceof ConsoleApplication) {
             \Yii::setAlias('@bridge-migrations', \Yii::getAlias('@vendor/naffiq/yii2-bridge/src/migrations/'));
             \Yii::setAlias('@naffiq/bridge', \Yii::getAlias('@vendor/naffiq/yii2-bridge/src/'));
@@ -175,6 +178,32 @@ class BridgeModule extends Module implements BootstrapInterface
         }
 
         return parent::beforeAction($action);
+    }
+
+    /**
+     * Register ElFinder controller in `BridgeModule::controllerMap`
+     */
+    private function registerElFinder()
+    {
+        $this->controllerMap = ArrayHelper::merge($this->controllerMap, [
+            'elfinder' => ArrayHelper::merge([
+                'class' => 'mihaildev\elfinder\Controller',
+                'access' => $this->allowedRoles,
+                'disabledCommands' => ['netmount'],
+                'roots' => [
+                    [
+                        'baseUrl'=>'@web',
+                        'basePath'=>'@webroot',
+                        'path' => 'media/',
+                        'name' => 'Global'
+                    ],
+                ],
+                'on beforeAction' => function () {
+                    ElFinderTheme::register(\Yii::$app->view);
+                },
+                'layout' => '@bridge/views/layouts/main.php'
+            ], $this->elFinderConfig)
+        ]);
     }
 
     /**

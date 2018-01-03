@@ -25,5 +25,12 @@ return [
         'active' => ['module' => 'user'],
         'icon' => 'users',
         'isVisible' => ['admin']
+    ],
+    [
+        'title' => \Yii::t('bridge', 'File manager'),
+        'url' => ['/admin/default/elfinder'],
+        'active' => ['module' => 'admin', 'controller' => 'default', 'view' => 'elfinder'],
+        'icon' => 'file',
+        'isVisible' => \Yii::$app->getModule('admin')->allowedRoles
     ]
 ];
