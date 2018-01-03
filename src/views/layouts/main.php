@@ -11,6 +11,7 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use yii\widgets\Breadcrumbs;
 use yii2tech\admin\widgets\ButtonContextMenu;
+use yii\helpers\Url;
 
 AdminAsset::register($this);
 
@@ -18,6 +19,8 @@ AdminAsset::register($this);
 $user = \Yii::$app->user->identity;
 /** @var \naffiq\bridge\BridgeModule $adminModule */
 $adminModule = \Yii::$app->getModule('admin');
+
+$isMenuWide = \Yii::$app->session->get('bridge-menu-state', 0);
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
@@ -29,10 +32,10 @@ $adminModule = \Yii::$app->getModule('admin');
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
 </head>
-<body>
+<body data-menu-toggle-url="<?= Url::to(['/admin/default/set-menu-state']) ?>">
 <?php $this->beginBody() ?>
 
-<div class="nav-menu">
+<div class="nav-menu<?= $isMenuWide ? ' wide' : ''?>">
     <div class="hamburger">
         <i class="fa fa-bars"></i>
     </div>
@@ -55,7 +58,7 @@ $adminModule = \Yii::$app->getModule('admin');
     <?php endif; ?>
 </div>
 
-<div class="bridge-wrap">
+<div class="bridge-wrap<?= $isMenuWide ? ' nav-wide' : ''?>">
 
     <div class="container-fluid clearfix">
         <?= Breadcrumbs::widget([

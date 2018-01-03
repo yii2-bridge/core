@@ -9,7 +9,6 @@ use naffiq\bridge\widgets\SideMenu;
  */
 ?>
 
-
 <ul class="side-menu" id="bridge--side-menu" role="tablist" aria-multiselectable="false">
     <?php foreach ($items as $key => $item): ?>
         <?php if(!SideMenu::isVisible($item)) continue ?>
