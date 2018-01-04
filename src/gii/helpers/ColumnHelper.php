@@ -66,6 +66,58 @@ class ColumnHelper
     }
 
     /**
+     * Returns input type for given column name
+     *
+     * @param string $columnName
+     * @param bool $generateCustomFields
+     * @return string
+     */
+    public static function generateInputType($columnName, $generateCustomFields = true)
+    {
+        if (preg_match('/^(password|pass|passwd|passcode)$/i', $columnName)) {
+            return 'passwordInput';
+        }
+
+        if ($generateCustomFields) {
+            if (ColumnHelper::endsWith($columnName, ['image', 'avatar'])) {
+                return 'imageUpload';
+            } elseif (ColumnHelper::endsWith($columnName, 'file')) {
+                return 'fileUpload';
+            } elseif (ColumnHelper::endsWith($columnName, ['_at', 'time'])) {
+                return 'dateTimePicker';
+            } elseif (ColumnHelper::endsWith($columnName, ['date'])) {
+                return 'datePicker';
+            } elseif (ColumnHelper::beginsWith($columnName, 'is_')) {
+                return 'switchInput';
+            }
+        }
+
+        return 'textInput';
+    }
+
+    /**
+     * Checks whether generated input field should have 'maxLength' parameter
+     *
+     * @param string $columnName
+     * @param bool $generateCustomFields
+     * @return bool
+     */
+    public static function hasMaxLength($columnName, $generateCustomFields = true)
+    {
+        if (!$generateCustomFields) {
+            return true;
+        }
+
+        if (ColumnHelper::endsWith($columnName, ['image', 'avatar', 'file', '_at', 'time', 'date'])
+            || ColumnHelper::beginsWith($columnName, 'is_')
+        ) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
      * Generates tabs indentation
      *
      * @param int $n

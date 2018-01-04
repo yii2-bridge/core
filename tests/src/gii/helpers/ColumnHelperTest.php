@@ -65,4 +65,42 @@ class ColumnHelperTest extends \PHPUnit\Framework\TestCase
     {
         $this->assertEquals('        ', ColumnHelper::pushTab(2));
     }
+
+    public function testGenerateInputType()
+    {
+        $data = [
+            'password' => ['passwordInput', true],
+            'thumb_image' => ['imageUpload', true],
+            'user_avatar' => ['imageUpload', true],
+            'created_at' => ['dateTimePicker', true],
+            'update_time' => ['dateTimePicker', true],
+            'expire_date' => ['datePicker', true],
+            'is_active' => ['switchInput', true],
+            'main_image' => ['textInput', false],
+            'anyOtherField' => ['textInput', true],
+        ];
+
+        foreach ($data as $columnName => $params) {
+            $this->assertEquals($params[0], ColumnHelper::generateInputType($columnName, $params[1]));
+        }
+    }
+
+    public function testHasMaxLength()
+    {
+        $data = [
+            'password' => [true, true],
+            'thumb_image' => [false, true],
+            'user_avatar' => [false, true],
+            'created_at' => [false, true],
+            'update_time' => [false, true],
+            'expire_date' => [false, true],
+            'is_active' => [false, true],
+            'main_image' => [true, false],
+            'anyOtherField' => [true, true],
+        ];
+
+        foreach ($data as $columnName => $params) {
+            $this->assertEquals($params[0], ColumnHelper::hasMaxLength($columnName, $params[1]));
+        }
+    }
 }
