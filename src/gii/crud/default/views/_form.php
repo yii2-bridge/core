@@ -1,7 +1,5 @@
 <?php
 
-use yii\helpers\Inflector;
-use yii\helpers\StringHelper;
 use naffiq\bridge\gii\helpers\ColumnHelper;
 
 /* @var $this yii\web\View */
