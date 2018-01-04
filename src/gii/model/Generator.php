@@ -116,7 +116,7 @@ class Generator extends \yii\gii\generators\model\Generator
     {
         $behaviors = [];
         foreach ($table->columns as $column) {
-            if (ColumnHelper::endsWith($column, ['image', 'avatar'])) {
+            if (ColumnHelper::endsWith($column->name, ['image', 'avatar'])) {
                 $behaviors[$column->name . 'Upload'] = [
                     'class' => UploadImageBehavior::className(),
                     'attribute' => $column->name,
@@ -130,7 +130,7 @@ class Generator extends \yii\gii\generators\model\Generator
                 ];
             }
 
-            if (ColumnHelper::endsWith($column, 'file')) {
+            if (ColumnHelper::endsWith($column->name, 'file')) {
                 $behaviors[$column->name . 'File'] = [
                     'class' => UploadBehavior::className(),
                     'attribute' => $column->name,
@@ -299,9 +299,9 @@ class Generator extends \yii\gii\generators\model\Generator
                 $types['required'][] = $column->name;
             }
 
-            if ($this->generateBehaviors && ColumnHelper::endsWith($column, ['image', 'avatar'])) {
+            if ($this->generateBehaviors && ColumnHelper::endsWith($column->name, ['image', 'avatar'])) {
                 $files["['gif', 'jpg', 'png', 'jpeg']"][] = $column->name;
-            } elseif ($this->generateBehaviors && ColumnHelper::endsWith($column, 'file')) {
+            } elseif ($this->generateBehaviors && ColumnHelper::endsWith($column->name, 'file')) {
                 $files["null"][] = $column->name;
             } else {
                 switch ($column->type) {

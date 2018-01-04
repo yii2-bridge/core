@@ -65,9 +65,9 @@ $count = 0;
 if (($tableSchema = $generator->getTableSchema()) === false) {
     foreach ($generator->getColumnNames() as $name) {
         if (++$count < 6) {
-            echo "        '" . $name . "',\n";
+            echo ColumnHelper::pushTab(2) . "'" . $name . "',\n";
         } else {
-            echo "        // '" . $name . "',\n";
+            echo ColumnHelper::pushTab(2) . "// '" . $name . "',\n";
         }
     }
 } else {
@@ -75,7 +75,7 @@ if (($tableSchema = $generator->getTableSchema()) === false) {
         $format = $generator->generateGridColumnFormat($column);
         if ($format === false) continue;
 
-        echo '        ' . (++$count > 5 ? '// ' : '');
+        echo ColumnHelper::pushTab(2) . (++$count > 5 ? '// ' : '');
         if (is_array($format)) {
             echo "[\n";
             foreach ($format as $item => $value) {

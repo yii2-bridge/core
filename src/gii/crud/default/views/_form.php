@@ -2,6 +2,7 @@
 
 use yii\helpers\Inflector;
 use yii\helpers\StringHelper;
+use naffiq\bridge\gii\helpers\ColumnHelper;
 
 /* @var $this yii\web\View */
 /* @var $generator \naffiq\bridge\gii\crud\Generator */
@@ -32,7 +33,7 @@ use naffiq\bridge\widgets\ActiveForm;
 
 <?php foreach ($generator->getColumnNames() as $attribute) {
     if (in_array($attribute, $safeAttributes)) {
-        echo "        <?= " . $generator->generateActiveField($attribute) . " ?>\n\n";
+        echo ColumnHelper::pushTab(2) .  "<?= " . $generator->generateActiveField($attribute) . " ?>\n\n";
     }
 } ?>
         <div class="form-group">

@@ -8,59 +8,76 @@
 
 namespace naffiq\bridge\gii\helpers;
 
-
-use yii\db\ColumnSchema;
-
+/**
+ * Class ColumnHelper
+ *
+ * Helps determine
+ *
+ * @package naffiq\bridge\gii\helpers
+ */
 class ColumnHelper
 {
     /**
-     * Checks if `$column` ends with `$endString`
+     * Checks if `$columnName` ends with `$endString`
      *
-     * @param ColumnSchema $column
-     * @param $endString
+     * @param string $columnName
+     * @param array|string $endString
+     * @param bool $strict
      * @return bool
      */
-    public static function endsWith(ColumnSchema $column, $endString)
+    public static function endsWith($columnName, $endString, $strict = false)
     {
-        $columnName = strtolower($column->name);
         if (is_array($endString)) {
             foreach ($endString as $string) {
-                if (static::endsWith($column, $string)) {
+                if (static::endsWith($columnName, $string)) {
                     return true;
                 }
             }
             return false;
         } else {
-            return strpos($columnName, $endString) === strlen($columnName) - strlen($endString);
+            $lowerName = $strict ? $columnName : mb_strtolower($columnName);
+
+            return strpos($lowerName, $endString) === strlen($lowerName) - strlen($endString);
         }
     }
 
     /**
-     * Checks if `$column` begins with `$begin`
+     * Checks if `$columnName` begins with `$begin`
      *
-     * @param ColumnSchema $column
-     * @param $beginString
+     * @param string $columnName
+     * @param array|string $beginString
+     * @param bool $strict
      * @return bool
      */
-    public static function beginsWith(ColumnSchema $column, $beginString)
+    public static function beginsWith($columnName, $beginString, $strict = false)
     {
-        $columnName = strtolower($column->name);
         if (is_array($beginString)) {
             foreach ($beginString as $string) {
-                if (static::beginsWith($column, $string)) {
+                if (static::beginsWith($columnName, $string)) {
                     return true;
                 }
             }
             return false;
         } else {
-            return strpos($columnName, $beginString) === 0;
+            $lowerName = $strict ? $columnName : mb_strtolower($columnName);
+
+            return strpos($lowerName, $beginString) === 0;
         }
     }
 
+    /**
+     * Generates tabs indentation
+     *
+     * @param int $n
+     * @return string
+     */
     public static function pushTab($n = 1)
     {
         $tab = '    ';
-        for ($result = ''; strlen($result) / strlen($tab) < $n; $result .= $tab);
+        $result = '';
+        for ($i = 0; $i < $n; $i++) {
+            $result .= $tab;
+        }
         return $result;
     }
 }
