@@ -81,13 +81,17 @@ class ColumnHelper
         if ($generateCustomFields) {
             if (ColumnHelper::endsWith($columnName, ['image', 'avatar'])) {
                 return 'imageUpload';
-            } elseif (ColumnHelper::endsWith($columnName, 'file')) {
+            }
+            if (ColumnHelper::endsWith($columnName, 'file')) {
                 return 'fileUpload';
-            } elseif (ColumnHelper::endsWith($columnName, ['_at', 'time'])) {
+            }
+            if (ColumnHelper::endsWith($columnName, ['_at', 'time'])) {
                 return 'dateTimePicker';
-            } elseif (ColumnHelper::endsWith($columnName, ['date'])) {
+            }
+            if (ColumnHelper::endsWith($columnName, ['date'])) {
                 return 'datePicker';
-            } elseif (ColumnHelper::beginsWith($columnName, 'is_')) {
+            }
+            if (ColumnHelper::beginsWith($columnName, 'is_')) {
                 return 'switchInput';
             }
         }
