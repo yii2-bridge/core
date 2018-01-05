@@ -16,6 +16,8 @@ use kartik\widgets\SwitchInput;
 use mongosoft\file\UploadBehavior;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
+use mihaildev\ckeditor\CKEditor;
+use mihaildev\elfinder\ElFinder;
 
 /**
  * Class ActiveField
@@ -32,8 +34,10 @@ class ActiveField extends \yii\widgets\ActiveField
      */
     public function richTextArea($options = [])
     {
-        return $this->widget(TinyMce::className(), ArrayHelper::merge($options, [
-        ]));
+        return $this->widget(CKEditor::className(), ArrayHelper::merge([
+            'editorOptions' => ElFinder::ckeditorOptions(['/admin/elfinder', 'path' => 'some/sub/path'],['preset' => 'full', 'inline' => false]),
+        ], $options));
+
     }
 
     public function fileUpload($options = [])
