@@ -29,13 +29,15 @@ use mihaildev\elfinder\ElFinder;
 class ActiveField extends \yii\widgets\ActiveField
 {
     /**
+     * @param array $options
      * @return $this
      */
-    public function richTextArea()
+    public function richTextArea($options = [])
     {
-        return $this->widget(CKEditor::className(), [
+        return $this->widget(CKEditor::className(), ArrayHelper::merge([
             'editorOptions' => ElFinder::ckeditorOptions(['/admin/elfinder', 'path' => 'some/sub/path'],['preset' => 'full', 'inline' => false]),
-        ]);
+        ], $options));
+
     }
 
     public function fileUpload($options = [])
