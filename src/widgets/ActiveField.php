@@ -29,10 +29,9 @@ use mihaildev\elfinder\ElFinder;
 class ActiveField extends \yii\widgets\ActiveField
 {
     /**
-     * @param array $options
      * @return $this
      */
-    public function richTextArea($options = [])
+    public function richTextArea()
     {
         return $this->widget(CKEditor::className(), [
             'editorOptions' => ElFinder::ckeditorOptions(['/admin/elfinder', 'path' => 'some/sub/path'],['preset' => 'full', 'inline' => false]),
