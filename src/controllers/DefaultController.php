@@ -94,28 +94,6 @@ class DefaultController extends Controller
     }
 
     /**
-     * Uploading image
-     *
-     * @throws Exception
-     */
-    public function actionImageUpload()
-    {
-        \Yii::$app->response->format = Response::FORMAT_JSON;
-
-        $uploadedFile = UploadedFile::getInstanceByName('file');
-        if (FileHelper::createDirectory(\Yii::getAlias('@webroot/media/tinymce/'))) {
-            $fileName = uniqid(time().'_') . '.' . $uploadedFile->extension;
-            $uploadedFile->saveAs(\Yii::getAlias('@webroot/media/tinymce/') . $fileName);
-
-            return [
-                'location' => \Yii::getAlias('@web/media/tinymce/') . $fileName
-            ];
-        }
-
-        throw new Exception('Woooowowowow, wait wait wait a minute. Something wrong happened, I need you to debug it.');
-    }
-
-    /**
      * ElFinder file manager
      *
      * @return string
