@@ -139,7 +139,7 @@ class Generator extends \yii2tech\admin\gii\crud\Generator
             return 'email';
         } elseif (stripos($column->name, 'url') !== false) {
             return 'url';
-        } elseif (ColumnHelper::endsWith($column, ['image', 'avatar'])) {
+        } elseif (ColumnHelper::endsWith($column->name, ['image', 'avatar'])) {
             return [
                 'class' => ImageColumn::className(),
                 'attribute' => $column->name
@@ -157,34 +157,16 @@ class Generator extends \yii2tech\admin\gii\crud\Generator
         $tableSchema = $this->getTableSchema();
 
         $column = $tableSchema->columns[$attribute];
+        $columnName = $column->name;
 
-        $cancelMaxLength = false;
         if ($column->phpType === 'boolean') {
             return "\$form->field(\$model, '$attribute')->switchInput()";
         } elseif ($column->type === 'text') {
             return "\$form->field(\$model, '$attribute')->richTextArea(['options' => ['rows' => 6]])";
         }
 
-        if (preg_match('/^(password|pass|passwd|passcode)$/i', $column->name)) {
-            $input = 'passwordInput';
-        } elseif ($this->generateCustomFields && ColumnHelper::endsWith($column, ['image', 'avatar'])) {
-            $input = 'imageUpload';
-            $cancelMaxLength = true;
-        } elseif ($this->generateCustomFields && ColumnHelper::endsWith($column, 'file')) {
-            $input = 'fileUpload';
-            $cancelMaxLength = true;
-        } elseif ($this->generateCustomFields && ColumnHelper::endsWith($column, ['_at', 'time'])) {
-            $input = 'dateTimePicker';
-            $cancelMaxLength = true;
-        } elseif ($this->generateCustomFields && ColumnHelper::endsWith($column, ['date'])) {
-            $input = 'datePicker';
-            $cancelMaxLength = true;
-        } elseif ($this->generateCustomFields && ColumnHelper::beginsWith($column, 'is_')) {
-            $input = 'switchInput';
-            $cancelMaxLength = true;
-        } else {
-            $input = 'textInput';
-        }
+        $hasMaxLength = ColumnHelper::hasMaxLength($columnName, $this->generateCustomFields);
+        $input = ColumnHelper::generateInputType($columnName, $this->generateCustomFields);
 
         if (is_array($column->enumValues) && count($column->enumValues) > 0) {
             $dropDownOptions = [];
@@ -193,7 +175,7 @@ class Generator extends \yii2tech\admin\gii\crud\Generator
             }
             return "\$form->field(\$model, '$attribute')->dropDownList("
                 . preg_replace("/\n\s*/", ' ', VarDumper::export($dropDownOptions)) . ", ['prompt' => ''])";
-        } elseif ($column->phpType !== 'string' || $column->size === null || $cancelMaxLength) {
+        } elseif ($column->phpType !== 'string' || $column->size === null || !$hasMaxLength) {
             return "\$form->field(\$model, '$attribute')->$input()";
         }
 

@@ -13,7 +13,7 @@
     </testsuite>
 
     <!--<logging>-->
-        <!--<log type="coverage-html" target="build/logs/html"/>-->
+        <!--<log type="coverage-html" target="tests/_output"/>-->
     <!--</logging>-->
 
     <filter>
