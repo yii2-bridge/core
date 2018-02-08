@@ -22,7 +22,6 @@ class AdminAsset extends AssetBundle
         'admin.css',
         'elfinder/css/theme.css',
         '//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css',
-        '//maxcdn.bootstrapcdn.com/bootswatch/latest/flatly/bootstrap.min.css',
         '//cdnjs.cloudflare.com/ajax/libs/jquery.perfect-scrollbar/0.8.1/css/perfect-scrollbar.min.css'
     ];
 
