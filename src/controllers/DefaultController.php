@@ -45,6 +45,10 @@ class DefaultController extends Controller
                     ],
                     [
                         'allow' => true,
+                        'actions' => ['set-menu-state'],
+                    ],
+                    [
+                        'allow' => true,
                         'roles' => ['@']
                     ]
                 ],
