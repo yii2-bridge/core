@@ -3,6 +3,7 @@
 namespace naffiq\bridge\models;
 
 use mongosoft\file\UploadImageBehavior;
+use naffiq\bridge\assets\AdminAsset;
 use naffiq\bridge\models\query\SettingsQuery;
 use Yii;
 use yii\base\InvalidParamException;
@@ -190,7 +191,12 @@ JS
     public function __toString()
     {
         if ($this->type == static::TYPE_IMAGE) {
-            return $this->getUploadUrl('value');
+            if ($this->value) {
+                return $this->getUploadUrl('value');
+            }
+
+            $bundle = \Yii::$app->assetManager->getBundle(AdminAsset::className());
+            return \Yii::$app->assetManager->getAssetUrl($bundle, 'avatar@2x.jpg');
         }
         return (string) $this->value;
     }
