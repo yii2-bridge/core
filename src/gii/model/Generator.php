@@ -33,6 +33,14 @@ class Generator extends \yii\gii\generators\model\Generator
     /**
      * @inheritdoc
      */
+    public function getName()
+    {
+        return 'Bridge Model Generator';
+    }
+
+    /**
+     * @inheritdoc
+     */
     public function rules()
     {
         return ArrayHelper::merge(parent::rules(), [

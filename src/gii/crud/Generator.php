@@ -62,6 +62,14 @@ class Generator extends \yii2tech\admin\gii\crud\Generator
     /**
      * @inheritdoc
      */
+    public function getName()
+    {
+        return 'Bridge CRUD Generator';
+    }
+
+    /**
+     * @inheritdoc
+     */
     public function rules()
     {
         return ArrayHelper::merge(parent::rules(), [
