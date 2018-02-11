@@ -9,6 +9,8 @@
 namespace naffiq\bridge\gii\crud;
 
 
+use dosamigos\grid\columns\ToggleColumn;
+use naffiq\bridge\gii\helpers\ArrayString;
 use naffiq\bridge\gii\helpers\ColumnHelper;
 use naffiq\bridge\widgets\columns\ImageColumn;
 use naffiq\bridge\widgets\columns\TitledImageColumn;
@@ -17,6 +19,7 @@ use yii\base\Model;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Inflector;
 use yii\helpers\VarDumper;
+use yii2tech\admin\grid\PositionColumn;
 
 /**
  * Class Generator
@@ -48,12 +51,21 @@ class Generator extends \yii2tech\admin\gii\crud\Generator
     public $generateCustomFields = true;
 
     /**
+     * @var bool
+     */
+    public $generatePositionColumn = true;
+    /**
+     * @var bool
+     */
+    public $generateToggleColumn = true;
+
+    /**
      * @inheritdoc
      */
     public function rules()
     {
         return ArrayHelper::merge(parent::rules(), [
-            ['generateCustomFields', 'safe']
+            [['generateCustomFields', 'generatePositionColumn', 'generateToggleColumn'], 'safe'],
         ]);
     }
 
@@ -63,7 +75,9 @@ class Generator extends \yii2tech\admin\gii\crud\Generator
     public function attributeLabels()
     {
         return ArrayHelper::merge(parent::rules(), [
-            'generateCustomFields' => 'Generate fields with input for complex data types'
+            'generateCustomFields' => 'Generate fields with input for complex data types',
+            'generatePositionColumn' => 'Generate position attribute column as sortable arrows',
+            'generateToggleColumn' => 'Generate switch on index page'
         ]);
     }
 
@@ -125,6 +139,27 @@ class Generator extends \yii2tech\admin\gii\crud\Generator
                     'imageAttribute' => 'image'
                 ];
             }
+        } elseif ($column->name === 'position' && $this->generatePositionColumn) {
+            return [
+                'class' => PositionColumn::className(),
+                'value' => 'position',
+                'template' => '<div class="btn-group">{first}&nbsp;{prev}&nbsp;{next}&nbsp;{last}</div>',
+                'buttonOptions' => new ArrayString(['class' => 'btn btn-info btn-xs'])
+            ];
+        } elseif ($this->generateToggleColumn && ColumnHelper::beginsWith($column->name, 'is_')) {
+            return [
+                'class' => ToggleColumn::className(),
+                'attribute' => $column->name,
+                'onValue' => 1,
+                'onLabel' => 'Active',
+                'offLabel' => 'Not active',
+                'contentOptions' => new ArrayString(['class' => 'text-center']),
+                'afterToggle' => 'function(r, data){if(r){console.log("done", data)};}',
+                'filter' => new ArrayString([
+                    1 => 'Active',
+                    0 => 'Not active'
+                ])
+            ];
         }
 
         if ($column->phpType === 'boolean') {
