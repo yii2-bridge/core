@@ -18,8 +18,8 @@ namespace <?= StringHelper::dirname(ltrim($generator->controllerClass, '\\')) ?>
 
 use <?= ltrim($generator->baseControllerClass, '\\') ?>;
 <?php if (!empty($contexts)): ?>
-    use yii\helpers\ArrayHelper;
-    use yii2tech\admin\behaviors\ContextModelControlBehavior;
+use yii\helpers\ArrayHelper;
+use yii2tech\admin\behaviors\ContextModelControlBehavior;
 <?php endif ?>
 
 /**
@@ -39,16 +39,19 @@ class <?= $controllerClass ?> extends <?= StringHelper::basename($generator->bas
     public $searchModelClass = '<?= $generator->searchModelClass ?>';
 <?php endif ?>
 
-
+<?php if ($generator->hasScenario($generator->createScenario)) : ?>
     /**
-     * @inheritdoc
-     */
+    * @inheritdoc
+    */
     public $createScenario = '<?= $generator->createScenario ?>';
+<?php endif; ?>
 
+<?php if ($generator->hasScenario($generator->updateScenario)) : ?>
     /**
-     * @inheritdoc
-     */
+    * @inheritdoc
+    */
     public $updateScenario = '<?= $generator->updateScenario ?>';
+<?php endif; ?>
 
 <?php if (!empty($contexts)): ?>
     /**

@@ -13,6 +13,7 @@ use naffiq\bridge\gii\helpers\ColumnHelper;
 use naffiq\bridge\widgets\columns\ImageColumn;
 use naffiq\bridge\widgets\columns\TitledImageColumn;
 use naffiq\bridge\widgets\columns\TruncatedTextColumn;
+use yii\base\Model;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Inflector;
 use yii\helpers\VarDumper;
@@ -180,5 +181,18 @@ class Generator extends \yii2tech\admin\gii\crud\Generator
         }
 
         return "\$form->field(\$model, '$attribute')->$input(['maxlength' => true])";
+    }
+
+    /**
+     * Checks if controller model has scenario to prevent errors
+     *
+     * @param $scenarioName
+     * @return bool
+     */
+    public function hasScenario($scenarioName)
+    {
+        /** @var Model $model */
+        $model = new $this->modelClass();
+        return ArrayHelper::getValue($model->scenarios(), $scenarioName, null) !== null;
     }
 }
