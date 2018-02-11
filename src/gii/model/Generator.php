@@ -21,6 +21,7 @@ use yii\db\TableSchema;
 use yii\gii\CodeFile;
 use Yii;
 use yii\helpers\ArrayHelper;
+use yii2tech\ar\position\PositionBehavior;
 
 class Generator extends \yii\gii\generators\model\Generator
 {
@@ -55,7 +56,11 @@ class Generator extends \yii\gii\generators\model\Generator
     public function hints()
     {
         return ArrayHelper::merge(parent::hints(), [
-            'generateBehaviors' => 'If column name has <code>image</code> at the end, <code>ImageUploadBehavior</code> will be added'
+            'generateBehaviors' => '<h5>List of behaviors to be generated:</h5>
+<ul>
+    <li>If column name has <code>image</code> at the end, <code>ImageUploadBehavior</code> will be added</li>
+    <li><code>PositionBehavior</code> added to model, if there is <code>position</code> column in table</li>
+</ul>'
         ]);
     }
 
@@ -137,6 +142,13 @@ class Generator extends \yii\gii\generators\model\Generator
                     'path' => '@webroot/media/'.$table->name.'/{id}',
                     'url' => '@web/media/'.$table->name.'/{id}',
                     'scenarios' => new ArrayString(['create', 'update'], true),
+                ];
+            }
+
+            if ($column->name === 'position') {
+                $behaviors[$column->name . 'Sort'] = [
+                    'class' => PositionBehavior::className(),
+                    'positionAttribute' => $column->name
                 ];
             }
         }

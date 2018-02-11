@@ -11,7 +11,8 @@
         "2amigos/yii2-usuario": "^1.0",
         "phpdocumentor/reflection-docblock": "^4.1.1",
         "mihaildev/yii2-elfinder": "^1.2",
-        "mihaildev/yii2-ckeditor": "*"
+        "mihaildev/yii2-ckeditor": "*",
+        "yii2tech/ar-position": "^1.0"
     },
     "license": "MIT",
     "authors": [
