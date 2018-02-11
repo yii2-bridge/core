@@ -5,13 +5,13 @@
 /* @var $content string */
 
 use naffiq\bridge\assets\AdminAsset;
+use naffiq\bridge\models\Settings;
 use naffiq\bridge\widgets\SideMenu;
-use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
+use yii\helpers\Url;
 use yii\widgets\ActiveForm;
 use yii\widgets\Breadcrumbs;
 use yii2tech\admin\widgets\ButtonContextMenu;
-use yii\helpers\Url;
 
 AdminAsset::register($this);
 
@@ -35,10 +35,20 @@ $isMenuWide = \Yii::$app->session->get('bridge-menu-state', 0);
 <body data-menu-toggle-url="<?= Url::to(['/admin/default/set-menu-state']) ?>">
 <?php $this->beginBody() ?>
 
-<div class="nav-menu<?= $isMenuWide ? ' wide' : ''?>">
-    <div class="hamburger">
-        <i class="fa fa-bars"></i>
+<div class="nav-menu<?= $isMenuWide ? ' wide' : '' ?>">
+    <div class="nav-menu--header">
+        <div class="nav-menu--header-hamburger">
+            <i class="fa fa-arrow-left"></i>
+        </div>
+        <div class="nav-menu--header-title">
+            <?= Settings::getOrCreate('admin-header', [
+                'title' => 'Admin title',
+                'value' => 'Bridge',
+                'type' => Settings::TYPE_STRING
+            ]) ?>
+        </div>
     </div>
+
 
     <?= SideMenu::widget([
         'items' => $adminModule->getMenuItems()
@@ -58,9 +68,8 @@ $isMenuWide = \Yii::$app->session->get('bridge-menu-state', 0);
     <?php endif; ?>
 </div>
 
-<div class="bridge-wrap<?= $isMenuWide ? ' nav-wide' : ''?>">
-
-    <div class="container-fluid clearfix">
+<div class="bridge-wrap<?= $isMenuWide ? ' nav-wide' : '' ?>">
+    <div class="content-header container-fluid">
         <?= Breadcrumbs::widget([
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
             'options' => ['class' => 'breadcrumb breadcrumb-arrow'],
@@ -70,16 +79,27 @@ $isMenuWide = \Yii::$app->session->get('bridge-menu-state', 0);
                 'url' => ['/admin/']
             ]
         ]) ?>
+    </div>
 
-        <h1><?= Html::encode(isset($this->params['header']) ? $this->params['header'] : $this->title) ?></h1>
+    <div class="container-fluid clearfix">
 
-        <p>
-            <?= ButtonContextMenu::widget([
-                'items' => isset($this->params['contextMenuItems']) ? $this->params['contextMenuItems'] : []
-            ]) ?>
-        </p>
 
-        <?= $content ?>
+        <div class="row bridge-admin--page-title-row">
+            <div class="col-md-7 col-xs-6">
+                <h1 class="bridge-admin--page-title"><?= Html::encode(isset($this->params['header']) ? $this->params['header'] : $this->title) ?></h1>
+            </div>
+            <div class="col-md-5 text-right col-xs-6">
+                <?= ButtonContextMenu::widget([
+                    'items' => isset($this->params['contextMenuItems']) ? $this->params['contextMenuItems'] : []
+                ]) ?>
+            </div>
+        </div>
+
+        <div class="panel">
+            <div class="panel-body">
+                <?= $content ?>
+            </div>
+        </div>
     </div>
 
     <footer class="footer">

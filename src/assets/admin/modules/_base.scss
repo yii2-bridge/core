@@ -1,20 +1,42 @@
 html,
 body {
   height: 100%;
+  font-family: 'Open Sans', sans-serif;
+  background-color: #F5F6FB;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 500;
 }
 
 .bridge-wrap {
   margin-left: 50px;
-  padding-top: 7px;
 
   -webkit-transition: margin-left .2s;
   transition: margin-left .2s;
   &.nav-wide {
     margin-left: 250px;
-
+    .content-header {
+      height: $header-height;
+    }
   }
   min-height: calc(100vh - 50px);
   position: relative;
+
+  .content-header {
+    height: 50px;
+    background-color: #FFF;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    -webkit-transition: height .2s;
+    transition: height .2s;
+
+    .breadcrumb {
+      margin-bottom: 0;
+    }
+  }
 
   .footer {
     position: absolute;
@@ -30,6 +52,24 @@ a:not(.btn) {
     color: $link-color;
   }
 }
+
 img {
   max-width: 100%;
+}
+
+.bridge-admin--page-title-row {
+  margin-top: 15px;
+
+  .bridge-admin--page-title {
+    margin-top: 0;
+  }
+}
+
+.table {
+  td {
+    border-left: 1px solid $side-menu--item-link;
+    &:first-child {
+      border-left-width: 0;
+    }
+  }
 }

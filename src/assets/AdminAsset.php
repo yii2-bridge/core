@@ -19,10 +19,11 @@ class AdminAsset extends AssetBundle
     public $sourcePath = '@bridge-assets';
 
     public $css = [
+        '//fonts.googleapis.com/css?family=Caveat|Open+Sans:300,400,700|Roboto:500&amp;subset=cyrillic,cyrillic-ext',
+        '//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css',
+        '//cdnjs.cloudflare.com/ajax/libs/jquery.perfect-scrollbar/0.8.1/css/perfect-scrollbar.min.css',
         'admin.css',
         'elfinder/css/theme.css',
-        '//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css',
-        '//cdnjs.cloudflare.com/ajax/libs/jquery.perfect-scrollbar/0.8.1/css/perfect-scrollbar.min.css'
     ];
 
     public $js = [

@@ -34,7 +34,7 @@ $(function() {
         }
     }
 
-    $('.nav-menu .hamburger').click(hamburgerClick);
+    $('.nav-menu--header-hamburger').click(hamburgerClick);
 
     if (!isMenuWide()) {
         $('ul.side-menu li.side-menu--item, .form--sign-out button').tooltip();

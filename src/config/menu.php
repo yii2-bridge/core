@@ -1,17 +1,12 @@
 <?php
 return [
     [
-        'title' => \Yii::t('bridge', 'Profile'),
-        'url' => ['/user/profile', 'id' => \Yii::$app->user->id],
-        'active' => ['module' => 'user', 'controller' => 'admin', 'action' => 'update'],
-        'icon' => 'user'
-    ],
-    [
         'title' => \Yii::t('bridge', 'Dashboard'),
         'url' => ['/admin/default/index'],
         'active' => ['module' => 'admin', 'controller' => 'default'],
         'icon' => 'grav',
     ],
+    \Yii::t('bridge', 'System'),
     [
         'title' => \Yii::t('bridge', 'Settings'),
         'url' => ['/admin/settings/index'],
@@ -32,5 +27,6 @@ return [
         'active' => ['module' => 'admin', 'controller' => 'default', 'view' => 'elfinder'],
         'icon' => 'file',
         'isVisible' => \Yii::$app->getModule('admin')->allowedRoles
-    ]
+    ],
+    \Yii::t('bridge', 'Content'),
 ];

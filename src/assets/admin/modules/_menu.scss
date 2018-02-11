@@ -15,6 +15,19 @@
 
   background-color: $side-menu-bg;
 
+  .nav-menu--header {
+    width: 100%;
+    height: $header-height;
+    background-image: linear-gradient(to bottom right, #55CBEE, #2F7ADB);
+
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+
+    -webkit-transition: padding .2s, height .2s;
+    transition: padding .2s, height .2s;
+  }
+
   &.wide {
     width: 250px;
 
@@ -34,31 +47,57 @@
         }
       }
     }
-
-    .hamburger {
-      width: 100%;
-      text-align: left;
-      padding: 0 15px;
-    }
     .form--sign-out .sign-out--title {
       display: inline-block;
       text-align: center;
       margin-right: 15px;
     }
+    .nav-menu--header {
+      //padding: 20px;
+    }
   }
   &:not(.wide) {
+    .nav-menu--header {
+      height: 50px;
+      position: relative;
+
+      .nav-menu--header-hamburger {
+        filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=10);
+        -webkit-transform: rotate(180deg);
+        -moz-transform: rotate(180deg);
+        -ms-transform: rotate(180deg);
+        -o-transform: rotate(180deg);
+        transform: rotate(180deg);
+      }
+      .nav-menu--header-title {
+        //display: none;
+        opacity: 0;
+        position: absolute;
+        left: 100px;
+      }
+    }
+    .side-menu--item-divider {
+      font-size: 0;
+      border-top-width: 1px;
+      padding: 5px;
+      &:before {
+        width: 30px;
+        left: 10px;
+      }
+    }
+
     .side-menu li.side-menu--item.with--sub-menu {
       &:hover {
         ul.sub-menu {
           display: block;
           background-color: #1a1a1a;
-          border-left: 3px $hamburger-bg solid;
+          border-left: 3px $nav-menu--header-bg solid;
           height: auto !important;
         }
       }
 
       .sub-menu {
-        border-left: 3px $hamburger-bg solid;
+        border-left: 3px $nav-menu--header-bg solid;
         background-color: #1a1a1a;
         position: fixed;
         left: 50px;
@@ -78,22 +117,66 @@
     }
   }
 
-
-  .hamburger {
+  .nav-menu--header-hamburger {
     position: relative;
     cursor: pointer;
-    width: 100%;
+    width: 50px;
     height: 50px;
 
-    -webkit-transition: text-align .2s;
-    transition: text-align .2s;
+    -webkit-transition: transform .2s;
+    transition: transform .2s;
+
+    filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=0);
+    -webkit-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
 
     color: #FFF;
     text-align: center;
     line-height: 50px;
     font-size: 24px;
 
-    background-color: $hamburger-bg;
+    //background-color: $nav-menu--header-bg;
+  }
+  .nav-menu--header-title {
+    color: #FFF;
+    font-family: 'Roboto', sans-serif;
+    font-weight: bold;
+    font-size: 18px;
+    opacity: 1;
+    margin-left: 10px;
+    left: 50px;
+
+    -webkit-transition: opacity .2s, left .2s;
+    transition: opacity .2s, left .2s;
+    text-shadow: 0px 0px 30px $side-menu--container-hover;
+  }
+  .side-menu--item-divider {
+    padding: 15px;
+    color: $side-menu--item-link;
+    letter-spacing: 2px;
+    font-weight: 400;
+    font-size: 12px;
+    text-transform: uppercase;
+
+    -webkit-transition: font-size .2s, padding .2s, border-top-width .2s;
+    transition: font-size .2s, padding .2s, border-top-width .2s;
+    position: relative;
+
+    &:before {
+      position: absolute;
+      width: 0;
+      content: ' ';
+      left: 25px;
+      top: 5px;
+      box-shadow: 0 0 5px 1px rgba(0, 0, 0, .5);
+      height: 1px;
+      background-color: $side-menu--item-link;
+      -webkit-transition: width .2s, left .2s;
+      transition: width .2s, left .2s;
+    }
   }
 
   .side-menu {
@@ -107,7 +190,7 @@
       //position: relative;
 
       &:hover {
-        background-color: rgba(0, 0, 0, 1);
+        background-color: $side-menu--container-hover;
       }
 
       &.active {
@@ -117,11 +200,16 @@
 
         background-color: $side-menu--active-item;
         a div {
-          color: #fff;
+          color: $side-menu--active-item;
         }
       }
       a {
-        display: block;
+
+        display: flex;
+        flex: 1;
+        justify-content: flex-start;
+        align-items: center;
+
         height: 50px;
         text-decoration: none;
 
@@ -133,7 +221,7 @@
           height: 50px;
           line-height: 50px;
           text-align: center;
-          font-size: 20px;
+          font-size: 24px;
         }
 
         .title {
@@ -141,6 +229,7 @@
           display: none;
           line-height: 50px;
           font-size: 14px;
+          font-weight: lighter;
           width: calc(100% - 50px);
           padding-left: 10px;
 
