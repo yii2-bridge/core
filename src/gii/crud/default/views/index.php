@@ -57,6 +57,9 @@ $this->params['contextMenuItems'] = [
 <?= "<?= " ?>GridView::widget([
     'dataProvider' => $dataProvider,
     'options' => ['class' => 'grid-view table-responsive'],
+    'behaviors' => [
+        \dosamigos\grid\behaviors\ResizableColumnsBehavior::className()
+    ],
     <?= !empty($generator->searchModelClass) ? "'filterModel' => \$searchModel,\n    'columns' => [\n" : "'columns' => [\n"; ?>
         ['class' => 'yii\grid\SerialColumn'],
 
@@ -79,7 +82,7 @@ if (($tableSchema = $generator->getTableSchema()) === false) {
         if (is_array($format)) {
             echo "[\n";
             foreach ($format as $item => $value) {
-                echo ColumnHelper::pushTab(3) . (++$count > 5 ? '// ' : '') . "'{$item}' => " . (is_string($value) ? "'{$value}'" : $value) . ",\n";
+                echo ColumnHelper::pushTab(3) . ($count > 5 ? '// ' : '') . "'{$item}' => " . (is_string($value) ? "'{$value}'" : $value) . ",\n";
             }
             echo ColumnHelper::pushTab(2) . ($count > 5 ? '// ' : '') . "],\n";
         } else {
