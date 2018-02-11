@@ -30,7 +30,7 @@ use naffiq\bridge\widgets\ActiveForm;
         <?= "<?php " ?>$form = ActiveForm::begin(); ?>
 
 <?php foreach ($generator->getColumnNames() as $attribute) {
-    if (in_array($attribute, $safeAttributes)) {
+    if (in_array($attribute, $safeAttributes) && $attribute !== 'id' && !($generator->generatePositionColumn && $attribute == 'position')) {
         echo ColumnHelper::pushTab(2) .  "<?= " . $generator->generateActiveField($attribute) . " ?>\n\n";
     }
 } ?>
