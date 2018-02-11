@@ -22,6 +22,7 @@ use yii\gii\CodeFile;
 use Yii;
 use yii\helpers\ArrayHelper;
 use yii2tech\ar\position\PositionBehavior;
+use yii2tech\ar\softdelete\SoftDeleteBehavior;
 
 class Generator extends \yii\gii\generators\model\Generator
 {
@@ -68,6 +69,7 @@ class Generator extends \yii\gii\generators\model\Generator
 <ul>
     <li>If column name has <code>image</code> at the end, <code>ImageUploadBehavior</code> will be added</li>
     <li><code>PositionBehavior</code> added to model, if there is <code>position</code> column in table</li>
+    <li><code>SoftDeleteBehavior</code> for <code>isDeleted</code> attribute</li>
 </ul>'
         ]);
     }
@@ -157,6 +159,15 @@ class Generator extends \yii\gii\generators\model\Generator
                 $behaviors[$column->name . 'Sort'] = [
                     'class' => PositionBehavior::className(),
                     'positionAttribute' => $column->name
+                ];
+            }
+
+            if ($column->name === 'isDeleted') {
+                $behaviors['softDeleteBehavior'] = [
+                    'class' => SoftDeleteBehavior::className(),
+                    'softDeleteAttributeValues' => new ArrayString([
+                        $column->name => true
+                    ])
                 ];
             }
         }
