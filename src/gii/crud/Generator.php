@@ -16,6 +16,8 @@ use naffiq\bridge\widgets\columns\ImageColumn;
 use naffiq\bridge\widgets\columns\TitledImageColumn;
 use naffiq\bridge\widgets\columns\TruncatedTextColumn;
 use yii\base\Model;
+use yii\db\ActiveRecord;
+use yii\db\Schema;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Inflector;
 use yii\helpers\VarDumper;
@@ -59,6 +61,8 @@ class Generator extends \yii2tech\admin\gii\crud\Generator
      */
     public $generateToggleColumn = true;
 
+    public $generateSoftDelete = true;
+
     /**
      * @inheritdoc
      */
@@ -73,7 +77,15 @@ class Generator extends \yii2tech\admin\gii\crud\Generator
     public function rules()
     {
         return ArrayHelper::merge(parent::rules(), [
-            [['generateCustomFields', 'generatePositionColumn', 'generateToggleColumn'], 'safe'],
+            [
+                [
+                    'generateCustomFields',
+                    'generatePositionColumn',
+                    'generateToggleColumn',
+                    'generateSoftDelete',
+                ],
+                'safe'
+            ],
         ]);
     }
 
@@ -84,8 +96,9 @@ class Generator extends \yii2tech\admin\gii\crud\Generator
     {
         return ArrayHelper::merge(parent::rules(), [
             'generateCustomFields' => 'Generate fields with input for complex data types',
-            'generatePositionColumn' => 'Generate position attribute column as sortable arrows',
-            'generateToggleColumn' => 'Generate switch on index page'
+            'generatePositionColumn' => 'Generate position attribute column and actions for sorting from index page',
+            'generateToggleColumn' => 'Generate switch on index page',
+            'generateSoftDelete' => 'Generate soft delete actions and trash tab'
         ]);
     }
 
@@ -95,7 +108,7 @@ class Generator extends \yii2tech\admin\gii\crud\Generator
     public function hints()
     {
         return ArrayHelper::merge(parent::hints(), [
-            'generateCustomFields' => 'If column name ends with file or <code>image</code>, then <code>image</code> upload input with preview would be generated.'.
+            'generateCustomFields' => 'If column name ends with file or <code>image</code>, then <code>image</code> upload input with preview would be generated.' .
                 ' For <code>_at</code> and <code>time</code> columns date time picker would be generated. For column ending with <code>date</code> date picker would be generated'
         ]);
     }
@@ -109,7 +122,7 @@ class Generator extends \yii2tech\admin\gii\crud\Generator
      */
     public function generateGridColumnFormat($column)
     {
-        if (in_array($column->name, $this->skipColumns)) {
+        if (in_array($column->name, $this->skipColumns) || $this->shouldSoftDelete($column->name)) {
             return false;
         }
 
@@ -237,5 +250,84 @@ class Generator extends \yii2tech\admin\gii\crud\Generator
         /** @var Model $model */
         $model = new $this->modelClass();
         return ArrayHelper::getValue($model->scenarios(), $scenarioName, null) !== null;
+    }
+
+    /**
+     * Checks if generator should make soft delete for attribute.
+     *
+     * @param string $attribute
+     * @return bool
+     */
+    public function shouldSoftDelete($attribute = 'isDeleted')
+    {
+        /** @var ActiveRecord $model */
+        $model = new $this->modelClass();
+        return$this->generateSoftDelete && $model->hasAttribute($attribute);
+    }
+
+    /**
+     * Generates search conditions
+     * @return array
+     */
+    public function generateSearchConditions()
+    {
+        $columns = [];
+        if (($table = $this->getTableSchema()) === false) {
+            $class = $this->modelClass;
+            /* @var $model \yii\base\Model */
+            $model = new $class();
+            foreach ($model->attributes() as $attribute) {
+                $columns[$attribute] = 'unknown';
+            }
+        } else {
+            foreach ($table->columns as $column) {
+                $columns[$column->name] = $column->type;
+            }
+        }
+
+        $likeConditions = [];
+        $hashConditions = [];
+        foreach ($columns as $column => $type) {
+            if ($this->shouldSoftDelete($column)) {
+                continue;
+            }
+
+            switch ($type) {
+                case Schema::TYPE_SMALLINT:
+                case Schema::TYPE_INTEGER:
+                case Schema::TYPE_BIGINT:
+                case Schema::TYPE_BOOLEAN:
+                case Schema::TYPE_FLOAT:
+                case Schema::TYPE_DOUBLE:
+                case Schema::TYPE_DECIMAL:
+                case Schema::TYPE_MONEY:
+                case Schema::TYPE_DATE:
+                case Schema::TYPE_TIME:
+                case Schema::TYPE_DATETIME:
+                case Schema::TYPE_TIMESTAMP:
+                    $hashConditions[] = "'{$column}' => \$this->{$column},";
+                    break;
+                default:
+                    $likeKeyword = $this->getClassDbDriverName() === 'pgsql' ? 'ilike' : 'like';
+                    $likeConditions[] = "->andFilterWhere(['{$likeKeyword}', '{$column}', \$this->{$column}])";
+                    break;
+            }
+        }
+
+        $conditions = [];
+        if (!empty($hashConditions)) {
+            $conditions[] = "\$query->andFilterWhere([\n"
+                . str_repeat(' ', 12) . implode("\n" . str_repeat(' ', 12), $hashConditions)
+                . "\n" . str_repeat(' ', 8) . "]);\n";
+        }
+        if (!empty($likeConditions)) {
+            $conditions[] = "\$query" . implode("\n" . str_repeat(' ', 12), $likeConditions) . ";\n";
+        }
+
+        if ($this->shouldSoftDelete()) {
+            $conditions[] = "\$query->andWhere(['isDeleted' => \$this->isDeleted]);";
+        }
+
+        return $conditions;
     }
 }

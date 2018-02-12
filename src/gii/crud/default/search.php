@@ -55,6 +55,17 @@ class <?= $searchModelClass ?> extends <?= isset($modelAlias) ? $modelAlias : $m
         return Model::scenarios();
     }
 
+<?php if ($generator->shouldSoftDelete()) : ?>
+    /**
+     * @inheritdoc
+     */
+    public function init()
+    {
+        parent::init();
+        $this->isDeleted = 0;
+    }
+<?php endif; ?>
+
     /**
      * Creates data provider instance with search query applied
      *

@@ -10,6 +10,8 @@ use naffiq\bridge\gii\helpers\ColumnHelper;
 $urlParams = $generator->generateUrlParams();
 $nameAttribute = $generator->getNameAttribute();
 $contexts = $generator->getContexts();
+/** @var \yii\db\ActiveRecord $model */
+$model = new $generator->modelClass();
 
 echo "<?php\n";
 ?>
@@ -20,6 +22,9 @@ use yii2tech\admin\grid\ActionColumn;
 <?php else: ?>
 use yii\widgets\ListView;
 <?php endif ?>
+<?php if ($generator->shouldSoftDelete()) : ?>
+use yii\helpers\Html;
+<?php endif; ?>
 
 /* @var $this yii\web\View */
 /* @var $searchModel <?= !empty($generator->searchModelClass) ? ltrim($generator->searchModelClass, '\\') : 'yii\base\Model' ?> */
@@ -31,7 +36,9 @@ $controller = $this->context;
 $contextUrlParams = $controller->getContextQueryParams();
 <?php endif ?>
 
-$this->title = <?= $generator->generateString(Inflector::pluralize(Inflector::camel2words(StringHelper::basename($generator->modelClass)))) ?>;
+$this->title = <?= $generator->generateString(Inflector::pluralize(Inflector::camel2words(StringHelper::basename($generator->modelClass)))) ?><?=
+    $generator->shouldSoftDelete() ? " . (\$searchModel->isDeleted ? ' — ' . \Yii::t('bridge', 'Trash') : '')" : ''
+?>;
 <?php if (!empty($contexts)): ?>
 foreach ($controller->getContextModels() as $name => $contextModel) {
     $this->params['breadcrumbs'][] = ['label' => $name, 'url' => $controller->getContextUrl($name)];
@@ -45,7 +52,15 @@ $this->params['contextMenuItems'] = [
 ];
 <?php else: ?>
 $this->params['contextMenuItems'] = [
-    ['create']
+<?php if ($generator->shouldSoftDelete()) : ?>
+    [
+    'url' => ['index', Html::getInputName($searchModel, 'isDeleted') => !$searchModel->isDeleted],
+    'label' => $searchModel->isDeleted ? \Yii::t('bridge', 'All records') : \Yii::t('bridge', 'Trash'),
+    'icon' => $searchModel->isDeleted ? 'share-alt' : 'trash',
+    'class' => 'btn btn-' . ($searchModel->isDeleted ? 'soft-info' : 'trash'),
+    ],
+<?php endif; ?>
+    ['create'],
 ];
 <?php endif ?>
 ?>

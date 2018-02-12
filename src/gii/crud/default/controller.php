@@ -24,6 +24,9 @@ use yii\helpers\ArrayHelper;
 use yii2tech\admin\behaviors\ContextModelControlBehavior;
 <?php endif ?><?php if ($generator->generatePositionColumn) : ?>
 use yii2tech\admin\actions\Position;
+<?php endif; ?><?php if ($generator->shouldSoftDelete()) : ?>
+use yii2tech\admin\actions\SoftDelete;
+use yii2tech\admin\actions\Restore;
 <?php endif; ?><?php if ($generator->generateToggleColumn) : ?>
 use dosamigos\grid\actions\ToggleAction;
 <?php endif; ?>
@@ -113,7 +116,14 @@ class <?= $controllerClass ?> extends <?= StringHelper::basename($generator->bas
 <?php endif; ?><?php if ($generator->generatePositionColumn) : ?>
                 'position' => [
                     'class' => Position::className(),
-                ]
+                ],
+<?php endif; ?><?php if ($generator->shouldSoftDelete()) : ?>
+                'delete' => [
+                    'class' => SoftDelete::className(),
+                ],
+                'restore' => [
+                    'class' => Restore::className(),
+                ],
 <?php endif; ?>
             ]
         );
