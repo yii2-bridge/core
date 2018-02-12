@@ -21,6 +21,7 @@ $user = \Yii::$app->user->identity;
 $adminModule = \Yii::$app->getModule('admin');
 
 $isMenuWide = \Yii::$app->session->get('bridge-menu-state', 0);
+\naffiq\bridge\widgets\Toastr::registerToasts($this);
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>

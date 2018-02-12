@@ -22,12 +22,14 @@ class AdminAsset extends AssetBundle
         '//fonts.googleapis.com/css?family=Open+Sans:300,400,700|Roboto:500&amp;subset=cyrillic,cyrillic-ext',
         '//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css',
         '//cdnjs.cloudflare.com/ajax/libs/jquery.perfect-scrollbar/0.8.1/css/perfect-scrollbar.min.css',
+        '//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css',
         'admin.css',
         'elfinder/css/theme.css',
     ];
 
     public $js = [
         '//cdnjs.cloudflare.com/ajax/libs/jquery.perfect-scrollbar/0.8.1/js/perfect-scrollbar.jquery.min.js',
+        '//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js',
         'admin.main.js'
     ];
 

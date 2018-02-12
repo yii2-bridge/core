@@ -11,14 +11,10 @@ namespace naffiq\bridge\controllers;
 
 use naffiq\bridge\BridgeModule;
 use naffiq\bridge\models\LoginForm;
-use yii\base\Exception;
 use yii\filters\AccessControl;
 use yii\helpers\ArrayHelper;
-use yii\helpers\FileHelper;
 use yii\web\Controller;
-use yii\web\Cookie;
 use yii\web\Response;
-use yii\web\UploadedFile;
 
 class DefaultController extends Controller
 {
