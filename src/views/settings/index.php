@@ -1,7 +1,6 @@
 <?php
 
-use yii\grid\GridView;
-use yii\helpers\Url;
+use dosamigos\grid\GridView;
 use yii\helpers\Html;
 use yii\helpers\StringHelper;
 use yii2tech\admin\grid\ActionColumn;
@@ -21,6 +20,10 @@ $this->params['contextMenuItems'] = [
 <?= GridView::widget([
     'dataProvider' => $dataProvider,
     'filterModel' => $searchModel,
+    'tableOptions' => ['class' => 'table table-striped'],
+    'behaviors' => [
+        \dosamigos\grid\behaviors\ResizableColumnsBehavior::className()
+    ],
     'columns' => [
         ['class' => 'yii\grid\SerialColumn'],
 
