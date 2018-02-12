@@ -3,7 +3,7 @@ return [
     [
         'title' => \Yii::t('bridge', 'Dashboard'),
         'url' => ['/admin/default/index'],
-        'active' => ['module' => 'admin', 'controller' => 'default'],
+        'active' => ['module' => 'admin', 'controller' => 'default', 'action' => 'index'],
         'icon' => 'grav',
     ],
     \Yii::t('bridge', 'System'),
@@ -24,7 +24,7 @@ return [
     [
         'title' => \Yii::t('bridge', 'File manager'),
         'url' => ['/admin/default/elfinder'],
-        'active' => ['module' => 'admin', 'controller' => 'default', 'view' => 'elfinder'],
+        'active' => ['module' => 'admin', 'controller' => 'default', 'action' => 'elfinder'],
         'icon' => 'file',
         'isVisible' => \Yii::$app->getModule('admin')->allowedRoles
     ],
