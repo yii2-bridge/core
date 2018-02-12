@@ -23,9 +23,14 @@ class DashboardAction extends Action
         $repoData = \Yii::$app->cache->getOrSet('yii2-bridge--repo-data', function () {
             $client = new Client();
 
-            return $client->get($this->getModule()->repoDataUrl, null, [
-                'User-Agent' => 'Yii2 Http Client'
-            ])->send()->getData();
+            try {
+                return $client->get($this->getModule()->repoDataUrl, null, [
+                    'User-Agent' => 'Yii2 Http Client'
+                ])->send()->getData();
+            } catch (\Exception $e) {
+                return [];
+            }
+
         }, 3600);
 
         return $this->controller->render('dashboard', [
