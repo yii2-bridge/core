@@ -20,11 +20,13 @@ class DashboardAction extends Action
 {
     public function runWithParams($params)
     {
-        $client = new Client();
+        $repoData = \Yii::$app->cache->getOrSet('yii2-bridge--repo-data', function () {
+            $client = new Client();
 
-        $repoData = $client->get($this->getModule()->repoDataUrl, null, [
-            'User-Agent' => 'Yii2 Http Client'
-        ])->send()->getData();
+            return $client->get($this->getModule()->repoDataUrl, null, [
+                'User-Agent' => 'Yii2 Http Client'
+            ])->send()->getData();
+        }, 3600);
 
         return $this->controller->render('dashboard', [
             'repoData' => $repoData,
