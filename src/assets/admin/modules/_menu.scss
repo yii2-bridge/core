@@ -90,8 +90,8 @@
       &:hover {
         ul.sub-menu {
           display: block;
-          background-color: #1a1a1a;
-          border-left: 3px $nav-menu--header-bg solid;
+          background-color: $sub-menu--bg;
+          border-left: 3px $btn--sign-out solid;
           height: auto !important;
         }
       }
