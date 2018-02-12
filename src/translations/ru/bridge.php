@@ -18,6 +18,8 @@ return [
     'Don\'t edit, if you are not familiar what those do!' => 'Не редактируйте, если не знаете назначения этих полей!',
     'Update' => 'Редактировать',
     'Create' => 'Создать',
+    'Trash' => 'Корзина',
+    'All records' => 'Все записи',
     'Username' => 'Имя пользователя',
     'Password' => 'Пароль',
     'Remember Me' => 'Запомнить?',
