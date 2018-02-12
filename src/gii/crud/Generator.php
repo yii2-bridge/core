@@ -262,7 +262,7 @@ class Generator extends \yii2tech\admin\gii\crud\Generator
     {
         /** @var ActiveRecord $model */
         $model = new $this->modelClass();
-        return$this->generateSoftDelete && $model->hasAttribute($attribute);
+        return $this->generateSoftDelete && isset($model->$attribute);
     }
 
     /**
