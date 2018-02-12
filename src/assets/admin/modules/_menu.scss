@@ -200,7 +200,8 @@
 
         background-color: $side-menu--active-item;
         a div {
-          color: $side-menu--active-item;
+          color: $white;
+          font-weight: bold;
         }
       }
       a {
