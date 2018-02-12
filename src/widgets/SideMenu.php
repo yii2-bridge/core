@@ -73,9 +73,9 @@ class SideMenu extends Widget
         }
         $controller = \Yii::$app->controller;
 
-        if (ArrayHelper::getValue($active, 'module') != $controller->module->id
-            || ArrayHelper::getValue($active, 'controller') != $controller->id
-            || ArrayHelper::getValue($active, 'action') != $controller->action->id) {
+        if ((!empty($active['module']) && $active['module'] != $controller->module->id)
+            || (!empty($active['controller']) && $active['controller'] != $controller->id)
+            || (!empty($active['action']) && $active['action'] != $controller->action->id)) {
             return false;
         }
 
