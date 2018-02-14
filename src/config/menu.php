@@ -28,5 +28,4 @@ return [
         'icon' => 'file',
         'isVisible' => \Yii::$app->getModule('admin')->allowedRoles
     ],
-    \Yii::t('bridge', 'Content'),
 ];

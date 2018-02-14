@@ -37,7 +37,7 @@ $contextUrlParams = $controller->getContextQueryParams();
 <?php endif ?>
 
 $this->title = <?= $generator->generateString(Inflector::pluralize(Inflector::camel2words(StringHelper::basename($generator->modelClass)))) ?><?=
-    $generator->shouldSoftDelete() ? " . (\$searchModel->isDeleted ? ' — ' . \Yii::t('bridge', 'Trash') : '')" : ''
+    $generator->shouldSoftDelete() ? " . (\$searchModel->{$generator->getSoftDeleteAttribute()} ? ' — ' . \Yii::t('bridge', 'Trash') : '')" : ''
 ?>;
 <?php if (!empty($contexts)): ?>
 foreach ($controller->getContextModels() as $name => $contextModel) {
@@ -54,10 +54,10 @@ $this->params['contextMenuItems'] = [
 $this->params['contextMenuItems'] = [
 <?php if ($generator->shouldSoftDelete()) : ?>
     [
-    'url' => ['index', Html::getInputName($searchModel, 'isDeleted') => !$searchModel->isDeleted],
-    'label' => $searchModel->isDeleted ? \Yii::t('bridge', 'All records') : \Yii::t('bridge', 'Trash'),
-    'icon' => $searchModel->isDeleted ? 'share-alt' : 'trash',
-    'class' => 'btn btn-' . ($searchModel->isDeleted ? 'soft-info' : 'trash'),
+    'url' => ['index', Html::getInputName($searchModel, '<?= $generator->getSoftDeleteAttribute() ?>') => !$searchModel-><?= $generator->getSoftDeleteAttribute() ?>],
+    'label' => $searchModel-><?= $generator->getSoftDeleteAttribute() ?> ? \Yii::t('bridge', 'All records') : \Yii::t('bridge', 'Trash'),
+    'icon' => $searchModel-><?= $generator->getSoftDeleteAttribute() ?> ? 'share-alt' : 'trash',
+    'class' => 'btn btn-' . ($searchModel-><?= $generator->getSoftDeleteAttribute() ?> ? 'soft-info' : 'trash'),
     ],
 <?php endif; ?>
     ['create'],
@@ -109,6 +109,28 @@ if (($tableSchema = $generator->getTableSchema()) === false) {
 
         [
             'class' => ActionColumn::className(),
+<?php if ($generator->shouldSoftDelete()) : ?>
+            'buttons' => [
+                'delete' => [
+                    'visible' => function ($model) {
+                        /* @var $model \yii\db\BaseActiveRecord */
+                        if (is_object($model) && $model->canGetProperty('<?= $generator->getSoftDeleteAttribute() ?>')) {
+                            return !$model-><?= $generator->getSoftDeleteAttribute() ?>;
+                        }
+                        return true;
+                    },
+                ],
+                'restore' => [
+                    'visible' => function ($model) {
+                        /* @var $model \yii\db\BaseActiveRecord */
+                        if (is_object($model) && $model->canGetProperty('<?= $generator->getSoftDeleteAttribute() ?>')) {
+                            return $model-><?= $generator->getSoftDeleteAttribute() ?>;
+                        }
+                        return false;
+                    },
+                ],
+            ]
+<?php endif; ?>
         ],
     ],
 ]); ?>

@@ -62,7 +62,7 @@ class <?= $searchModelClass ?> extends <?= isset($modelAlias) ? $modelAlias : $m
     public function init()
     {
         parent::init();
-        $this->isDeleted = 0;
+        $this-><?= $generator->getSoftDeleteAttribute() ?> = 0;
     }
 <?php endif; ?>
 

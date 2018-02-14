@@ -255,14 +255,28 @@ class Generator extends \yii2tech\admin\gii\crud\Generator
     /**
      * Checks if generator should make soft delete for attribute.
      *
-     * @param string $attribute
+     * @param string|null $attribute
      * @return bool
      */
-    public function shouldSoftDelete($attribute = 'isDeleted')
+    public function shouldSoftDelete($attribute = null)
     {
-        /** @var ActiveRecord $model */
-        $model = new $this->modelClass();
-        return $this->generateSoftDelete && isset($model->$attribute);
+        $softDeleteAttribute = $this->getSoftDeleteAttribute();
+        if ($attribute && $attribute !== $softDeleteAttribute) {
+            return false;
+        }
+
+        return $softDeleteAttribute && $this->generateSoftDelete && in_array($softDeleteAttribute, $this->getColumnNames());
+    }
+
+    public function getSoftDeleteAttribute($attributes = ['is_deleted', 'isDeleted'])
+    {
+        foreach ($this->getColumnNames() as $name) {
+            if ((is_array($attributes) && in_array($name, $attributes)) || (is_string($attributes) && $name === $attributes)) {
+                return $name;
+            }
+        }
+
+        return null;
     }
 
     /**
@@ -325,7 +339,7 @@ class Generator extends \yii2tech\admin\gii\crud\Generator
         }
 
         if ($this->shouldSoftDelete()) {
-            $conditions[] = "\$query->andWhere(['isDeleted' => \$this->isDeleted]);";
+            $conditions[] = "\$query->andWhere(['{$this->getSoftDeleteAttribute()}' => \$this->{$this->getSoftDeleteAttribute()}]);";
         }
 
         return $conditions;

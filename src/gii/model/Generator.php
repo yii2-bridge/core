@@ -11,6 +11,7 @@ namespace naffiq\bridge\gii\model;
 use mongosoft\file\UploadBehavior;
 use mongosoft\file\UploadImageBehavior;
 use naffiq\bridge\gii\helpers\ArrayString;
+use naffiq\bridge\gii\helpers\BooleanString;
 use naffiq\bridge\gii\helpers\ColumnHelper;
 use phpDocumentor\Reflection\DocBlock;
 use phpDocumentor\Reflection\DocBlockFactory;
@@ -162,12 +163,13 @@ class Generator extends \yii\gii\generators\model\Generator
                 ];
             }
 
-            if ($column->name === 'isDeleted') {
+            if ($column->name === 'isDeleted' || $column->name === 'is_deleted') {
                 $behaviors['softDeleteBehavior'] = [
                     'class' => SoftDeleteBehavior::className(),
                     'softDeleteAttributeValues' => new ArrayString([
                         $column->name => true
-                    ])
+                    ]),
+                    'invokeDeleteEvents' => new BooleanString(false)
                 ];
             }
         }
