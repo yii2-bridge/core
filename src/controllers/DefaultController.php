@@ -57,6 +57,9 @@ class DefaultController extends Controller
         return ArrayHelper::merge(parent::actions(), [
             'index' => [
                 'class' => $this->module->dashboardAction
+            ],
+            'switch-language' => [
+                'class' => $this->module->languageSwitchAction
             ]
         ]);
     }

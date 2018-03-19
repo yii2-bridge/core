@@ -7,6 +7,7 @@
 use naffiq\bridge\assets\AdminAsset;
 use naffiq\bridge\models\Settings;
 use naffiq\bridge\widgets\SideMenu;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\widgets\ActiveForm;
@@ -71,6 +72,20 @@ $isMenuWide = \Yii::$app->session->get('bridge-menu-state', 0);
 
 <div class="bridge-wrap<?= $isMenuWide ? ' nav-wide' : '' ?>">
     <div class="content-header container-fluid">
+        <?php if ($adminModule->showLanguageSwitcher) : ?>
+        <div class="dropdown" style="margin-right: 15px;">
+            <button id="dLabel" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="btn btn-default">
+                <i class="fa fa-globe"></i> <?= ArrayHelper::getValue($adminModule->getLanguagesList(), \Yii::$app->language, $adminModule->defaultLanguage) ?>
+                <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dLabel" style="min-width: 50px">
+                <?php foreach($adminModule->getLanguagesList() as $code => $label): ?>
+                    <li><a href="<?= Url::to(['/admin/default/switch-language', 'lang' => $code, 'returnUrl' => Url::current()]) ?>"><?= $label ?></a></li>
+                <?php endforeach ?>
+            </ul>
+        </div>
+        <?php endif; ?>
+
         <?= Breadcrumbs::widget([
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
             'options' => ['class' => 'breadcrumb breadcrumb-arrow'],

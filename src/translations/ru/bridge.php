@@ -37,5 +37,6 @@ return [
     'Checkbox' => 'Галочка',
     'File manager' => 'Файловый менеджер',
     'System' => 'Система',
-    'Content' => 'Контент'
+    'Content' => 'Контент',
+    'Translations' => 'Переводы'
 ];

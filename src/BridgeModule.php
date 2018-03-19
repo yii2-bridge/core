@@ -21,6 +21,7 @@ use yii\console\Application as ConsoleApplication;
 use yii\helpers\ArrayHelper;
 use yii\web\Application as WebApplication;
 use yii\web\View;
+use Zelenin\yii\modules\I18n\controllers\DefaultController;
 
 
 /**
@@ -46,6 +47,8 @@ class BridgeModule extends Module implements BootstrapInterface
      * @var string class name for main admin dashboard action
      */
     public $dashboardAction = '\naffiq\bridge\controllers\actions\DashboardAction';
+
+    public $languageSwitchAction = '\naffiq\bridge\controllers\actions\LanguageSwitchAction';
 
     /**
      * @var array Configuration passed to yii2-usuario module
@@ -128,6 +131,24 @@ class BridgeModule extends Module implements BootstrapInterface
     public $elFinderConfig = [];
 
     /**
+     * @var null|callable|array an anonymous function, that recieves Application instance
+     */
+    public $languageInitHandler = null;
+
+    /**
+     * @var array
+     */
+    public $languages = [
+        'en-US' => 'EN',
+        'ru-RU' => 'RU',
+        'kk-KZ' => 'KZ',
+    ];
+
+    public $defaultLanguage = 'en-US';
+
+    public $showLanguageSwitcher = true;
+
+    /**
      * @inheritdoc
      */
     public function bootstrap($app)
@@ -139,8 +160,8 @@ class BridgeModule extends Module implements BootstrapInterface
             $this->registerRoutes($app);
             $this->registerElFinder();
 
-            if ($app->user->identityClass !== User::className() && !is_subclass_of($app->user->identityClass, User::className())) {
-                if ($this->userClass !== User::className() && !is_subclass_of($this->userClass, User::className())) {
+            if ($app->user->identityClass !== User::class && !is_subclass_of($app->user->identityClass, User::class)) {
+                if ($this->userClass !== User::class && !is_subclass_of($this->userClass, User::class)) {
                     throw new InvalidConfigException(
                         "Either \"\\Yii::\$app->user->identityClass\" or \"BridgeModule::userClass\" should be subclass of \"\\Da\\User\\Model\\User\"."
                         . ' Please configure your app appropriately.'
@@ -192,8 +213,8 @@ class BridgeModule extends Module implements BootstrapInterface
                 'disabledCommands' => ['netmount'],
                 'roots' => [
                     [
-                        'baseUrl'=>'@web',
-                        'basePath'=>'@webroot',
+                        'baseUrl' => '@web',
+                        'basePath' => '@webroot',
                         'path' => 'media/',
                         'name' => 'Global'
                     ],
@@ -237,6 +258,11 @@ class BridgeModule extends Module implements BootstrapInterface
      */
     private function registerTranslations(Application $app)
     {
+        $app->set('i18n', [
+            'class' => \Zelenin\yii\modules\I18n\components\I18N::class,
+            'languages' => array_keys($this->getLanguagesList())
+        ]);
+
         $app->i18n->translations['yii2tech-admin'] = [
             'class' => 'yii\i18n\PhpMessageSource',
             'basePath' => '@yii2tech/admin/messages',
@@ -246,6 +272,31 @@ class BridgeModule extends Module implements BootstrapInterface
             'class' => 'yii\i18n\PhpMessageSource',
             'basePath' => '@bridge/translations',
         ];
+
+        if ($app instanceof \yii\web\Application) {
+            $this->modules = ArrayHelper::merge($this->modules, [
+                'i18n' => [
+                    'class' => \Zelenin\yii\modules\I18n\Module::class,
+                    'layout' => '@bridge/views/layouts/main',
+                    'controllerMap' => [
+                        'default' => [
+                            'class' => DefaultController::class,
+                            'viewPath' => '@bridge/views/i18n',
+                        ]
+                    ]
+                ]
+            ]);
+
+            \Yii::$app->on(Application::EVENT_BEFORE_ACTION, function ($event) {
+                if (is_array($this->languageInitHandler) || is_callable($this->languageInitHandler)) {
+                    \Yii::$app->language = call_user_func($this->languageInitHandler);
+                } else {
+                    \Yii::$app->language = \Yii::$app->request->cookies->getValue('lang', $this->defaultLanguage);
+                }
+            });
+        }
+
+
     }
 
     /**
@@ -392,5 +443,14 @@ HTML;
             });
         } catch (\Exception $e) {
         }
+    }
+
+    public function getLanguagesList()
+    {
+        if ((is_array($this->languages) && !ArrayHelper::isAssociative($this->languages)) || is_callable($this->languages)) {
+            return call_user_func($this->languages);
+        }
+
+        return $this->languages;
     }
 }

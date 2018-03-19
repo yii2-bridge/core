@@ -28,4 +28,11 @@ return [
         'icon' => 'file',
         'isVisible' => \Yii::$app->getModule('admin')->allowedRoles
     ],
+    [
+        'title' => \Yii::t('bridge', 'Translations'),
+        'url' => ['/admin/i18n/default'],
+        'active' => ['module' => 'i18n', 'controller' => 'default'],
+        'icon' => 'globe',
+        'isVisible' => \Yii::$app->getModule('admin')->showLanguageSwitcher
+    ],
 ];

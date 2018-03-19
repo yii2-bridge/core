@@ -1,5 +1,7 @@
 #!/bin/bash
 ./yii migrate --migrationNamespaces=Da\\User\\Migration --interactive=0
 ./yii migrate --migrationPath=@yii/rbac/migrations --interactive=0
+./yii migrate --migrationPath=@yii/i18n/migrations --interactive=0
 ./yii migrate --migrationPath=@bridge-migrations --interactive=0
 ./yii migrate --interactive=0
+./yii migrate --migrationPath=@Zelenin/yii/modules/I18n/migrations --interactive=0
