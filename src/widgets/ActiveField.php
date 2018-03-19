@@ -18,6 +18,8 @@ use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use mihaildev\ckeditor\CKEditor;
 use mihaildev\elfinder\ElFinder;
+use yii\web\Application;
+use yii\web\View;
 
 /**
  * Class ActiveField
@@ -29,11 +31,50 @@ use mihaildev\elfinder\ElFinder;
 class ActiveField extends \yii\widgets\ActiveField
 {
     /**
-     * @param array $options
+     * Registers default width/height for image dialog.
+     *
+     * @var $width string
+     * @var $height string
+     */
+    protected function registerCKEditorImageDefaults($width = '100%', $height = '')
+    {
+        if (!\Yii::$app instanceof Application) {
+            return;
+        }
+
+        \Yii::$app->view->registerJs(<<<JS
+CKEDITOR.on('dialogDefinition', function( ev ) {
+    // Take the dialog window name and its definition from the event data.
+    var dialogName = ev.data.name;
+    var dialogDefinition = ev.data.definition;
+
+    if ( dialogName == 'image' ) {
+        var infoTab = dialogDefinition.getContents('info');
+        window.infoTab = infoTab;
+        
+        var widthField = infoTab.get('txtWidth');
+        var heightField = infoTab.get('txtHeight');
+        
+        widthField['default'] = '{$width}';
+        heightField['default'] = '{$height}';
+    }
+});
+JS
+        , View::POS_END, 'CKEDITOR_IMAGE_DEFAULTS');
+    }
+
+    /**
+     * @param array $options you can define `defaultImageWidth` and `defaultImageHeight` for CKEditor image plugin.
+     * Only size one per page is currently available. Send issue or PR if interested.
+     *
      * @return $this
      */
     public function richTextArea($options = [])
     {
+        $width = ArrayHelper::getValue($options, 'defaultImageWidth', '100%');
+        $height = ArrayHelper::getValue($options, 'defaultImageHeight', '');
+        $this->registerCKEditorImageDefaults($width, $height);
+
         return $this->widget(CKEditor::className(), ArrayHelper::merge([
             'editorOptions' => ElFinder::ckeditorOptions(['/admin/elfinder', 'path' => 'some/sub/path'],['preset' => 'full', 'inline' => false]),
         ], $options));
