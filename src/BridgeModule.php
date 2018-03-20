@@ -306,12 +306,6 @@ class BridgeModule extends Module implements BootstrapInterface
                     }
                     $this->urlManagerConfig['languages'] = $langs;
                 }
-
-                $app->set('urlManager', ArrayHelper::merge(
-                    ArrayHelper::toArray($app->urlManager),
-                    ArrayHelper::merge(['class' => UrlManager::class], $this->urlManagerConfig)
-                ));
-
             } else {
                 $app->on(Application::EVENT_BEFORE_ACTION, function ($event) {
                     if (is_array($this->languageInitHandler) || is_callable($this->languageInitHandler)) {
