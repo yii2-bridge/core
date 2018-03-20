@@ -31,4 +31,14 @@ class ActiveForm extends \yii\widgets\ActiveForm
     {
         return parent::field($model, $attribute, $options);
     }
+
+    public function translate($model, $viewName, $languages = null)
+    {
+        return TranslationFormWidget::widget([
+            'form' => $this,
+            'model' => $model,
+            'languages' => $languages,
+            'viewName' => $viewName
+        ]);
+    }
 }

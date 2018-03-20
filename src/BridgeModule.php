@@ -8,6 +8,7 @@
 
 namespace naffiq\bridge;
 
+use codemix\localeurls\UrlManager;
 use Da\User\Bootstrap;
 use Da\User\Component\AuthDbManagerComponent;
 use Da\User\Model\User;
@@ -142,6 +143,11 @@ class BridgeModule extends Module implements BootstrapInterface
         'en-US' => 'EN',
         'ru-RU' => 'RU',
         'kk-KZ' => 'KZ',
+    ];
+
+    public $urlLanguageCodeFormer = null;
+
+    public $urlManagerConfig = [
     ];
 
     public $defaultLanguage = 'en-US';
@@ -287,16 +293,35 @@ class BridgeModule extends Module implements BootstrapInterface
                 ]
             ]);
 
-            \Yii::$app->on(Application::EVENT_BEFORE_ACTION, function ($event) {
-                if (is_array($this->languageInitHandler) || is_callable($this->languageInitHandler)) {
-                    \Yii::$app->language = call_user_func($this->languageInitHandler);
+
+            if (!$this->languageInitHandler) {
+
+                if ($this->urlLanguageCodeFormer) {
+                    $this->urlManagerConfig['languages'] = call_user_func($this->urlLanguageCodeFormer, $this->languages);
                 } else {
-                    \Yii::$app->language = \Yii::$app->request->cookies->getValue('lang', $this->defaultLanguage);
+                    $langs = [];
+                    foreach ($this->languages as $code => $lang) {
+                        list($urlCode) = explode('-', $code);
+                        $langs[$urlCode] = $code;
+                    }
+                    $this->urlManagerConfig['languages'] = $langs;
                 }
-            });
+
+                $app->set('urlManager', ArrayHelper::merge(
+                    ArrayHelper::toArray($app->urlManager),
+                    ArrayHelper::merge(['class' => UrlManager::class], $this->urlManagerConfig)
+                ));
+
+            } else {
+                $app->on(Application::EVENT_BEFORE_ACTION, function ($event) {
+                    if (is_array($this->languageInitHandler) || is_callable($this->languageInitHandler)) {
+                        \Yii::$app->language = call_user_func($this->languageInitHandler);
+                    } else {
+                        \Yii::$app->language = \Yii::$app->request->cookies->getValue('lang', $this->defaultLanguage);
+                    }
+                });
+            }
         }
-
-
     }
 
     /**

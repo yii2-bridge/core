@@ -16,7 +16,7 @@ $(function() {
             localStorage.setItem('bridge/wide-menu', shouldBeWide)
         }
 
-        $.get(menuToggleUrl + '?state=' + (shouldBeWide ? 'true' : 'false'));
+        $.get(menuToggleUrl + '&state=' + (shouldBeWide ? 'true' : 'false'));
     }
 
     function hamburgerClick() {
@@ -43,7 +43,7 @@ $(function() {
         $('.nav-menu').removeClass('wide');
         $('.bridge-wrap').removeClass('nav-wide');
     } else {
-        $.get(menuToggleUrl + '?state=true');
+        $.get(menuToggleUrl + '&state=true');
 
         $('.nav-menu').addClass('wide');
         $('.bridge-wrap').addClass('nav-wide');

@@ -34,7 +34,7 @@ $isMenuWide = \Yii::$app->session->get('bridge-menu-state', 0);
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
 </head>
-<body data-menu-toggle-url="<?= Url::to(['/admin/default/set-menu-state']) ?>">
+<body data-menu-toggle-url="<?= Url::to(['/admin/default/set-menu-state']) ?>?language=<?= \Yii::$app->language ?>">
 <?php $this->beginBody() ?>
 
 <div class="nav-menu<?= $isMenuWide ? ' wide' : '' ?>">
@@ -73,17 +73,18 @@ $isMenuWide = \Yii::$app->session->get('bridge-menu-state', 0);
 <div class="bridge-wrap<?= $isMenuWide ? ' nav-wide' : '' ?>">
     <div class="content-header container-fluid">
         <?php if ($adminModule->showLanguageSwitcher) : ?>
-        <div class="dropdown" style="margin-right: 15px;">
-            <button id="dLabel" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="btn btn-default">
-                <i class="fa fa-globe"></i> <?= ArrayHelper::getValue($adminModule->getLanguagesList(), \Yii::$app->language, $adminModule->defaultLanguage) ?>
-                <span class="caret"></span>
-            </button>
-            <ul class="dropdown-menu" aria-labelledby="dLabel" style="min-width: 50px">
-                <?php foreach($adminModule->getLanguagesList() as $code => $label): ?>
-                    <li><a href="<?= Url::to(['/admin/default/switch-language', 'lang' => $code, 'returnUrl' => Url::current()]) ?>"><?= $label ?></a></li>
-                <?php endforeach ?>
-            </ul>
-        </div>
+            <div class="dropdown" style="margin-right: 15px;">
+                <button id="dLabel" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                        class="btn btn-default">
+                    <i class="fa fa-globe"></i> <?= ArrayHelper::getValue($adminModule->getLanguagesList(), \Yii::$app->language, $adminModule->defaultLanguage) ?>
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dLabel" style="min-width: 50px">
+                    <?php foreach (\Yii::$app->urlManager->languages as $label => $code): ?>
+                        <li><a href="<?= Url::to(ArrayHelper::merge(['', 'language' => $code], \Yii::$app->request->get())) ?>"><?= ArrayHelper::getValue($adminModule->languages, $code, $label) ?></a></li>
+                    <?php endforeach ?>
+                </ul>
+            </div>
         <?php endif; ?>
 
         <?= Breadcrumbs::widget([

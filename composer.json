@@ -15,7 +15,8 @@
         "yii2tech/ar-position": "^1.0",
         "2amigos/yii2-grid-view-library": "^1.0",
         "yii2tech/ar-softdelete": "^1.0",
-        "zelenin/yii2-i18n-module": "^0.1.9"
+        "zelenin/yii2-i18n-module": "^0.1.9",
+        "codemix/yii2-localeurls": "^1.7"
     },
     "license": "MIT",
     "authors": [
@@ -30,6 +31,7 @@
         "psr-4": {
             "naffiq\\bridge\\": "src/",
             "naffiq\\bridge\\assets\\": "src/assets/",
+            "naffiq\\bridge\\behaviors\\": "src/behaviors/",
             "naffiq\\bridge\\controllers\\": "src/controllers/",
             "naffiq\\bridge\\fixtures\\": "src/fixtures/",
             "naffiq\\bridge\\modules\\query\\": "src/models/query/",

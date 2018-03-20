@@ -15,3 +15,6 @@ It stores language code to cache under `lang` key.
 - Added language switch dropdown to main layout that is visible, if `BridgeModule::$showLanguageSwitcher` is `true`.
 - Added `defaultImageWidth` and `defaultImageHeight` support to `options` param of `ActiveField::richTextArea()` method. 
 Sets default image size for CKEditor image plugin. Currently limited to same size per view.
+- Added `codemix/yii2-localeurls` for managing current language via URLManager.
+- Added `TranslationFormWidget` for managing translations and added it to `ActiveForm`
+- Added `TranslationBehavior` for saving and getting translations from `ActiveRecord`s
