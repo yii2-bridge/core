@@ -296,15 +296,17 @@ class BridgeModule extends Module implements BootstrapInterface
 
             if (!$this->languageInitHandler) {
 
-                if ($this->urlLanguageCodeFormer) {
-                    $this->urlManagerConfig['languages'] = call_user_func($this->urlLanguageCodeFormer, $this->languages);
-                } else {
-                    $langs = [];
-                    foreach ($this->languages as $code => $lang) {
-                        list($urlCode) = explode('-', $code);
-                        $langs[$urlCode] = $code;
+                if ($app->urlManager instanceof UrlManager) {
+                    if ($this->urlLanguageCodeFormer) {
+                        $langs = call_user_func($this->urlLanguageCodeFormer, $this->languages);
+                    } else {
+                        $langs = [];
+                        foreach ($this->languages as $code => $lang) {
+                            list($urlCode) = explode('-', $code);
+                            $langs[$urlCode] = $code;
+                        }
                     }
-                    $this->urlManagerConfig['languages'] = $langs;
+                    $app->urlManager->languages = $langs;
                 }
             } else {
                 $app->on(Application::EVENT_BEFORE_ACTION, function ($event) {
