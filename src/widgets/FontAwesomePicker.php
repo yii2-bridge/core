@@ -10,6 +10,7 @@ namespace naffiq\bridge\widgets;
 
 
 use kartik\select2\Select2;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\web\JsExpression;
 
@@ -735,7 +736,9 @@ JS
         }
 
         echo $this->_loadIndicator . $this->embedAddon(
-                Html::tag('select', implode('', $options), $this->options)
+                Html::tag('select', implode('', $options), ArrayHelper::merge([
+                    'name' => $this->name
+                ], $this->options))
             );
     }
 
