@@ -53,7 +53,7 @@ class Toastr extends BaseObject
      */
     public static function success($text, $title = null)
     {
-        static::putFlash('warning', $text, $title);
+        static::putFlash('success', $text, $title);
     }
 
     /**
