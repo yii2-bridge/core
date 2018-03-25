@@ -24,7 +24,6 @@ use yii\web\Application as WebApplication;
 use yii\web\View;
 use Zelenin\yii\modules\I18n\controllers\DefaultController;
 
-
 /**
  * Class BridgeModule
  *
@@ -95,7 +94,7 @@ class BridgeModule extends Module implements BootstrapInterface
     /**
      * @var string Module version
      */
-    public $version = 'v0.8.0';
+    public $version = 'v0.8.2';
 
     /**
      * @var string Module repository API URL, used to fetch latest version
