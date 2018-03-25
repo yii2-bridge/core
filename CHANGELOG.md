@@ -1,3 +1,18 @@
+### Version 0.9.0
+
+- Creates `SettingsGroups` model
+- Updated Settings UI
+- Changed `ActiveField::relationalDropDown` widget code
+- Fixed `Toastr` widget
+- Created `FontAwesomePicker` widget and added it to `ActiveField`
+- Fixed `TranslationBehavior`
+- Added `no-panel` View param support in order to hide admin layout 
+bootstrap panel
+
+### Version 0.8.1
+
+- Fixed `i18n` and `urlManager` components setup
+
 ### Version 0.8.0
 
 - Created CHANGELOG
