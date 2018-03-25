@@ -9,6 +9,7 @@ use Yii;
 use yii\base\InvalidParamException;
 use yii\helpers\ArrayHelper;
 use yii\web\JsExpression;
+use yii2tech\ar\position\PositionBehavior;
 
 /**
  * This is the model class for table "settings".
@@ -18,6 +19,8 @@ use yii\web\JsExpression;
  * @property string $key
  * @property string $value
  * @property integer $type
+ * @property integer $group_id
+ * @property integer $position
  * @property string $type_settings
  */
 class Settings extends \yii\db\ActiveRecord
@@ -59,7 +62,7 @@ class Settings extends \yii\db\ActiveRecord
             [['title', 'key', 'type'], 'required'],
             [['type_settings'], 'string'],
             ['value', 'safe'],
-            [['type'], 'integer'],
+            [['type', 'group_id'], 'integer'],
             [['title', 'key'], 'string', 'max' => 255],
 
             ['value', 'image', 'extensions' => 'jpg, jpeg, gif, png', 'on' => ['create', 'update'], 'when' => function () {
@@ -85,6 +88,21 @@ JS
             'value' => Yii::t('bridge', 'Value'),
             'type' => Yii::t('bridge', 'Type'),
             'type_settings' => Yii::t('bridge', 'Type Settings'),
+            'group_id' => Yii::t('bridge', 'Settings group'),
+            'position' => Yii::t('bridge', 'Position')
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    public function behaviors()
+    {
+        return [
+            'position' => [
+                'class' => PositionBehavior::class,
+                'groupAttributes' => ['group_id']
+            ]
         ];
     }
 
@@ -120,7 +138,7 @@ JS
     /**
      * @var array
      */
-    protected static $prevSettings = [];
+    public static $prevSettings = [];
 
     /**
      * Looks for setting with provided `$key`
@@ -199,5 +217,15 @@ JS
             return \Yii::$app->assetManager->getAssetUrl($bundle, 'avatar@2x.jpg');
         }
         return (string) $this->value;
+    }
+
+    /**
+     * @param $groupKey
+     * @param bool $create
+     * @param array $defaults
+     */
+    public static function group($groupKey, $create = false, $defaults = [])
+    {
+
     }
 }
