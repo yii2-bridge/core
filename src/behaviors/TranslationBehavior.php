@@ -8,7 +8,6 @@
 
 namespace naffiq\bridge\behaviors;
 
-
 use naffiq\bridge\widgets\Toastr;
 use yii\base\Behavior;
 use yii\db\ActiveRecord;
@@ -21,11 +20,15 @@ class TranslationBehavior extends Behavior
     /** @var string */
     public $translationModelClass;
 
-
+    /**
+     * @var string
+     */
     public $translationModelLangColumn = 'lang';
 
-
-    public $translationModelRelationColumn;
+    /**
+     * @var string
+     */
+    public $translationModelRelationColumn = 'parent_id';
 
     /**
      * @inheritdoc
@@ -39,6 +42,8 @@ class TranslationBehavior extends Behavior
     }
 
     /**
+     * Returns translation model. If no `languageCode` is provided, then application language is used.
+     *
      * @param null $languageCode
      *
      * @return ActiveRecord
@@ -48,6 +53,9 @@ class TranslationBehavior extends Behavior
         return $this->getTranslationModel($languageCode ?: \Yii::$app->language);
     }
 
+    /**
+     * Method that saves translation to model
+     */
     public function saveTranslations()
     {
         /** @var ActiveRecord $translationModel */
@@ -57,8 +65,8 @@ class TranslationBehavior extends Behavior
         foreach ($data as $lang => $record) {
             $translation = $this->getTranslationModel($lang);
             $translation->setAttributes($record, [
-                'post_id' => $this->owner->id,
-                'lang' => $lang,
+                $this->translationModelRelationColumn => $this->owner->getPrimaryKey(),
+                $this->translationModelLangColumn => $lang,
             ]);
 
             if (!$translation->save()) {
@@ -68,20 +76,22 @@ class TranslationBehavior extends Behavior
     }
 
     /**
-     * @param $lang
+     * Returns required translation model based on `lang` param provided.
+     *
+     * @param $lang string language code
      * @return mixed
      */
     protected function getTranslationModel($lang)
     {
         $translationClass = $this->translationModelClass;
         $translation = $translationClass::findOne([
-            $this->translationModelRelationColumn => $this->owner->id,
+            $this->translationModelRelationColumn => $this->owner->getPrimaryKey(),
             $this->translationModelLangColumn => $lang
         ]);
 
         if (!$translation) {
             $translation = new $translationClass([
-                $this->translationModelRelationColumn => $this->owner->id,
+                $this->translationModelRelationColumn => $this->owner->getPrimaryKey(),
                 $this->translationModelLangColumn => $lang
             ]);
         }
