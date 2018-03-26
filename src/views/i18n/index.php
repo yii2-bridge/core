@@ -10,8 +10,6 @@ use yii\grid\GridView;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\web\View;
-use yii\widgets\Breadcrumbs;
-use yii\widgets\Pjax;
 use Zelenin\yii\modules\I18n\models\search\SourceMessageSearch;
 use Zelenin\yii\modules\I18n\Module;
 
@@ -36,7 +34,7 @@ $this->params['breadcrumbs'] = [
                 'attribute' => 'message',
                 'format' => 'raw',
                 'value' => function ($model, $index, $widget) {
-                    return Html::a(Module::t($model->message), ['update', 'id' => $model->id], ['data' => ['pjax' => 0]]);
+                    return Html::a(Yii::t($model->category, $model->message), ['update', 'id' => $model->id], ['data' => ['pjax' => 0]]);
                 }
             ],
             [
