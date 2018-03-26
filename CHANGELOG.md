@@ -1,3 +1,8 @@
+### Version 0.8.3
+
+- Fixed issue of overwriting app `i18n` config (translations) in BridgeModule
+- Fixed issue of duplicating translations in translations view (index)   
+
 ### Version 0.8.0
 
 - Created CHANGELOG
