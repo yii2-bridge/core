@@ -1,0 +1,6 @@
+#!/bin/bash
+pwd
+php bin/yii.php migrate --migrationPath=@Zelenin/yii/modules/I18n/migrations --interactive=0
+php bin/yii.php migrate --migrationNamespaces=Da\\User\\Migration --interactive=0
+php bin/yii.php migrate --migrationPath=@yii/rbac/migrations --interactive=0
+php bin/yii.php migrate --migrationPath=@bridge-migrations --interactive=0

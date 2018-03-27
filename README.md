@@ -123,7 +123,9 @@ When generating model with db fields ending by `image` or `file`, it would
 automatically add corresponding upload behavior.
 You can turn this behaviors off by clicking on checkbox in generator interface.
 
-And also it has `Admin CRUD generator`, which will generate necessary fields 
+And also it has `Bridge CRUD generator`, which will generate necessary fields 
 inputs and display it nicely to the index table.  
 
- 
+## Development and testing
+
+Currently I use 
