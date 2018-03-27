@@ -34,7 +34,8 @@ if (file_exists(__DIR__. '/../.env')) {
             'class' => \Da\User\Component\AuthDbManagerComponent::class
         ],
         'i18n' => [
-            'class' => Zelenin\yii\modules\I18n\components\I18N::class
+            'class' => Zelenin\yii\modules\I18n\components\I18N::class,
+            'languages' => ['en-US', 'ru-RU', 'kk-KZ']
         ]
     ],
     'modules' => [
