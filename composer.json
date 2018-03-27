@@ -17,7 +17,8 @@
         "yii2tech/ar-softdelete": "^1.0",
         "zelenin/yii2-i18n-module": "^0.1.9",
         "codemix/yii2-localeurls": "^1.7",
-        "vlucas/phpdotenv": "^2.4"
+        "vlucas/phpdotenv": "^2.4",
+        "kolyunya/yii2-map-input-widget": "^1.2"
     },
     "license": "MIT",
     "authors": [

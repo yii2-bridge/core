@@ -13,11 +13,13 @@ use kartik\widgets\DatePicker;
 use kartik\widgets\DateTimePicker;
 use kartik\widgets\FileInput;
 use kartik\widgets\SwitchInput;
-use mongosoft\file\UploadBehavior;
-use yii\helpers\ArrayHelper;
-use yii\helpers\Html;
+use kolyunya\yii2\widgets\MapInputWidget;
 use mihaildev\ckeditor\CKEditor;
 use mihaildev\elfinder\ElFinder;
+use mongosoft\file\UploadBehavior;
+use naffiq\bridge\models\Settings;
+use yii\helpers\ArrayHelper;
+use yii\helpers\Html;
 use yii\web\Application;
 use yii\web\View;
 
@@ -60,7 +62,7 @@ CKEDITOR.on('dialogDefinition', function( ev ) {
     }
 });
 JS
-        , View::POS_END, 'CKEDITOR_IMAGE_DEFAULTS');
+            , View::POS_END, 'CKEDITOR_IMAGE_DEFAULTS');
     }
 
     /**
@@ -76,7 +78,7 @@ JS
         $this->registerCKEditorImageDefaults($width, $height);
 
         return $this->widget(CKEditor::className(), ArrayHelper::merge([
-            'editorOptions' => ElFinder::ckeditorOptions(['/admin/elfinder', 'path' => 'some/sub/path'],['preset' => 'full', 'inline' => false]),
+            'editorOptions' => ElFinder::ckeditorOptions(['/admin/elfinder', 'path' => 'some/sub/path'], ['preset' => 'full', 'inline' => false]),
         ], $options));
 
     }
@@ -140,6 +142,31 @@ JS
         return $this->widget(Select2::className(), ArrayHelper::merge([
             'data' => $data
         ], $options));
+    }
+
+    /**
+     * Renders map input widget.
+     *
+     * @param $createKeySettings bool If set to true creates `google-map-key` settings in `app-keys` group
+     * that can be updated by admin later.
+     *
+     * @link https://github.com/Kolyunya/yii2-map-input-widget
+     *
+     * @param array $options
+     * @return $this
+     */
+    public function map($options = [], $createKeySettings = true)
+    {
+        if (empty($options['key']) && $createKeySettings) {
+            $options['key'] = Settings::group('app-keys', [
+                'title' => 'Keys',
+                'icon' => 'fa-keys'
+            ])->getOrCreate('google-map-key', [
+                'title' => 'Google Maps API key',
+                'type' => Settings::TYPE_STRING
+            ])->value;
+        }
+        return $this->widget(MapInputWidget::class, $options);
     }
 
     /**

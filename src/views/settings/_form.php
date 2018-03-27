@@ -22,6 +22,8 @@ use naffiq\bridge\models\Settings;
             <?= $form->field($model, 'value')->imageUpload() ?>
         <?php elseif ($model->type == Settings::TYPE_SWITCH): ?>
             <?= $form->field($model, 'value')->switchInput() ?>
+        <?php elseif ($model->type == Settings::TYPE_MAP): ?>
+            <?= $form->field($model, 'value')->map() ?>
         <?php else: ?>
             <?= $form->field($model, 'value')->textInput() ?>
         <?php endif; ?>
