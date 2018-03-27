@@ -265,7 +265,8 @@ class BridgeModule extends Module implements BootstrapInterface
     {
         $app->set('i18n', [
             'class' => \Zelenin\yii\modules\I18n\components\I18N::class,
-            'languages' => array_keys($this->getLanguagesList())
+            'languages' => array_keys($this->getLanguagesList()),
+            'translations' => $app->i18n->translations
         ]);
 
         $app->i18n->translations['yii2tech-admin'] = [
