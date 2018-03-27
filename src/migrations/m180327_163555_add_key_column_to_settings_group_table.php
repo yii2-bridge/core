@@ -12,7 +12,7 @@ class m180327_163555_add_key_column_to_settings_group_table extends Migration
      */
     public function up()
     {
-        $this->addColumn('settings_group', 'key', $this->string()->notNull()->unique());
+        $this->addColumn('settings_group', 'key', $this->string(75)->notNull()->unique());
     }
 
     /**
