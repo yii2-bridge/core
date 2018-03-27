@@ -16,7 +16,7 @@ return [
     'Advanced settings' => 'Расширенные настройки',
     'Warning' => 'Внимание',
     'Don\'t edit, if you are not familiar what those do!' => 'Не редактируйте, если не знаете назначения этих полей!',
-    'Update' => 'Редактировать',
+    'Update' => 'Обновить',
     'Create' => 'Создать',
     'Trash' => 'Корзина',
     'All records' => 'Все записи',
@@ -50,5 +50,6 @@ return [
     'Update Settings Group' => 'Редактировать группу настроек',
     'Are you sure?' => 'Вы уверены?',
     'Yes' => 'Да',
-    'No' => 'Нет'
+    'No' => 'Нет',
+    'Map' => 'Карта'
 ];

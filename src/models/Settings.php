@@ -30,6 +30,7 @@ class Settings extends \yii\db\ActiveRecord
     const TYPE_TEXT = 2;
     const TYPE_IMAGE = 3;
     const TYPE_SWITCH = 4;
+    const TYPE_MAP = 5;
 
     /**
      * Returns list of available types
@@ -42,7 +43,8 @@ class Settings extends \yii\db\ActiveRecord
             self::TYPE_STRING => Yii::t('bridge', 'String'),
             self::TYPE_TEXT => Yii::t('bridge', 'Text'),
             self::TYPE_IMAGE => Yii::t('bridge', 'Image'),
-            self::TYPE_SWITCH => Yii::t('bridge', 'Checkbox')
+            self::TYPE_SWITCH => Yii::t('bridge', 'Checkbox'),
+            self::TYPE_MAP => Yii::t('bridge', 'Map'),
         ];
     }
 

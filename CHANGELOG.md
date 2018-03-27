@@ -16,6 +16,9 @@ Thanks.
 
 #### Changelog
 
+- Added `Kolyunya/yii2-map-input-widget` and new widget to `ActiveField`. 
+In order to provide Google maps api API key to widget,  
+- Added new settings type for maps.
 - Added `vlucas/phpdotenv` dependency for local development setup. Refer to `.env.example`.
 - Created console Yii2 app in `bin` directory for development purposes (to create migrations and etc). 
 You can run it with `php bin/yii.php`.
