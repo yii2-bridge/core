@@ -6,6 +6,7 @@ use mongosoft\file\UploadImageBehavior;
 use naffiq\bridge\assets\AdminAsset;
 use naffiq\bridge\models\query\SettingsQuery;
 use Yii;
+use yii\base\InvalidCallException;
 use yii\base\InvalidParamException;
 use yii\helpers\ArrayHelper;
 use yii\web\JsExpression;
@@ -143,6 +144,8 @@ JS
     /**
      * Looks for setting with provided `$key`
      *
+     * @deprecated since v0.9.0. It's will be required to create settings from SettingsGroup. Will be removed in v1.0.0.
+     *
      * @param string $key key to be looking for
      * @return Settings
      * @throws InvalidParamException when settings with key provided wasn't found
@@ -167,6 +170,8 @@ JS
     /**
      * Creates setting with provided params
      *
+     * @deprecated since v0.9.0. It's will be required to create settings from SettingsGroup. Will be removed in v1.0.0.
+     *
      * @param array $params
      * @return Settings
      */
@@ -183,6 +188,11 @@ JS
     /**
      * Looks for setting with provided `$key`. If not found, creates it with `$defaultParams`
      *
+     * @deprecated since v0.9.0. It's will be required to create settings from SettingsGroup.
+     *
+     * In order to migrate you can set `group_id` key in `$defaultParams` array. That will forcefully update
+     * settings `group_id` even if it already exists.
+     *
      * @param string $key
      * @param array $defaultParams
      * @return Settings|string
@@ -190,7 +200,15 @@ JS
     public static function getOrCreate($key, $defaultParams = [])
     {
         try {
-            return self::get($key);
+            $settings = self::get($key);
+
+            // Code
+            if ($settings && empty($settings->group_id) && isset($defaultParams['group_id'])) {
+                $settings->group_id = $defaultParams['group_id'];
+                $settings->save(false, ['group_id']);
+            }
+
+            return $settings;
         } catch (InvalidParamException $e) {
             return self::create(ArrayHelper::merge([
                 'key' => $key,
@@ -220,12 +238,40 @@ JS
     }
 
     /**
-     * @param $groupKey
-     * @param bool $create
-     * @param array $defaults
+     * @param string    $groupKey
+     * Key to obtain the group
+     * @param array     $defaults
+     * Array, that contains default values, if the group doesn't exist. Pass any value (`null` preffered),
+     * if `$create` is false. For available keys @see SettingsGroup::rules()
+     *
+     * @return SettingsGroup
      */
-    public static function group($groupKey, $create = false, $defaults = [])
+    public static function group($groupKey, $defaults = [])
     {
+        $group = SettingsGroup::find()->where(['key' => $groupKey])->one();
 
+        if (!$group) {
+            $group = new SettingsGroup(ArrayHelper::merge([
+                'key' => $groupKey,
+                'title' => $groupKey
+            ], $defaults));
+            $group->save();
+        }
+
+        return $group;
+    }
+
+    /**
+     * Short for miscellaneous. Uses or creates miscellaneous group with pre-defined config.
+     *
+     * @return SettingsGroup
+     */
+    public static function misc()
+    {
+        return self::group('misc', [
+            'title' => 'Miscellaneous',
+            'description' => 'All the settings, that didn\t find their own place.',
+            'icon' => 'fa-cogs'
+        ]);
     }
 }
