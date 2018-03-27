@@ -1,3 +1,8 @@
+### Version 0.8.4
+
+- Fixed `TranslationBehavior` save method
+- Added ability to set footer text
+
 ### Version 0.8.3
 
 - Fixed issue of overwriting app `i18n` config (translations) in BridgeModule
