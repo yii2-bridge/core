@@ -38,5 +38,17 @@ return [
     'File manager' => 'Файловый менеджер',
     'System' => 'Система',
     'Content' => 'Контент',
-    'Translations' => 'Переводы'
+    'Translations' => 'Переводы',
+    'Create settings group' => 'Создать группу настроек',
+    'Miscellaneous' => 'Разное',
+    'Add group' => 'Добавить группу',
+    'Create Settings Group' => 'Создать группу настроек',
+    'Group name' => 'Имя группы',
+    'Group icon' => 'Иконка группы',
+    'Group description' => 'Описание группы',
+    'Settings group' => 'Группа настроек',
+    'Update Settings Group' => 'Редактировать группу настроек',
+    'Are you sure?' => 'Вы уверены?',
+    'Yes' => 'Да',
+    'No' => 'Нет'
 ];

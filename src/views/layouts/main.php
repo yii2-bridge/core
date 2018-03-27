@@ -112,11 +112,15 @@ $isMenuWide = \Yii::$app->session->get('bridge-menu-state', 0);
             </div>
         </div>
 
-        <div class="panel">
-            <div class="panel-body">
-                <?= $content ?>
+        <?php if (!ArrayHelper::getValue($this->params, 'no-panel', false)) : ?>
+            <div class="panel">
+                <div class="panel-body">
+                    <?= $content ?>
+                </div>
             </div>
-        </div>
+        <?php else: ?>
+            <?= $content ?>
+        <?php endif; ?>
     </div>
 
     <footer class="footer">

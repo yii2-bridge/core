@@ -143,6 +143,16 @@ JS
     }
 
     /**
+     * Renders all font-awesome icons with preview. Resulting value example: 'fa-star'
+     *
+     * @return $this
+     */
+    public function fontAwesome()
+    {
+        return $this->widget(FontAwesomePicker::className());
+    }
+
+    /**
      * Renders dropdown (select2) with any records from database, that found via `$arClass` ActiveRecord.
      * If `$arClass` implements getDropDownData() static method, then select will be filled with returned value.
      *
@@ -155,12 +165,12 @@ JS
     public function relationalDropDown($arClass, $value = 'id', $label = 'title', $selectOptions = [])
     {
         if (method_exists($arClass, 'getDropDownData')) {
-            $dropDownData = $arClass::getDropDownData();
+            $dropDownData = $arClass::getDropDownData($value, $label);
         } else {
-            $dropDownData = $arClass::find()->all();
+            $dropDownData = ArrayHelper::map($arClass::find()->all(), $value, $label);
         }
 
-        return $this->select2(ArrayHelper::map($dropDownData, $value, $label), $selectOptions);
+        return $this->select2($dropDownData, $selectOptions);
     }
 
     /**

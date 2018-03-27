@@ -1,3 +1,33 @@
+### Version 0.9.0
+
+#### Deprecation notice ⚠️
+
+Since Bridge v0.9.0 brings Settings group feature it will no longer support
+`Settings::getOrCreate('email')` function (as well as `create` and `get` functions). Use `Settings::group('contacts')->getOrCreate('email')` instead.
+We do that in order to force developers to make better user interfaces and experience to content moderators.
+
+You can use `Settings::misc()->getOrCreate('settings_i_didn\'t_find_a_place_for')` for
+settings that you did not find places for.
+
+Those methods will be deleted in `v1.0.0`. In order to migrate to new syntax you can set
+`group_id`.
+
+Thanks.
+
+#### Changelog
+
+- Added `vlucas/phpdotenv` dependency for local development setup. Refer to `.env.example`.
+- Created console Yii2 app in `bin` directory for development purposes (to create migrations and etc). 
+You can run it with `php bin/yii.php`.
+- Added `./bin/bridge-install-dev` install script for dev and test/CI environment.
+- Created `SettingsGroups` model
+- Created `FontAwesomePicker` widget and added it to `ActiveField`
+- Added `no-panel` View param support in order to hide admin layout's bootstrap panel
+- Updated Settings UI
+- Changed `ActiveField::relationalDropDown` widget code for flexibility.
+- Fixed `Toastr` widget.
+- Fixed `TranslationBehavior`.
+
 ### Version 0.8.4
 
 - Fixed `TranslationBehavior` save method
@@ -7,6 +37,10 @@
 
 - Fixed issue of overwriting app `i18n` config (translations) in BridgeModule
 - Fixed issue of duplicating translations in translations view (index)   
+
+### Version 0.8.1
+
+- Fixed `i18n` and `urlManager` components setup
 
 ### Version 0.8.0
 
