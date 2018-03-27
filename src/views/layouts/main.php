@@ -122,8 +122,12 @@ $isMenuWide = \Yii::$app->session->get('bridge-menu-state', 0);
     <footer class="footer">
         <div class="container-fluid">
             <div class="footer-copyright text-center">
-                &beta;ridge © <?= date('Y') ?>
-                by <a href="https://github.com/naffiq" target="_blank">naffiq</a>
+                <?= Settings::getOrCreate('footer-copyright', [
+                    'title' => 'Footer-copyright',
+                    'value' => '&beta;ridge © ' . date('Y') .
+                ' by <a href="https://github.com/naffiq" target="_blank">naffiq</a>',
+                    'type' => Settings::TYPE_TEXT
+                ]) ?>
             </div>
         </div>
     </footer>
