@@ -11,6 +11,7 @@ use yii\helpers\ArrayHelper;
  * This is the model class for table "settings_group".
  *
  * @property integer $id
+ * @property string $key
  * @property string $title
  * @property string $description
  * @property string $icon
@@ -48,9 +49,10 @@ class SettingsGroup extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
+            [['key'], 'required'],
             [['description'], 'string'],
             [['position'], 'integer'],
-            [['title', 'icon'], 'string', 'max' => 255],
+            [['key', 'title', 'icon'], 'string', 'max' => 255],
         ];
     }
 
