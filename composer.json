@@ -49,5 +49,11 @@
     "require-dev": {
         "yiisoft/yii2-gii": "^2.0",
         "phpunit/phpunit": "^5.7"
-    }
+    },
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://asset-packagist.org"
+        }
+    ]
 }

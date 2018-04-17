@@ -1,3 +1,7 @@
+### Version 0.9.1
+
+- Fixed admin layout `Settings` usage
+
 ### Version 0.9.0
 
 #### Deprecation notice ⚠️
