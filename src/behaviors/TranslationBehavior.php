@@ -63,6 +63,9 @@ class TranslationBehavior extends Behavior
         $translationModel = new $this->translationModelClass();
 
         $data = \Yii::$app->request->post($translationModel->formName());
+
+        if (empty($data)) return;
+
         foreach ($data as $lang => $record) {
             $translation = $this->getTranslationModel($lang);
             $translation->setAttributes(ArrayHelper::merge($record, [

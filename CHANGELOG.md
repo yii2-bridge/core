@@ -3,6 +3,7 @@
 - Fixed admin layout `Settings` usage
 - Created `BridgeComponent` that stores app state and settings and accessible by calling `Yii::$app->bridge`. 
 Currently allows developer to check if user is in admin panel or not (`Yii::$app->bridge->isAdmin`)
+- Fixed #48 — when no translation data is passed in post request behavior was throwing exception.
 
 ### Version 0.9.0
 
