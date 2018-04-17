@@ -2,6 +2,8 @@
 
 ![Yet another admin panel](https://raw.githubusercontent.com/naffiq/yii2-bridge/master/src/assets/dist/bridge.jpg)
 
+### [Краткое введение и туториал на русском](http://telegra.ph/Yii2-Bridge-03-26)
+
 Bridge delivers you simple content management system that utilizes best production-tested
 components and plugins for Yii2.
 
@@ -127,5 +129,19 @@ And also it has `Bridge CRUD generator`, which will generate necessary fields
 inputs and display it nicely to the index table.  
 
 ## Development and testing
+Configure your `.env` (refer to `.env.example`). Run migrations with:
+```bash
+$ ./bin/bridge-install-dev
+```
 
-Currently I use 
+Bridge comes with console app for development and testing purposes, located in `bin` folder.
+You can simply execute it with
+```bash
+$ php bin/yii.php CONTROLLER/ACTION [params]
+``` 
+
+Test package with
+```bash
+$ ./vendor/bin/phpunit
+```
+
