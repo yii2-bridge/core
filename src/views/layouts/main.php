@@ -43,7 +43,10 @@ $isMenuWide = \Yii::$app->session->get('bridge-menu-state', 0);
             <i class="fa fa-arrow-left"></i>
         </div>
         <div class="nav-menu--header-title">
-            <?= Settings::getOrCreate('admin-header', [
+            <?= Settings::group('admin', [
+                'icon' => 'fa-wrench',
+                'title' => 'Admin',
+            ])->getOrCreate('admin-header', [
                 'title' => 'Admin title',
                 'value' => 'Bridge',
                 'type' => Settings::TYPE_STRING
@@ -126,7 +129,7 @@ $isMenuWide = \Yii::$app->session->get('bridge-menu-state', 0);
     <footer class="footer">
         <div class="container-fluid">
             <div class="footer-copyright text-center">
-                <?= Settings::getOrCreate('footer-copyright', [
+                <?= Settings::group('admin')->getOrCreate('footer-copyright', [
                     'title' => 'Footer-copyright',
                     'value' => '&beta;ridge © ' . date('Y') .
                 ' by <a href="https://github.com/naffiq" target="_blank">naffiq</a>',
