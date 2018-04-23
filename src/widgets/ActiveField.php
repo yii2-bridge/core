@@ -13,11 +13,13 @@ use kartik\widgets\DatePicker;
 use kartik\widgets\DateTimePicker;
 use kartik\widgets\FileInput;
 use kartik\widgets\SwitchInput;
-use mongosoft\file\UploadBehavior;
-use yii\helpers\ArrayHelper;
-use yii\helpers\Html;
+use kolyunya\yii2\widgets\MapInputWidget;
 use mihaildev\ckeditor\CKEditor;
 use mihaildev\elfinder\ElFinder;
+use mongosoft\file\UploadBehavior;
+use naffiq\bridge\models\Settings;
+use yii\helpers\ArrayHelper;
+use yii\helpers\Html;
 use yii\web\Application;
 use yii\web\View;
 
@@ -60,7 +62,7 @@ CKEDITOR.on('dialogDefinition', function( ev ) {
     }
 });
 JS
-        , View::POS_END, 'CKEDITOR_IMAGE_DEFAULTS');
+            , View::POS_END, 'CKEDITOR_IMAGE_DEFAULTS');
     }
 
     /**
@@ -76,7 +78,7 @@ JS
         $this->registerCKEditorImageDefaults($width, $height);
 
         return $this->widget(CKEditor::className(), ArrayHelper::merge([
-            'editorOptions' => ElFinder::ckeditorOptions(['/admin/elfinder', 'path' => 'some/sub/path'],['preset' => 'full', 'inline' => false]),
+            'editorOptions' => ElFinder::ckeditorOptions(['/admin/elfinder', 'path' => 'some/sub/path'], ['preset' => 'full', 'inline' => false]),
         ], $options));
 
     }
@@ -143,6 +145,41 @@ JS
     }
 
     /**
+     * Renders map input widget.
+     *
+     * @param $createKeySettings bool If set to true creates `google-map-key` settings in `app-keys` group
+     * that can be updated by admin later.
+     *
+     * @link https://github.com/Kolyunya/yii2-map-input-widget
+     *
+     * @param array $options
+     * @return $this
+     */
+    public function map($options = [], $createKeySettings = true)
+    {
+        if (empty($options['key']) && $createKeySettings) {
+            $options['key'] = Settings::group('app-keys', [
+                'title' => 'Keys',
+                'icon' => 'fa-keys'
+            ])->getOrCreate('google-map-key', [
+                'title' => 'Google Maps API key',
+                'type' => Settings::TYPE_STRING
+            ])->value;
+        }
+        return $this->widget(MapInputWidget::class, $options);
+    }
+
+    /**
+     * Renders all font-awesome icons with preview. Resulting value example: 'fa-star'
+     *
+     * @return $this
+     */
+    public function fontAwesome()
+    {
+        return $this->widget(FontAwesomePicker::className());
+    }
+
+    /**
      * Renders dropdown (select2) with any records from database, that found via `$arClass` ActiveRecord.
      * If `$arClass` implements getDropDownData() static method, then select will be filled with returned value.
      *
@@ -155,12 +192,12 @@ JS
     public function relationalDropDown($arClass, $value = 'id', $label = 'title', $selectOptions = [])
     {
         if (method_exists($arClass, 'getDropDownData')) {
-            $dropDownData = $arClass::getDropDownData();
+            $dropDownData = $arClass::getDropDownData($value, $label);
         } else {
-            $dropDownData = $arClass::find()->all();
+            $dropDownData = ArrayHelper::map($arClass::find()->all(), $value, $label);
         }
 
-        return $this->select2(ArrayHelper::map($dropDownData, $value, $label), $selectOptions);
+        return $this->select2($dropDownData, $selectOptions);
     }
 
     /**

@@ -11,6 +11,7 @@ namespace naffiq\bridge\behaviors;
 use naffiq\bridge\widgets\Toastr;
 use yii\base\Behavior;
 use yii\db\ActiveRecord;
+use yii\helpers\ArrayHelper;
 
 class TranslationBehavior extends Behavior
 {
@@ -62,12 +63,15 @@ class TranslationBehavior extends Behavior
         $translationModel = new $this->translationModelClass();
 
         $data = \Yii::$app->request->post($translationModel->formName());
+
+        if (empty($data)) return;
+
         foreach ($data as $lang => $record) {
             $translation = $this->getTranslationModel($lang);
-            $translation->setAttributes($record, [
+            $translation->setAttributes(ArrayHelper::merge($record, [
                 $this->translationModelRelationColumn => $this->owner->getPrimaryKey(),
                 $this->translationModelLangColumn => $lang,
-            ]);
+            ]));
 
             if (!$translation->save()) {
                 Toastr::warning(\Yii::t('admin', "Перевод на {$lang} неполный, не сохранен"));

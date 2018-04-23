@@ -16,7 +16,7 @@ return [
     'Advanced settings' => 'Расширенные настройки',
     'Warning' => 'Внимание',
     'Don\'t edit, if you are not familiar what those do!' => 'Не редактируйте, если не знаете назначения этих полей!',
-    'Update' => 'Редактировать',
+    'Update' => 'Обновить',
     'Create' => 'Создать',
     'Trash' => 'Корзина',
     'All records' => 'Все записи',
@@ -38,5 +38,18 @@ return [
     'File manager' => 'Файловый менеджер',
     'System' => 'Система',
     'Content' => 'Контент',
-    'Translations' => 'Переводы'
+    'Translations' => 'Переводы',
+    'Create settings group' => 'Создать группу настроек',
+    'Miscellaneous' => 'Разное',
+    'Add group' => 'Добавить группу',
+    'Create Settings Group' => 'Создать группу настроек',
+    'Group name' => 'Имя группы',
+    'Group icon' => 'Иконка группы',
+    'Group description' => 'Описание группы',
+    'Settings group' => 'Группа настроек',
+    'Update Settings Group' => 'Редактировать группу настроек',
+    'Are you sure?' => 'Вы уверены?',
+    'Yes' => 'Да',
+    'No' => 'Нет',
+    'Map' => 'Карта'
 ];

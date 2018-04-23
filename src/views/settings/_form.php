@@ -1,5 +1,6 @@
 <?php
 
+use naffiq\bridge\models\SettingsGroup;
 use yii\bootstrap\Html;
 use naffiq\bridge\widgets\ActiveForm;
 use naffiq\bridge\models\Settings;
@@ -13,12 +14,16 @@ use naffiq\bridge\models\Settings;
     <div class="col-lg-5">
         <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
 
+        <?= $form->field($model, 'group_id')->relationalDropDown(SettingsGroup::class) ?>
+
         <?php if ($model->type == Settings::TYPE_TEXT) : ?>
             <?= $form->field($model, 'value')->richTextArea(['options' => ['rows' => 6]]) ?>
         <?php elseif ($model->type == Settings::TYPE_IMAGE) : ?>
             <?= $form->field($model, 'value')->imageUpload() ?>
         <?php elseif ($model->type == Settings::TYPE_SWITCH): ?>
             <?= $form->field($model, 'value')->switchInput() ?>
+        <?php elseif ($model->type == Settings::TYPE_MAP): ?>
+            <?= $form->field($model, 'value')->map() ?>
         <?php else: ?>
             <?= $form->field($model, 'value')->textInput() ?>
         <?php endif; ?>

@@ -13,7 +13,7 @@ return [
         ],
         'db' => [
             'class' => 'yii\db\Connection',
-            'dsn' => 'mysql:host=localhost;dbname=yii2-bridge-test',
+            'dsn' => 'mysql:host=localhost;dbname=yii2_bridge_test',
             'username' => 'root',
             'password' => '',
             'charset' => 'utf8',

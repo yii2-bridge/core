@@ -3,13 +3,18 @@ php:
 - '7.0'
 - '7.1'
 
+services:
+  - mysql
+
 before_install:
   - composer config --global github-oauth.github.com "$GITHUB_TOKEN"
+  - mysql -e 'CREATE DATABASE yii2_bridge_test DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;'
 
 install:
 - composer global require "fxp/composer-asset-plugin"
 - composer install
 script:
+- "./bin/bridge-install-dev"
 - "./vendor/bin/phpunit --verbose $PHPUNIT_FLAGS"
 env:
   global:
