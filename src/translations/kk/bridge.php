@@ -38,5 +38,18 @@ return [
     'File manager' => 'Файлдық менеджер',
     'System' => 'Жүйе',
     'Content' => 'Контент',
-    'Translations' => 'Аудармалар'
+    'Translations' => 'Аудармалар',
+    'Create settings group' => 'Баптаулар тобын құру',
+    'Miscellaneous' => 'Басқалары',
+    'Add group' => 'Жаңа топ',
+    'Create Settings Group' => 'Баптаулар тобын құру',
+    'Group name' => 'Топ атауы',
+    'Group icon' => 'Топ белгішесі',
+    'Group description' => 'Топ сипаттамасы',
+    'Settings group' => 'Баптаулар тобы',
+    'Update Settings Group' => 'Баптаулар тобын редакциялау',
+    'Are you sure?' => 'Сіз сенімдісіз бе?',
+    'Yes' => 'Ия',
+    'No' => 'Жоқ',
+    'Map' => 'Карта'
 ];
