@@ -14,7 +14,7 @@ use kartik\widgets\DateTimePicker;
 use kartik\widgets\FileInput;
 use kartik\widgets\SwitchInput;
 use kolyunya\yii2\widgets\MapInputWidget;
-use mihaildev\ckeditor\CKEditor;
+use dosamigos\ckeditor\CKEditor;
 use mihaildev\elfinder\ElFinder;
 use mongosoft\file\UploadBehavior;
 use naffiq\bridge\models\Settings;
@@ -71,14 +71,15 @@ JS
      *
      * @return $this
      */
-    public function richTextArea($options = [])
+    public function richTextArea($options = [], $ckeditorOptions = [])
     {
         $width = ArrayHelper::getValue($options, 'defaultImageWidth', '100%');
         $height = ArrayHelper::getValue($options, 'defaultImageHeight', '');
         $this->registerCKEditorImageDefaults($width, $height);
 
         return $this->widget(CKEditor::className(), ArrayHelper::merge([
-            'editorOptions' => ElFinder::ckeditorOptions(['/admin/elfinder', 'path' => 'some/sub/path'], ['preset' => 'full', 'inline' => false]),
+            'clientOptions' => ElFinder::ckeditorOptions(['/admin/elfinder', 'path' => 'some/sub/path'],
+                $ckeditorOptions)
         ], $options));
 
     }
