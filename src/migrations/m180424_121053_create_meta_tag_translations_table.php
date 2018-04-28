@@ -18,8 +18,9 @@ class m180424_121053_create_meta_tag_translations_table extends Migration
             'meta_tag_id' => $this->integer()->notNull()->comment('Мета-тег'),
             'title' => $this->string()->comment('Заголовок'),
             'description' => $this->text()->comment('Описание'),
-            'keywords' => $this->text()->comment('Ключевые слова'),
-            'image' => $this->text()->comment('Изображение'),
+            'keywords' => $this->string()->comment('Ключевые слова'),
+            'image' => $this->string()->comment('Изображение'),
+            'type' => $this->string()->comment('Тип страницы'),
         ]);
 
         // creates index for columns `lang` and `meta_tag_id`
