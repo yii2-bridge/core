@@ -73,7 +73,7 @@ $this->params['contextMenuItems'] = [
     'dataProvider' => $dataProvider,
     'options' => ['class' => 'grid-view table-responsive'],
     'behaviors' => [
-        \dosamigos\grid\behaviors\ResizableColumnsBehavior::className()
+        \dosamigos\grid\behaviors\ResizableColumnsBehavior::class
     ],
     <?= !empty($generator->searchModelClass) ? "'filterModel' => \$searchModel,\n    'columns' => [\n" : "'columns' => [\n"; ?>
         ['class' => 'yii\grid\SerialColumn'],
@@ -108,7 +108,7 @@ if (($tableSchema = $generator->getTableSchema()) === false) {
 ?>
 
         [
-            'class' => ActionColumn::className(),
+            'class' => ActionColumn::class,
 <?php if ($generator->shouldSoftDelete()) : ?>
             'buttons' => [
                 'delete' => [
