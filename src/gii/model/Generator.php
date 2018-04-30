@@ -134,7 +134,7 @@ class Generator extends \yii\gii\generators\model\Generator
         foreach ($table->columns as $column) {
             if (ColumnHelper::endsWith($column->name, ['image', 'avatar'])) {
                 $behaviors[$column->name . 'Upload'] = [
-                    'class' => UploadImageBehavior::className(),
+                    'class' => UploadImageBehavior::class,
                     'attribute' => $column->name,
                     'path' => '@webroot/media/'.$table->name.'/{id}',
                     'url' => '@web/media/'.$table->name.'/{id}',
@@ -148,7 +148,7 @@ class Generator extends \yii\gii\generators\model\Generator
 
             if (ColumnHelper::endsWith($column->name, 'file')) {
                 $behaviors[$column->name . 'File'] = [
-                    'class' => UploadBehavior::className(),
+                    'class' => UploadBehavior::class,
                     'attribute' => $column->name,
                     'path' => '@webroot/media/'.$table->name.'/{id}',
                     'url' => '@web/media/'.$table->name.'/{id}',
@@ -158,14 +158,14 @@ class Generator extends \yii\gii\generators\model\Generator
 
             if ($column->name === 'position') {
                 $behaviors[$column->name . 'Sort'] = [
-                    'class' => PositionBehavior::className(),
+                    'class' => PositionBehavior::class,
                     'positionAttribute' => $column->name
                 ];
             }
 
             if ($column->name === 'isDeleted' || $column->name === 'is_deleted') {
                 $behaviors['softDeleteBehavior'] = [
-                    'class' => SoftDeleteBehavior::className(),
+                    'class' => SoftDeleteBehavior::class,
                     'softDeleteAttributeValues' => new ArrayString([
                         $column->name => true
                     ]),
@@ -420,7 +420,7 @@ class Generator extends \yii\gii\generators\model\Generator
                 $targetAttributes[] = "'$key' => '$value'";
             }
             $targetAttributes = implode(', ', $targetAttributes);
-            $rules[] = "[['$attributes'], 'exist', 'skipOnError' => true, 'targetClass' => $refClassName::className(), 'targetAttribute' => [$targetAttributes]]";
+            $rules[] = "[['$attributes'], 'exist', 'skipOnError' => true, 'targetClass' => $refClassName::class, 'targetAttribute' => [$targetAttributes]]";
         }
 
         return $rules;

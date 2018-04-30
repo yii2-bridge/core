@@ -126,7 +126,7 @@ JS
         parent::afterFind();
         if ($this->type == static::TYPE_IMAGE) {
             $this->attachBehavior('uploadImage', [
-                'class' => UploadImageBehavior::className(),
+                'class' => UploadImageBehavior::class,
                 'attribute' => 'value',
                 'scenarios' => ['create', 'update'],
                 'path' => '@webroot/media/settings/{id}',
@@ -233,7 +233,7 @@ JS
                 return $this->getUploadUrl('value');
             }
 
-            $bundle = \Yii::$app->assetManager->getBundle(AdminAsset::className());
+            $bundle = \Yii::$app->assetManager->getBundle(AdminAsset::class);
             return \Yii::$app->assetManager->getAssetUrl($bundle, 'avatar@2x.jpg');
         }
         return (string) $this->value;
