@@ -4,6 +4,7 @@ namespace naffiq\bridge\models;
 
 use naffiq\bridge\models\query\MetaModelQuery;
 use Yii;
+use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "meta_models".
@@ -34,7 +35,7 @@ class MetaModel extends \yii\db\ActiveRecord
             [['model', 'model_id', 'meta_tag_id'], 'required'],
             [['model_id', 'meta_tag_id'], 'integer'],
             [['model'], 'string', 'max' => 255],
-            [['meta_tag_id'], 'exist', 'skipOnError' => true, 'targetClass' => MetaTag::className(), 'targetAttribute' => ['meta_tag_id' => 'id']],
+            [['meta_tag_id'], 'exist', 'skipOnError' => true, 'targetClass' => MetaTag::class, 'targetAttribute' => ['meta_tag_id' => 'id']],
         ];
     }
 
@@ -45,9 +46,9 @@ class MetaModel extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'model' => Yii::t('bridge', 'Model class name'),
-            'model_id' => Yii::t('bridge', 'Model item ID'),
-            'meta_tag_id' => Yii::t('bridge', 'Meta Tag ID'),
+            'model' => 'Model',
+            'model_id' => 'Model ID',
+            'meta_tag_id' => 'Meta Tag ID',
         ];
     }
 
@@ -56,9 +57,9 @@ class MetaModel extends \yii\db\ActiveRecord
      */
     public function getMetaTag()
     {
-        return $this->hasOne(MetaTag::className(), ['id' => 'meta_tag_id']);
+        return $this->hasOne(MetaTag::class, ['id' => 'meta_tag_id']);
     }
-    
+
     /**
      * @inheritdoc
      * @return MetaModelQuery the active query used by this AR class.
@@ -68,4 +69,24 @@ class MetaModel extends \yii\db\ActiveRecord
         return new MetaModelQuery(get_called_class());
     }
 
+    /**
+     * Создаем новый объект класса MetaModel,
+     * который связывает вызываемую модель ($this->owner) с MetaTag
+     *
+     * @param ActiveRecord $model
+     * @param MetaTag $metaTag
+     * @return MetaModel
+     */
+    public static function create(ActiveRecord $model, MetaTag $metaTag)
+    {
+        $metaModel = new MetaModel();
+
+        $metaModel->model = $model::className();
+        $metaModel->model_id = $model->id;
+        $metaModel->meta_tag_id = $metaTag->id;
+
+        $metaModel->save();
+
+        return $metaModel;
+    }
 }

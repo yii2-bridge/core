@@ -1,9 +1,7 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: rocketscientist
- * Date: 28.04.2018
- * Time: 16:29
+ * @property MetaModel $metaModel
+ * @property MetaTag $metaTag
  */
 
 namespace naffiq\bridge\behaviors;
@@ -55,8 +53,8 @@ class MetaTagBehavior extends Behavior
     public function saveMetaTags()
     {
         if(!$this->owner->metaModel) {
-            $metaTag = $this->createMetaTag();
-            return $this->createMetaModel($metaTag);
+            $metaTag = MetaTag::create();
+            return MetaModel::create($this->owner, $metaTag);
         }
 
         return $this->owner->metaTag->save();
@@ -76,34 +74,5 @@ class MetaTagBehavior extends Behavior
     public function getMetaTag()
     {
         return $this->metaModel->metaTag ?? new MetaTag();
-    }
-
-    /**
-     * Создание нового объекта класса MetaTag
-     *
-     * @return MetaTag
-     */
-    private function createMetaTag()
-    {
-        $metaTag = new MetaTag();
-        $metaTag->save();
-        return $metaTag;
-    }
-
-    /**
-     * Создание нового объекта класса MetaModel,
-     * который связывает вызываемую модель ($this->owner) с MetaTag
-     *
-     * @param MetaTag $metaTag
-     * @return boolean
-     */
-    private function createMetaModel(MetaTag $metaTag)
-    {
-        $metaModel = new MetaModel();
-        $metaModel->model = $this->owner::className();
-        $metaModel->model_id = $this->owner->id;
-        $metaModel->meta_tag_id = $metaTag->id;
-
-        return $metaModel->save();
     }
 }

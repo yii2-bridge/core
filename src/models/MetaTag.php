@@ -7,6 +7,8 @@ use Yii;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 use yii\db\Expression;
+use yii\helpers\ArrayHelper;
+use yii\helpers\StringHelper;
 
 /**
  * This is the model class for table "meta_tags".
@@ -17,6 +19,7 @@ use yii\db\Expression;
  *
  * @property MetaModel[] $metaModels
  * @property MetaTagTranslation[] $metaTagTranslations
+ * @property MetaTagTranslation $translation
  */
 class MetaTag extends \yii\db\ActiveRecord
 {
@@ -45,8 +48,8 @@ class MetaTag extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'created_at' => Yii::t('bridge', 'Created At'),
-            'updated_at' => Yii::t('bridge', 'Updated At'),
+            'created_at' => 'Created At',
+            'updated_at' => 'Updated At',
         ];
     }
 
@@ -55,7 +58,7 @@ class MetaTag extends \yii\db\ActiveRecord
      */
     public function getMetaModels()
     {
-        return $this->hasMany(MetaModel::className(), ['meta_tag_id' => 'id']);
+        return $this->hasMany(MetaModel::class, ['meta_tag_id' => 'id']);
     }
 
     /**
@@ -63,7 +66,7 @@ class MetaTag extends \yii\db\ActiveRecord
      */
     public function getMetaTagTranslations()
     {
-        return $this->hasMany(MetaTagTranslation::className(), ['meta_tag_id' => 'id']);
+        return $this->hasMany(MetaTagTranslation::class, ['meta_tag_id' => 'id']);
     }
 
     /**
@@ -82,7 +85,7 @@ class MetaTag extends \yii\db\ActiveRecord
     {
         return [
             'timestamp' => [
-                'class' => TimestampBehavior::className(),
+                'class' => TimestampBehavior::class,
                 'attributes' => [
                     ActiveRecord::EVENT_BEFORE_INSERT => ['created_at'],
                     ActiveRecord::EVENT_BEFORE_UPDATE => ['updated_at'],
@@ -95,5 +98,68 @@ class MetaTag extends \yii\db\ActiveRecord
                 'translationModelRelationColumn' => 'meta_tag_id'
             ]
         ];
+    }
+
+    /**
+     * Создание нового объекта класса MetaTag, со значениями по-умолчанию (если они указаны)
+     *
+     * @param array $defaultParams
+     * @return MetaTag
+     */
+    public static function create($defaultParams = [])
+    {
+        $metaTag = new MetaTag();
+
+        // Добавляем в POST запрос данные, которые пришли как по-умолчанию
+        Yii::$app->request->setBodyParams(ArrayHelper::merge(self::getTranslationParams($metaTag, $defaultParams), Yii::$app->request->getBodyParams()));
+
+        $metaTag->save();
+
+        return $metaTag;
+    }
+
+    /**
+     * Получаем массив со своими значениями по-умолчанию для перевода мета-тегов
+     * Пример:
+     *  'MetaTagTranslation' => [
+     *      'en-US' => [
+     *          'lang' => 'en-US',
+     *          'title' => 'Title'
+     *      ],
+     *      'ru-RU' => [
+     *          'lang' => 'ru-RU',
+     *          'title' => 'Заголовок'
+     *      ],
+     *      'kk-KZ' => [
+     *          'lang' => 'kk-KZ',
+     *          'title' => 'Тақырып'
+     *      ]
+     *  ]
+     *
+     * @param MetaTag $metaTag
+     * @param array $defaultParams
+     * @return array
+     */
+    private static function getTranslationParams(MetaTag $metaTag, $defaultParams = [])
+    {
+        /**
+         * Получаем базовое имя модели переводов мета-тегов (без namespace)
+         * Пример: 'MetaTagTranslation'
+         *
+         * @var string $metaTagTranslationModelName
+         */
+        $metaTagTranslationModelName = StringHelper::basename($metaTag->getBehavior('translation')->translationModelClass);
+
+        $params = [];
+
+        foreach (Yii::$app->urlManager->languages as $label => $code) {
+            $params[$metaTagTranslationModelName][$code] = [
+                'lang' => $code,
+                'title' => ArrayHelper::getValue($defaultParams, $code . '.title', Yii::$app->name),
+                'description' => ArrayHelper::getValue($defaultParams, $code . '.description', Yii::$app->name)
+            ];
+        }
+
+        return $params;
     }
 }

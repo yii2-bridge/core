@@ -15,7 +15,6 @@ use Yii;
  * @property string $description
  * @property string $keywords
  * @property string $image
- * @property string $type
  *
  * @property MetaTag $metaTag
  *
@@ -43,11 +42,11 @@ class MetaTagTranslation extends \yii\db\ActiveRecord
         return [
             [['lang'], 'required'],
             [['meta_tag_id'], 'integer'],
-            [['description'], 'string'],
-            [['lang', 'title', 'keywords', 'type'], 'string', 'max' => 255],
+            [['description', 'keywords'], 'string'],
+            [['lang', 'title'], 'string', 'max' => 255],
             [['image'], 'file', 'on' => ['create', 'update'], 'extensions' => ['gif', 'jpg', 'png', 'jpeg']],
             [['lang', 'meta_tag_id'], 'unique', 'targetAttribute' => ['lang', 'meta_tag_id'], 'message' => 'The combination of Lang and Meta Tag ID has already been taken.'],
-            [['meta_tag_id'], 'exist', 'skipOnError' => true, 'targetClass' => MetaTag::className(), 'targetAttribute' => ['meta_tag_id' => 'id']],
+            [['meta_tag_id'], 'exist', 'skipOnError' => true, 'targetClass' => MetaTag::class, 'targetAttribute' => ['meta_tag_id' => 'id']],
         ];
     }
 
@@ -58,13 +57,12 @@ class MetaTagTranslation extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'lang' => Yii::t('bridge', 'Lang'),
-            'meta_tag_id' => Yii::t('bridge', 'Meta Tag ID'),
-            'title' => Yii::t('bridge', 'Title'),
-            'description' => Yii::t('bridge', 'Description'),
-            'keywords' => Yii::t('bridge', 'Keywords'),
-            'image' => Yii::t('bridge', 'Image'),
-            'type' => Yii::t('bridge', 'Type page'),
+            'lang' => 'Lang',
+            'meta_tag_id' => 'Meta Tag ID',
+            'title' => 'Title',
+            'description' => 'Description',
+            'keywords' => 'Keywords',
+            'image' => 'Image',
         ];
     }
 
@@ -73,7 +71,7 @@ class MetaTagTranslation extends \yii\db\ActiveRecord
      */
     public function getMetaTag()
     {
-        return $this->hasOne(MetaTag::className(), ['id' => 'meta_tag_id']);
+        return $this->hasOne(MetaTag::class, ['id' => 'meta_tag_id']);
     }
 
     /**
@@ -91,7 +89,7 @@ class MetaTagTranslation extends \yii\db\ActiveRecord
     public function behaviors()
     {
         return [
-            // TODO: Переписать поведение для мультиязычности
+            // TODO: Переписать поведение загрузки изображении для мультиязычности
             /*'imageUpload' => [
                 'class' => 'mongosoft\file\UploadImageBehavior',
                 'attribute' => 'image',
