@@ -45,7 +45,7 @@ class MetaTagTranslation extends ActiveRecord
             [['meta_tag_id'], 'integer'],
             [['description', 'keywords'], 'string'],
             [['lang', 'title'], 'string', 'max' => 255],
-            [['image'], 'file', 'on' => ['create', 'update'], 'extensions' => ['gif', 'jpg', 'png', 'jpeg']],
+            [['image'], 'file', 'on' => ['create', 'update', 'default'], 'extensions' => ['gif', 'jpg', 'png', 'jpeg']],
             [['lang', 'meta_tag_id'], 'unique', 'targetAttribute' => ['lang', 'meta_tag_id'], 'message' => 'The combination of Lang and Meta Tag ID has already been taken.'],
             [['meta_tag_id'], 'exist', 'skipOnError' => true, 'targetClass' => MetaTag::class, 'targetAttribute' => ['meta_tag_id' => 'id']],
         ];
@@ -90,15 +90,17 @@ class MetaTagTranslation extends ActiveRecord
     public function behaviors()
     {
         return [
-            // TODO: Переписать поведение загрузки изображении для мультиязычности
-            /*'imageUpload' => [
-                'class' => 'mongosoft\file\UploadImageBehavior',
+            'imageUpload' => [
+                'class' => 'naffiq\bridge\behaviors\BridgeUploadImageBehavior',
                 'attribute' => 'image',
+                'isTranslation' => true,
+                'instanceByName' => true,
                 'path' => '@webroot/media/meta_tag_translations/{id}',
                 'url' => '@web/media/meta_tag_translations/{id}',
-                'scenarios' => ['create', 'update'],
+                'scenarios' => ['create', 'update', 'default'],
+                // TODO: Узнать размер превью для соц. сетей
                 'thumbs' => ['thumb' => ['width' => 200, 'height' => 200, 'quality' => 90], 'preview' => ['width' => 50, 'height' => 50, 'quality' => 90]],
-            ],*/
+            ],
         ];
     }
 }

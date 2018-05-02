@@ -40,11 +40,13 @@ class MetaTagsComponent extends Component
      *  }
      *
      * @param ActiveRecord $model
-     * @param string $behaviorName
+     * @param string $metaTagBehaviorName
+     * @param string $imageUploadBehaviorName
+     * @internal param string $behaviorName
      */
-    public function registerModel(ActiveRecord $model, string $behaviorName = 'metaTag')
+    public function registerModel(ActiveRecord $model, string $metaTagBehaviorName = 'metaTag', string $imageUploadBehaviorName = 'imageUpload')
     {
-        $metaTagBehavior = $model->getBehavior($behaviorName);
+        $metaTagBehavior = $model->getBehavior($metaTagBehaviorName);
 
         if (!$metaTagBehavior || !(get_class($metaTagBehavior) === MetaTagBehavior::class)) {
             throw new InvalidArgumentException('Вы не указали поведение MetaTagBehavior в модели ' . get_class($model));
@@ -54,6 +56,7 @@ class MetaTagsComponent extends Component
         $this->registerMetaDescription($this->getModelMetaDescription($model, $metaTagBehavior));
         $this->registerMetaUrl();
         $this->registerMetaSiteName();
+        $this->registerMetaImage($this->getModelMetaImage($model, $metaTagBehavior, $imageUploadBehaviorName));
     }
 
     /**
@@ -92,6 +95,7 @@ class MetaTagsComponent extends Component
         $this->registerMetaDescription($metaPage->metaTag->translation->description);
         $this->registerMetaUrl();
         $this->registerMetaSiteName();
+        $this->registerMetaImage();
     }
 
     /**
@@ -125,6 +129,8 @@ class MetaTagsComponent extends Component
      */
     public function registerMetaDescription(string $description)
     {
+        $description = StringHelper::truncate(strip_tags(html_entity_decode(str_replace('&nbsp;', ' ', $description))), 255);
+
         Yii::$app->view->registerMetaTag(['name' => 'description', 'content' => $description], 'description');
 
         // Open Graph data
@@ -163,6 +169,20 @@ class MetaTagsComponent extends Component
     }
 
     /**
+     * Задаем для страницы Meta Open Graph Image
+     * По-умолчанию задается null
+     * Пример:
+     *  <meta name="og:image" content="http://example.com/image.jpg">
+     *
+     * @param string|null $image
+     */
+    public function registerMetaImage(string $image = null)
+    {
+        // Open Graph data
+        Yii::$app->view->registerMetaTag(['property' => 'og:image', 'content' => $image], 'og:site_name');
+    }
+
+    /**
      * Получаем Meta Title для страницы модели
      * Если для данной модели незадано Meta Title, то получаем значение из ключа 'titleColumn', который указано в поведении MetaTagBehavior
      * Если незадано ни Meta Title, ни 'titleColumn' в поведении MetaTagBehavior,
@@ -197,6 +217,26 @@ class MetaTagsComponent extends Component
             ? $metaTagBehavior->metaTag->translation->description
             : ArrayHelper::getValue($model, $metaTagBehavior->descriptionColumn, Yii::$app->name);
 
-        return StringHelper::truncate(strip_tags(htmlspecialchars_decode($description)), 255);
+        return $description;
+    }
+
+    /**
+     * Получаем Meta Image для страницы модели
+     * Если для данной модели незадано Meta Image, то получаем значение из ключа 'imageColumn', который указано в поведении MetaTagBehavior
+     * Если незадано ни Meta Image, ни 'imageColumn' в поведении MetaTagBehavior,
+     * то задается null
+     *
+     * @param ActiveRecord $model
+     * @param MetaTagBehavior $metaTagBehavior
+     * @return string
+     */
+    private function getModelMetaImage(ActiveRecord $model, MetaTagBehavior $metaTagBehavior, $imageUploadBehaviorName)
+    {
+        if ($metaTagBehavior->metaTag->translation->image) {
+            return Url::to($metaTagBehavior->metaTag->translation->getUploadUrl('image'), true);
+        }
+        $image = $model->getBehavior($imageUploadBehaviorName) ? Url::to($model->getUploadUrl($model->getBehavior($imageUploadBehaviorName)->attribute), true) : null;
+
+        return $image;
     }
 }

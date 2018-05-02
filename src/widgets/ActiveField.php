@@ -228,11 +228,19 @@ JS
     {
         $uploadUrl = null;
         foreach ($this->model->getBehaviors() as $behavior) {
-            if ($behavior instanceof UploadBehavior && $behavior->attribute == $this->attribute) {
+            if ($behavior instanceof UploadBehavior && (($behavior->attribute == $this->attribute) || $behavior->isTranslation)) {
+                /**
+                 * Если у поведения загрузки изображении атрибут isTranslation задан как true,
+                 * то в переменной $this->attribute хранится атрибут ввиде к примеру [en-US]image.
+                 * И из за этого надо получить только имя атрибута изображении (без языка).
+                 *
+                 */
+                $attribute = $behavior->isTranslation ? strstr($this->attribute, $behavior->attribute) : $this->attribute;
+
                 /**
                  * @var $behavior UploadBehavior
                  */
-                $uploadUrl = call_user_func([$behavior, 'getUploadUrl'], $this->attribute);
+                $uploadUrl = call_user_func([$behavior, 'getUploadUrl'], $attribute);
                 break;
             }
         }

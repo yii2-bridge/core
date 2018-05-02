@@ -11,3 +11,4 @@ $translationModel = $model->getTranslation($languageCode);
 <?= $form->field($translationModel, '['.$languageCode.']lang')->hiddenInput()->label(false)  ?>
 <?= $form->field($translationModel, '['.$languageCode.']title')->textInput() ?>
 <?= $form->field($translationModel, '['.$languageCode.']description')->richTextArea() ?>
+<?= $form->field($translationModel, '['.$languageCode.']image')->imageUpload() ?>
