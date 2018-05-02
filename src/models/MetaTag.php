@@ -21,7 +21,7 @@ use yii\helpers\StringHelper;
  * @property MetaTagTranslation[] $metaTagTranslations
  * @property MetaTagTranslation $translation
  */
-class MetaTag extends \yii\db\ActiveRecord
+class MetaTag extends ActiveRecord
 {
     /**
      * @inheritdoc
@@ -47,9 +47,9 @@ class MetaTag extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'created_at' => 'Created At',
-            'updated_at' => 'Updated At',
+            'id' => Yii::t('bridge', 'ID'),
+            'created_at' => Yii::t('bridge', 'Created At'),
+            'updated_at' => Yii::t('bridge', 'Updated At'),
         ];
     }
 

@@ -16,7 +16,7 @@ use yii\db\ActiveRecord;
  *
  * @property MetaTag $metaTag
  */
-class MetaModel extends \yii\db\ActiveRecord
+class MetaModel extends ActiveRecord
 {
     /**
      * @inheritdoc
@@ -45,10 +45,10 @@ class MetaModel extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'model' => 'Model',
-            'model_id' => 'Model ID',
-            'meta_tag_id' => 'Meta Tag ID',
+            'id' => Yii::t('bridge', 'ID'),
+            'model' => Yii::t('bridge', 'Model class name'),
+            'model_id' => Yii::t('bridge', 'Model item ID'),
+            'meta_tag_id' => Yii::t('bridge', 'Meta Tag ID'),
         ];
     }
 
@@ -81,7 +81,7 @@ class MetaModel extends \yii\db\ActiveRecord
     {
         $metaModel = new MetaModel();
 
-        $metaModel->model = $model::className();
+        $metaModel->model = get_class($model);
         $metaModel->model_id = $model->id;
         $metaModel->meta_tag_id = $metaTag->id;
 

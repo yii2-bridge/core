@@ -4,6 +4,7 @@ namespace naffiq\bridge\models;
 
 use naffiq\bridge\models\query\MetaTagTranslationQuery;
 use Yii;
+use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "meta_tag_translations".
@@ -24,7 +25,7 @@ use Yii;
  * @method string|null getUploadUrl($attribute) Returns file url for the attribute.
  * @method bool sanitize($filename) Replaces characters in strings that are illegal/unsafe for filename.
  */
-class MetaTagTranslation extends \yii\db\ActiveRecord
+class MetaTagTranslation extends ActiveRecord
 {
     /**
      * @inheritdoc
@@ -56,13 +57,13 @@ class MetaTagTranslation extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'lang' => 'Lang',
-            'meta_tag_id' => 'Meta Tag ID',
-            'title' => 'Title',
-            'description' => 'Description',
-            'keywords' => 'Keywords',
-            'image' => 'Image',
+            'id' => Yii::t('bridge', 'ID'),
+            'lang' => Yii::t('bridge', 'Lang'),
+            'meta_tag_id' => Yii::t('bridge', 'Meta Tag ID'),
+            'title' => Yii::t('bridge', 'Title'),
+            'description' => Yii::t('bridge', 'Description'),
+            'keywords' => Yii::t('bridge', 'Keywords'),
+            'image' => Yii::t('bridge', 'Image'),
         ];
     }
 

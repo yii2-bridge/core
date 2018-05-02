@@ -46,8 +46,8 @@ class MetaTagsComponent extends Component
     {
         $metaTagBehavior = $model->getBehavior($behaviorName);
 
-        if (!$metaTagBehavior || !($metaTagBehavior::className() === MetaTagBehavior::class)) {
-            throw new InvalidArgumentException('Вы не указали поведение MetaTagBehavior в модели ' . $model->className());
+        if (!$metaTagBehavior || !(get_class($metaTagBehavior) === MetaTagBehavior::class)) {
+            throw new InvalidArgumentException('Вы не указали поведение MetaTagBehavior в модели ' . get_class($model));
         }
 
         $this->registerMetaTitle($this->getModelMetaTitle($model, $metaTagBehavior));

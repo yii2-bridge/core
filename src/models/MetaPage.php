@@ -4,6 +4,7 @@ namespace naffiq\bridge\models;
 
 use naffiq\bridge\models\query\MetaPageQuery;
 use Yii;
+use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "meta_pages".
@@ -16,7 +17,7 @@ use Yii;
  *
  * @property MetaTag $metaTag
  */
-class MetaPage extends \yii\db\ActiveRecord
+class MetaPage extends ActiveRecord
 {
     /**
      * @inheritdoc
@@ -47,9 +48,9 @@ class MetaPage extends \yii\db\ActiveRecord
         return [
             'id' => Yii::t('bridge', 'ID'),
             'meta_tag_id' => Yii::t('bridge', 'Meta Tag ID'),
-            'module' => Yii::t('bridge', 'Module'),
-            'controller' => Yii::t('bridge', 'Controller'),
-            'action' => Yii::t('bridge', 'Action'),
+            'module' => Yii::t('bridge', 'Module name'),
+            'controller' => Yii::t('bridge', 'Controller name'),
+            'action' => Yii::t('bridge', 'Action name'),
         ];
     }
 

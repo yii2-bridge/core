@@ -65,7 +65,7 @@ class MetaTagBehavior extends Behavior
      */
     public function getMetaModel()
     {
-        return MetaModel::findOne(['model' => $this->owner::className(), 'model_id' => $this->owner->id]);
+        return MetaModel::findOne(['model' => get_class($this->owner), 'model_id' => $this->owner->id]);
     }
 
     /**
