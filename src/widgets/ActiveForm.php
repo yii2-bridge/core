@@ -41,4 +41,14 @@ class ActiveForm extends \yii\widgets\ActiveForm
             'viewName' => $viewName
         ]);
     }
+
+    public function metaTags($model, $viewName, $languages = null)
+    {
+        return MetaTagsFormWidget::widget([
+            'form' => $this,
+            'model' => $model,
+            'languages' => $languages,
+            'viewName' => $viewName
+        ]);
+    }
 }
