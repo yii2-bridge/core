@@ -130,14 +130,14 @@ class Generator extends \yii2tech\admin\gii\crud\Generator
             if ($this->tableSchema->getColumn('avatar')) {
                 $this->skipColumns[] = 'avatar';
                 return [
-                    'class' => TitledImageColumn::className(),
+                    'class' => TitledImageColumn::class,
                     'attribute' => 'title',
                     'imageAttribute' => 'avatar'
                 ];
             } elseif ($this->tableSchema->getColumn('image')) {
                 $this->skipColumns[] = 'image';
                 return [
-                    'class' => TitledImageColumn::className(),
+                    'class' => TitledImageColumn::class,
                     'attribute' => 'title',
                     'imageAttribute' => 'image'
                 ];
@@ -146,7 +146,7 @@ class Generator extends \yii2tech\admin\gii\crud\Generator
             if ($this->tableSchema->getColumn('title')) {
                 $this->skipColumns[] = 'title';
                 return [
-                    'class' => TitledImageColumn::className(),
+                    'class' => TitledImageColumn::class,
                     'attribute' => 'title',
                     'imageAttribute' => 'avatar'
                 ];
@@ -155,21 +155,21 @@ class Generator extends \yii2tech\admin\gii\crud\Generator
             if ($this->tableSchema->getColumn('title')) {
                 $this->skipColumns[] = 'title';
                 return [
-                    'class' => TitledImageColumn::className(),
+                    'class' => TitledImageColumn::class,
                     'attribute' => 'title',
                     'imageAttribute' => 'image'
                 ];
             }
         } elseif ($column->name === 'position' && $this->generatePositionColumn) {
             return [
-                'class' => PositionColumn::className(),
+                'class' => PositionColumn::class,
                 'value' => 'position',
                 'template' => '<div class="btn-group">{first}&nbsp;{prev}&nbsp;{next}&nbsp;{last}</div>',
                 'buttonOptions' => new ArrayString(['class' => 'btn btn-info btn-xs'])
             ];
         } elseif ($this->generateToggleColumn && ColumnHelper::beginsWith($column->name, 'is_')) {
             return [
-                'class' => ToggleColumn::className(),
+                'class' => ToggleColumn::class,
                 'attribute' => $column->name,
                 'onValue' => 1,
                 'onLabel' => 'Active',
@@ -187,7 +187,7 @@ class Generator extends \yii2tech\admin\gii\crud\Generator
             return 'boolean';
         } elseif ($column->type === 'text') {
             return [
-                'class' => TruncatedTextColumn::className(),
+                'class' => TruncatedTextColumn::class,
                 'attribute' => $column->name
             ];
         } elseif (stripos($column->name, 'time') !== false && $column->phpType === 'integer') {
@@ -198,7 +198,7 @@ class Generator extends \yii2tech\admin\gii\crud\Generator
             return 'url';
         } elseif (ColumnHelper::endsWith($column->name, ['image', 'avatar'])) {
             return [
-                'class' => ImageColumn::className(),
+                'class' => ImageColumn::class,
                 'attribute' => $column->name
             ];
         } else {

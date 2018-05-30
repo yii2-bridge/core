@@ -89,7 +89,7 @@ class <?= $controllerClass ?> extends <?= StringHelper::basename($generator->bas
             parent::behaviors(),
             [
                 'model' => [
-                    'class' => ContextModelControlBehavior::className(),
+                    'class' => ContextModelControlBehavior::class,
                     'contexts' => $this->contexts
                 ]
             ]
@@ -108,21 +108,21 @@ class <?= $controllerClass ?> extends <?= StringHelper::basename($generator->bas
             [
 <?php if ($generator->generateToggleColumn) : ?>
                 'toggle' => [
-                    'class' => ToggleAction::className(),
+                    'class' => ToggleAction::class,
                     'modelClass' => '<?= $generator->modelClass ?>',
                     'onValue' => 1,
                     'offValue' => 0
                 ],
 <?php endif; ?><?php if ($generator->generatePositionColumn) : ?>
                 'position' => [
-                    'class' => Position::className(),
+                    'class' => Position::class,
                 ],
 <?php endif; ?><?php if ($generator->shouldSoftDelete()) : ?>
                 'delete' => [
-                    'class' => SoftDelete::className(),
+                    'class' => SoftDelete::class,
                 ],
                 'restore' => [
-                    'class' => Restore::className(),
+                    'class' => Restore::class,
                 ],
 <?php endif; ?>
             ]

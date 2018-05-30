@@ -78,7 +78,7 @@ class SettingsGridView extends GridView
                 },
             ],
             [
-                'class' => ActionColumn::className(),
+                'class' => ActionColumn::class,
                 'options' => [
                     'width' => '100px',
                     'class' => 'text-center'
