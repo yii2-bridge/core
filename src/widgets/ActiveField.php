@@ -106,7 +106,7 @@ JS
                 'deleteUrl' => Url::to([
                     '/base-admin/delete-file',
                     'id' => $this->model->id,
-                    'modelName' => $this->model::className(),
+                    'modelName' => get_class($this->model),
                     'behaviorName' => 'fileUpload'
                 ])
             ]
@@ -137,7 +137,7 @@ JS
                 'deleteUrl' => Url::to([
                     '/base-admin/delete-file',
                     'id' => $this->model->id,
-                    'modelName' => $this->model::className(),
+                    'modelName' => get_class($this->model),
                     'behaviorName' => 'imageUpload'
                 ])
             ]
