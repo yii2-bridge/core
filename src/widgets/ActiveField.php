@@ -16,7 +16,7 @@ use kartik\widgets\SwitchInput;
 use kolyunya\yii2\widgets\MapInputWidget;
 use dosamigos\ckeditor\CKEditor;
 use mihaildev\elfinder\ElFinder;
-use mongosoft\file\UploadBehavior;
+use mohorev\file\UploadBehavior;
 use naffiq\bridge\models\Settings;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;

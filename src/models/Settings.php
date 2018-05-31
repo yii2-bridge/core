@@ -2,7 +2,7 @@
 
 namespace naffiq\bridge\models;
 
-use mongosoft\file\UploadImageBehavior;
+use naffiq\bridge\behaviors\BridgeUploadImageBehavior;
 use naffiq\bridge\assets\AdminAsset;
 use naffiq\bridge\models\query\SettingsQuery;
 use Yii;
@@ -126,7 +126,7 @@ JS
         parent::afterFind();
         if ($this->type == static::TYPE_IMAGE) {
             $this->attachBehavior('uploadImage', [
-                'class' => UploadImageBehavior::className(),
+                'class' => BridgeUploadImageBehavior::className(),
                 'attribute' => 'value',
                 'scenarios' => ['create', 'update'],
                 'path' => '@webroot/media/settings/{id}',

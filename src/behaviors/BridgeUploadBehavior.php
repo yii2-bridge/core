@@ -2,15 +2,14 @@
 
 namespace naffiq\bridge\behaviors;
 
-use mohorev\file\UploadImageBehavior;
+use mohorev\file\UploadBehavior;
 use yii\base\InvalidArgumentException;
 use yii\db\BaseActiveRecord;
 use yii\helpers\FileHelper;
 use yii\web\UploadedFile;
 
-class BridgeUploadImageBehavior extends UploadImageBehavior
+class BridgeUploadBehavior extends UploadBehavior
 {
-    // TODO: Код дублируется в классе \naffiq\bridge\behaviors\BridgeUploadBehavior
     /**
      * Name of language column in model table
      * Example: 'lang'
@@ -86,7 +85,7 @@ class BridgeUploadImageBehavior extends UploadImageBehavior
 
     /**
      * This method is called at the end of inserting or updating a record.
-     * @throws \yii\base\InvalidArgumentException
+     * @throws \yii\base\InvalidParamException
      */
     public function afterSave()
     {
