@@ -22,6 +22,7 @@ use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\web\Application;
 use yii\web\View;
+use yii\helpers\Url;
 
 /**
  * Class ActiveField
@@ -101,7 +102,13 @@ JS
             'pluginOptions' => [
                 'showUpload' => false,
                 'showRemove' => false,
-                'initialPreview' => $initialPreview
+                'initialPreview' => $initialPreview,
+                'deleteUrl' => Url::to([
+                    '/base-admin/delete-file',
+                    'id' => $this->model->id,
+                    'modelName' => $this->model::className(),
+                    'behaviorName' => 'fileUpload'
+                ])
             ]
         ], $options));
     }
@@ -126,7 +133,13 @@ JS
             'pluginOptions' => [
                 'showUpload' => false,
                 'showRemove' => false,
-                'initialPreview' => $initialPreview
+                'initialPreview' => $initialPreview,
+                'deleteUrl' => Url::to([
+                    '/base-admin/delete-file',
+                    'id' => $this->model->id,
+                    'modelName' => $this->model::className(),
+                    'behaviorName' => 'imageUpload'
+                ])
             ]
         ]));
     }
