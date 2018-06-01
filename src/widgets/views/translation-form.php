@@ -13,7 +13,7 @@ use yii\helpers\ArrayHelper;
 
     <?php foreach ($languages as $code => $label): ?>
         <li role="presentation" class="<?= $code === \Yii::$app->language ? 'active' : ''?>">
-            <a href="#translate-<?= $code ?>" aria-controls="translate-<?= $code ?>" role="tab" data-toggle="tab">
+            <a href="#translate-<?= $model::tableName() ?>-<?= $code ?>" aria-controls="translate-<?= $model::tableName() ?>-<?= $code ?>" role="tab" data-toggle="tab">
                 <?= $label ?>
             </a>
         </li>
@@ -24,7 +24,7 @@ use yii\helpers\ArrayHelper;
 <div class="tab-content">
 
     <?php foreach ($languages as $code => $label): ?>
-        <div role="tabpanel" class="tab-pane<?= $code === \Yii::$app->language ? ' active' : ''?>" id="translate-<?= $code ?>">
+        <div role="tabpanel" class="tab-pane<?= $code === \Yii::$app->language ? ' active' : ''?>" id="translate-<?= $model::tableName() ?>-<?= $code ?>">
 
             <?= $this->render($viewName, [
                 'languageCode' => $code,

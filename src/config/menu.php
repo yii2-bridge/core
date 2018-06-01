@@ -35,4 +35,11 @@ return [
         'icon' => 'globe',
         'isVisible' => \Yii::$app->getModule('admin')->showLanguageSwitcher
     ],
+    [
+        'title' => \Yii::t('bridge', 'Meta-tags'),
+        'url' => ['/admin/meta-page/index'],
+        'active' => ['module' => 'admin', 'controller' => 'meta-page'],
+        'icon' => 'tags',
+        'isVisible' => \Yii::$app->getModule('admin')->allowedRoles
+    ],
 ];

@@ -41,4 +41,14 @@ class ActiveForm extends \yii\widgets\ActiveForm
             'viewName' => $viewName
         ]);
     }
+
+    public function metaTags($model, $viewName = '@app/vendor/naffiq/yii2-bridge/src/views/meta-page/_form-meta-tags', $languages = null)
+    {
+        return MetaTagsFormWidget::widget([
+            'form' => $this,
+            'model' => $model,
+            'languages' => $languages,
+            'viewName' => $viewName
+        ]);
+    }
 }
