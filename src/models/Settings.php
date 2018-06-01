@@ -126,7 +126,7 @@ JS
         parent::afterFind();
         if ($this->type == static::TYPE_IMAGE) {
             $this->attachBehavior('uploadImage', [
-                'class' => BridgeUploadImageBehavior::className(),
+                'class' => BridgeUploadImageBehavior::class,
                 'attribute' => 'value',
                 'scenarios' => ['create', 'update'],
                 'path' => '@webroot/media/settings/{id}',

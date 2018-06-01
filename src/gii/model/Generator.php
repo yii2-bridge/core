@@ -134,7 +134,7 @@ class Generator extends \yii\gii\generators\model\Generator
         foreach ($table->columns as $column) {
             if (ColumnHelper::endsWith($column->name, ['image', 'avatar'])) {
                 $behaviors[$column->name . 'Upload'] = [
-                    'class' => BridgeUploadImageBehavior::className(),
+                    'class' => BridgeUploadImageBehavior::class,
                     'attribute' => $column->name,
                     'path' => '@webroot/media/'.$table->name.'/{id}',
                     'url' => '@web/media/'.$table->name.'/{id}',
@@ -148,7 +148,7 @@ class Generator extends \yii\gii\generators\model\Generator
 
             if (ColumnHelper::endsWith($column->name, 'file')) {
                 $behaviors[$column->name . 'File'] = [
-                    'class' => BridgeUploadBehavior::className(),
+                    'class' => BridgeUploadBehavior::class,
                     'attribute' => $column->name,
                     'path' => '@webroot/media/'.$table->name.'/{id}',
                     'url' => '@web/media/'.$table->name.'/{id}',

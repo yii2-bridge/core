@@ -10,6 +10,7 @@ namespace naffiq\bridge\components;
 
 use naffiq\bridge\behaviors\MetaTagBehavior;
 use naffiq\bridge\models\MetaPage;
+use naffiq\bridge\models\MetaTagTranslation;
 use Yii;
 use yii\base\Component;
 use yii\base\InvalidArgumentException;
@@ -20,6 +21,12 @@ use yii\helpers\Url;
 
 class MetaTagsComponent extends Component
 {
+    /**
+     * Изображение по-умолчанию для мета-тега 'og:image'
+     * @var string
+     */
+    public $defaultMetaImage = '';
+
     /**
      * Задаем мета-теги для model-страницы (страница которая связана конкретно с моделю)
      * Убедитесь что вы подключили поведение мета-тегов в вашей модели
@@ -95,7 +102,7 @@ class MetaTagsComponent extends Component
         $this->registerMetaDescription($metaPage->metaTag->translation->description);
         $this->registerMetaUrl();
         $this->registerMetaSiteName();
-        $this->registerMetaImage();
+        $this->registerMetaImage($this->getActionMetaImage($metaPage->metaTag->translation));
     }
 
     /**
@@ -179,7 +186,7 @@ class MetaTagsComponent extends Component
     public function registerMetaImage(string $image = null)
     {
         // Open Graph data
-        Yii::$app->view->registerMetaTag(['property' => 'og:image', 'content' => $image], 'og:site_name');
+        Yii::$app->view->registerMetaTag(['property' => 'og:image', 'content' => $image], 'og:image');
     }
 
     /**
@@ -238,5 +245,20 @@ class MetaTagsComponent extends Component
         $image = $model->getBehavior($imageUploadBehaviorName) ? Url::to($model->getUploadUrl($model->getBehavior($imageUploadBehaviorName)->attribute), true) : null;
 
         return $image;
+    }
+
+    /**
+     * Получаем Meta Image для страницы экшен (страница которая не связано конкретно с моделью)
+     * Если для данного экщега незадано Meta Image, то получаем значение из атрибута компонента мета-тегов $defaultMetaImage
+     *
+     * @param MetaTagTranslation $metaTagTranslationModel
+     * @return string
+     */
+    private function getActionMetaImage(MetaTagTranslation $metaTagTranslationModel) {
+        if ($metaTagTranslationModel->image) {
+            return Url::to($metaTagTranslationModel->getUploadUrl('image'), true);
+        }
+
+        return $this->defaultMetaImage;
     }
 }
