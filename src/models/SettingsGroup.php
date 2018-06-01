@@ -75,7 +75,7 @@ class SettingsGroup extends \yii\db\ActiveRecord
      */
     public function getSettings()
     {
-        return $this->hasMany(Settings::className(), ['group_id' => 'id']);
+        return $this->hasMany(Settings::class, ['group_id' => 'id']);
     }
     
     /**

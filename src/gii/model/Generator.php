@@ -158,14 +158,14 @@ class Generator extends \yii\gii\generators\model\Generator
 
             if ($column->name === 'position') {
                 $behaviors[$column->name . 'Sort'] = [
-                    'class' => PositionBehavior::className(),
+                    'class' => PositionBehavior::class,
                     'positionAttribute' => $column->name
                 ];
             }
 
             if ($column->name === 'isDeleted' || $column->name === 'is_deleted') {
                 $behaviors['softDeleteBehavior'] = [
-                    'class' => SoftDeleteBehavior::className(),
+                    'class' => SoftDeleteBehavior::class,
                     'softDeleteAttributeValues' => new ArrayString([
                         $column->name => true
                     ]),
@@ -420,7 +420,7 @@ class Generator extends \yii\gii\generators\model\Generator
                 $targetAttributes[] = "'$key' => '$value'";
             }
             $targetAttributes = implode(', ', $targetAttributes);
-            $rules[] = "[['$attributes'], 'exist', 'skipOnError' => true, 'targetClass' => $refClassName::className(), 'targetAttribute' => [$targetAttributes]]";
+            $rules[] = "[['$attributes'], 'exist', 'skipOnError' => true, 'targetClass' => $refClassName::class, 'targetAttribute' => [$targetAttributes]]";
         }
 
         return $rules;

@@ -22,6 +22,7 @@ use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\web\Application;
 use yii\web\View;
+use yii\helpers\Url;
 
 /**
  * Class ActiveField
@@ -77,7 +78,7 @@ JS
         $height = ArrayHelper::getValue($options, 'defaultImageHeight', '');
         $this->registerCKEditorImageDefaults($width, $height);
 
-        return $this->widget(CKEditor::className(), ArrayHelper::merge([
+        return $this->widget(CKEditor::class, ArrayHelper::merge([
             'clientOptions' => ElFinder::ckeditorOptions(['/admin/elfinder', 'path' => 'some/sub/path'],
                 $ckeditorOptions)
         ], $options));
@@ -97,11 +98,17 @@ JS
             );
         }
 
-        return $this->widget(FileInput::className(), ArrayHelper::merge([
+        return $this->widget(FileInput::class, ArrayHelper::merge([
             'pluginOptions' => [
                 'showUpload' => false,
                 'showRemove' => false,
-                'initialPreview' => $initialPreview
+                'initialPreview' => $initialPreview,
+                'deleteUrl' => Url::to([
+                    '/base-admin/delete-file',
+                    'id' => $this->model->id,
+                    'modelName' => get_class($this->model),
+                    'behaviorName' => 'fileUpload'
+                ])
             ]
         ], $options));
     }
@@ -126,7 +133,13 @@ JS
             'pluginOptions' => [
                 'showUpload' => false,
                 'showRemove' => false,
-                'initialPreview' => $initialPreview
+                'initialPreview' => $initialPreview,
+                'deleteUrl' => Url::to([
+                    '/base-admin/delete-file',
+                    'id' => $this->model->id,
+                    'modelName' => get_class($this->model),
+                    'behaviorName' => 'imageUpload'
+                ])
             ]
         ]));
     }
@@ -140,7 +153,7 @@ JS
      */
     public function select2($data, $options = [])
     {
-        return $this->widget(Select2::className(), ArrayHelper::merge([
+        return $this->widget(Select2::class, ArrayHelper::merge([
             'data' => $data
         ], $options));
     }
@@ -177,7 +190,7 @@ JS
      */
     public function fontAwesome()
     {
-        return $this->widget(FontAwesomePicker::className());
+        return $this->widget(FontAwesomePicker::class);
     }
 
     /**
@@ -207,12 +220,12 @@ JS
      */
     public function datePicker($options = [])
     {
-        return $this->widget(DatePicker::className(), $options);
+        return $this->widget(DatePicker::class, $options);
     }
 
     public function dateTimePicker($options = [])
     {
-        return $this->widget(DateTimePicker::className(), $options);
+        return $this->widget(DateTimePicker::class, $options);
     }
 
     /**
@@ -221,7 +234,7 @@ JS
      */
     public function switchInput($options = [])
     {
-        return $this->widget(SwitchInput::className(), $options);
+        return $this->widget(SwitchInput::class, $options);
     }
 
     protected function getUploadUrl()

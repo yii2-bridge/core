@@ -233,7 +233,7 @@ JS
                 return $this->getUploadUrl('value');
             }
 
-            $bundle = \Yii::$app->assetManager->getBundle(AdminAsset::className());
+            $bundle = \Yii::$app->assetManager->getBundle(AdminAsset::class);
             return \Yii::$app->assetManager->getAssetUrl($bundle, 'avatar@2x.jpg');
         }
         return (string) $this->value;
