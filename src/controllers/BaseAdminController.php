@@ -11,6 +11,9 @@ namespace naffiq\bridge\controllers;
 use naffiq\bridge\BridgeModule;
 use yii\base\InvalidConfigException;
 use yii2tech\admin\CrudController;
+use yii\filters\VerbFilter;
+use yii\helpers\ArrayHelper;
+use yii\web\NotFoundHttpException;
 
 class BaseAdminController extends CrudController
 {
@@ -70,5 +73,51 @@ class BaseAdminController extends CrudController
         }
 
         return $module;
+    }
+
+    public function behaviors()
+    {
+        return ArrayHelper::merge(parent::behaviors(), [
+            'verbs' => [
+                'class' => VerbFilter::className(),
+                'actions' => [
+                    'delete-file' => ['post'],
+                ],
+            ],
+        ]);
+    }
+
+    /**
+     * Удаление файла
+     *
+     * @param int $id ID записи
+     * @param string $modelName Название класса модели, с полным путем (с namespace)
+     * @param string $behaviorName Название поведения загрузки файла/изображения
+     * @return mixed
+     * @throws NotFoundHttpException
+     */
+    public function actionDeleteFile(int $id, string $modelName, string $behaviorName = 'imageUpload')
+    {
+        $model = $modelName::findOne($id);
+
+        if (!$model) {
+            throw new NotFoundHttpException();
+        }
+
+        $imageBehavior = $model->getBehavior($behaviorName);
+
+        /**
+         * Удаляем сам файл.
+         * Если мы удаляем изображение, то удаляется и их превью.
+         */
+        $imageBehavior->afterDelete();
+
+        /**
+         * Удаляем запись файла в самом модели
+         */
+        $model->{$imageBehavior->attribute} = null;
+        $model->detachBehaviors();
+
+        return $model->save(false);
     }
 }
