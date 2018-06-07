@@ -10,6 +10,7 @@ namespace naffiq\bridge\gii\model;
 
 use naffiq\bridge\behaviors\BridgeUploadBehavior;
 use naffiq\bridge\behaviors\BridgeUploadImageBehavior;
+use naffiq\bridge\behaviors\BridgeSlugBehavior;
 use naffiq\bridge\gii\helpers\ArrayString;
 use naffiq\bridge\gii\helpers\BooleanString;
 use naffiq\bridge\gii\helpers\ColumnHelper;
@@ -170,6 +171,21 @@ class Generator extends \yii\gii\generators\model\Generator
                         $column->name => true
                     ]),
                     'invokeDeleteEvents' => new BooleanString(false)
+                ];
+            }
+
+            if (ColumnHelper::endsWith($column->name, ['slug', 'sefname'])) {
+                $behaviors['slug'] = [
+                    'class' => BridgeSlugBehavior::class,
+                    'slugAttribute' => $column->name,
+                    'attribute' => 'title',
+                    // optional params
+                    'ensureUnique' => true,
+                    'replacement' => '-',
+                    'lowercase' => true,
+                    'immutable' => true,
+                    // If intl extension is enabled, see http://userguide.icu-project.org/transforms/general.
+                    'transliterateOptions' => 'Russian-Latin/BGN; Any-Latin; Latin-ASCII; NFD; [:Nonspacing Mark:] Remove; NFC;'
                 ];
             }
         }
