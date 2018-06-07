@@ -8,8 +8,8 @@
 
 namespace naffiq\bridge\gii\model;
 
-use mongosoft\file\UploadBehavior;
-use mongosoft\file\UploadImageBehavior;
+use naffiq\bridge\behaviors\BridgeUploadBehavior;
+use naffiq\bridge\behaviors\BridgeUploadImageBehavior;
 use naffiq\bridge\gii\helpers\ArrayString;
 use naffiq\bridge\gii\helpers\BooleanString;
 use naffiq\bridge\gii\helpers\ColumnHelper;
@@ -134,7 +134,7 @@ class Generator extends \yii\gii\generators\model\Generator
         foreach ($table->columns as $column) {
             if (ColumnHelper::endsWith($column->name, ['image', 'avatar'])) {
                 $behaviors[$column->name . 'Upload'] = [
-                    'class' => UploadImageBehavior::class,
+                    'class' => BridgeUploadImageBehavior::class,
                     'attribute' => $column->name,
                     'path' => '@webroot/media/'.$table->name.'/{id}',
                     'url' => '@web/media/'.$table->name.'/{id}',
@@ -148,7 +148,7 @@ class Generator extends \yii\gii\generators\model\Generator
 
             if (ColumnHelper::endsWith($column->name, 'file')) {
                 $behaviors[$column->name . 'File'] = [
-                    'class' => UploadBehavior::class,
+                    'class' => BridgeUploadBehavior::class,
                     'attribute' => $column->name,
                     'path' => '@webroot/media/'.$table->name.'/{id}',
                     'url' => '@web/media/'.$table->name.'/{id}',

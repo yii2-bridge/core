@@ -9,7 +9,7 @@
 namespace naffiq\bridge\widgets\columns;
 
 
-use mongosoft\file\UploadImageBehavior;
+use naffiq\bridge\behaviors\BridgeUploadImageBehavior;
 use yii\base\InvalidParamException;
 use yii\base\Model;
 use yii\grid\DataColumn;
@@ -19,7 +19,7 @@ use yii\helpers\Html;
 /**
  * Class ImageColumn
  *
- * Since yii2-bridge recommends using `mongosoft\file\UploadImageBehavior` heavily under the hood,
+ * Since yii2-bridge recommends using `naffiq\bridge\behaviors\BridgeUploadImageBehavior` heavily under the hood,
  * this class allows you to execute model's behavior attached to attribute specified.
  *
  * Otherwise, `$model` doesn't have behavior attached it just wraps value into `Html::img` tag, so be sure
@@ -36,7 +36,7 @@ class ImageColumn extends DataColumn
     public $imageProfile = 'preview';
 
     /**
-     * @var string Method to run inside `UploadImageBehavior`
+     * @var string Method to run inside `BridgeUploadImageBehavior`
      */
     public $uploadBehaviorMethod = 'getThumbUploadUrl';
 
@@ -48,10 +48,10 @@ class ImageColumn extends DataColumn
     public $format = 'raw';
 
     /**
-     * Checks `$model` if it has `\mongosoft\file\UploadImageBehavior` and returns its' `getThumbUploadUrl()` method
+     * Checks `$model` if it has `\naffiq\bridge\behaviors\BridgeUploadImageBehavior` and returns its' `getThumbUploadUrl()` method
      * result.
      *
-     * If no UploadImageBehavior detected in `$model`, then it returns `DataColumn::getDataCellValue()` result
+     * If no BridgeUploadImageBehavior detected in `$model`, then it returns `DataColumn::getDataCellValue()` result
      * and wraps it with
      *
      * @param mixed|Model $model
@@ -114,15 +114,15 @@ class ImageColumn extends DataColumn
         if (is_object($model) && method_exists($model, 'getBehaviors')) {
 
             foreach ($model->getBehaviors() as $behavior) {
-                if ($behavior::class == UploadImageBehavior::class && $behavior->attribute == $attribute) {
+                if ($behavior::className() == BridgeUploadImageBehavior::class && $behavior->attribute == $attribute) {
                     /**
-                     * @var $behavior UploadImageBehavior
+                     * @var $behavior BridgeUploadImageBehavior
                      */
                     if ($behavior->hasMethod($this->uploadBehaviorMethod)) {
                         $imgUrl = call_user_func([$behavior, $this->uploadBehaviorMethod], $attribute, $this->imageProfile);
                     } else {
                         throw new InvalidParamException(
-                            '`\mongosoft\file\UploadImageBehavior` doesn\'t have method '
+                            '`\naffiq\bridge\behaviors\BridgeUploadImageBehavior` doesn\'t have method '
                             . $this->uploadBehaviorMethod
                         );
                     }

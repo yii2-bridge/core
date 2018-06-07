@@ -16,12 +16,13 @@ use kartik\widgets\SwitchInput;
 use kolyunya\yii2\widgets\MapInputWidget;
 use dosamigos\ckeditor\CKEditor;
 use mihaildev\elfinder\ElFinder;
-use mongosoft\file\UploadBehavior;
+use mohorev\file\UploadBehavior;
 use naffiq\bridge\models\Settings;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\web\Application;
 use yii\web\View;
+use yii\helpers\Url;
 
 /**
  * Class ActiveField
@@ -101,7 +102,13 @@ JS
             'pluginOptions' => [
                 'showUpload' => false,
                 'showRemove' => false,
-                'initialPreview' => $initialPreview
+                'initialPreview' => $initialPreview,
+                'deleteUrl' => Url::to([
+                    '/base-admin/delete-file',
+                    'id' => $this->model->id,
+                    'modelName' => get_class($this->model),
+                    'behaviorName' => 'fileUpload'
+                ])
             ]
         ], $options));
     }
@@ -126,7 +133,13 @@ JS
             'pluginOptions' => [
                 'showUpload' => false,
                 'showRemove' => false,
-                'initialPreview' => $initialPreview
+                'initialPreview' => $initialPreview,
+                'deleteUrl' => Url::to([
+                    '/base-admin/delete-file',
+                    'id' => $this->model->id,
+                    'modelName' => get_class($this->model),
+                    'behaviorName' => 'imageUpload'
+                ])
             ]
         ]));
     }
@@ -228,11 +241,19 @@ JS
     {
         $uploadUrl = null;
         foreach ($this->model->getBehaviors() as $behavior) {
-            if ($behavior instanceof UploadBehavior && $behavior->attribute == $this->attribute) {
+            if ($behavior instanceof UploadBehavior && (($behavior->attribute == $this->attribute) || $behavior->isTranslation)) {
+                /**
+                 * Если у поведения загрузки изображении атрибут isTranslation задан как true,
+                 * то в переменной $this->attribute хранится атрибут ввиде к примеру [en-US]image.
+                 * И из за этого надо получить только имя атрибута изображении (без языка).
+                 *
+                 */
+                $attribute = $behavior->isTranslation ? strstr($this->attribute, $behavior->attribute) : $this->attribute;
+
                 /**
                  * @var $behavior UploadBehavior
                  */
-                $uploadUrl = call_user_func([$behavior, 'getUploadUrl'], $this->attribute);
+                $uploadUrl = call_user_func([$behavior, 'getUploadUrl'], $attribute);
                 break;
             }
         }
