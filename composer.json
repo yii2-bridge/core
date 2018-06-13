@@ -1,5 +1,5 @@
 {
-    "name": "naffiq/yii2-bridge",
+    "name": "yii2-bridge/core",
     "description": "Simple admin panel for enthusiasts",
     "type": "project",
     "require": {
