@@ -2,7 +2,7 @@
 /**
  * @var $languageCode string
  * @var $model \Bridge\Core\Models\MetaTag
- * @var $form \naffiq\bridge\widgets\ActiveForm
+ * @var $form \Bridge\Core\Widgets\ActiveForm
  */
 $translationModel = $model->getTranslation($languageCode);
 ?>

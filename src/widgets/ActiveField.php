@@ -6,7 +6,7 @@
  * Time: 11:57 PM
  */
 
-namespace naffiq\bridge\widgets;
+namespace Bridge\Core\Widgets;
 
 use kartik\select2\Select2;
 use kartik\widgets\DatePicker;
@@ -29,7 +29,7 @@ use yii\helpers\Url;
  *
  * Has some shortcuts
  *
- * @package naffiq\bridge\widgets
+ * @package Bridge\Core\Widgets
  */
 class ActiveField extends \yii\widgets\ActiveField
 {

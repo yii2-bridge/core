@@ -8,7 +8,7 @@
 
 namespace Bridge\Core\Behaviors;
 
-use naffiq\bridge\widgets\Toastr;
+use Bridge\Core\Widgets\Toastr;
 use yii\base\Behavior;
 use yii\db\ActiveRecord;
 use yii\helpers\ArrayHelper;

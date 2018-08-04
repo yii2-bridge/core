@@ -42,8 +42,8 @@
             "Bridge\\Core\\Models\\Query\\": "src/models/query/",
             "Bridge\\Core\\Models\\Search\\": "src/models/search/",
             "Bridge\\Core\\Models\\": "src/models/",
-            "naffiq\\bridge\\widgets\\": "src/widgets/",
-            "naffiq\\bridge\\widgets\\columns\\": "src/widgets/columns/",
+            "Bridge\\Core\\Widgets\\": "src/widgets/",
+            "Bridge\\Core\\Widgets\\Columns\\": "src/widgets/columns/",
             "Bridge\\Core\\Gii\\Helpers\\": "src/gii/helpers/",
             "Bridge\\Core\\Gii\\CRUD\\": "src/gii/crud/",
             "Bridge\\Core\\Gii\\Model\\": "src/gii/model/"

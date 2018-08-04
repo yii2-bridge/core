@@ -2,7 +2,7 @@
 
 use Bridge\Core\Models\SettingsGroup;
 use yii\bootstrap\Html;
-use naffiq\bridge\widgets\ActiveForm;
+use Bridge\Core\Widgets\ActiveForm;
 use Bridge\Core\Models\Settings;
 
 /* @var $this yii\web\View */

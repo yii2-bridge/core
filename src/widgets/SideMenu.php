@@ -6,7 +6,7 @@
  * Time: 5:01 PM
  */
 
-namespace naffiq\bridge\widgets;
+namespace Bridge\Core\Widgets;
 
 use yii\base\Widget;
 use yii\helpers\ArrayHelper;
@@ -17,7 +17,7 @@ use yii\helpers\Url;
  *
  * Renders side menu in admin panel
  *
- * @package naffiq\bridge\widgets
+ * @package Bridge\Core\Widgets
  */
 class SideMenu extends Widget
 {

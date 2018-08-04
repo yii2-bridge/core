@@ -63,14 +63,14 @@ $this->params['no-panel'] = true;
                         </div>
                     </h3>
 
-                    <?= \naffiq\bridge\widgets\SettingsGridView::widget(['group' => $settingsGroup]) ?>
+                    <?= \Bridge\Core\Widgets\SettingsGridView::widget(['group' => $settingsGroup]) ?>
                 </div>
             <?php endforeach ?>
 
 
             <div role="tabpanel" class="tab-pane<?= $group == 'misc' ? ' active' : '' ?>" id="group-misc">
                 <h3><i class="fa fa-cogs"></i> <?= \Yii::t('bridge', 'Miscellaneous') ?></h3>
-                <?= \naffiq\bridge\widgets\SettingsGridView::widget() ?>
+                <?= \Bridge\Core\Widgets\SettingsGridView::widget() ?>
             </div>
         </div>
     </div>

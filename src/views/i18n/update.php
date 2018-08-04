@@ -9,7 +9,7 @@ use yii\helpers\ArrayHelper;
 use yii\web\View;
 use Zelenin\yii\modules\I18n\models\SourceMessage;
 use Zelenin\yii\modules\I18n\Module;
-use naffiq\bridge\widgets\ActiveForm;
+use Bridge\Core\Widgets\ActiveForm;
 
 /** @var \naffiq\bridge\BridgeModule $adminModule */
 $adminModule = \Yii::$app->getModule('admin');

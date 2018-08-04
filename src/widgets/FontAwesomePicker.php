@@ -6,7 +6,7 @@
  * Time: 03:18
  */
 
-namespace naffiq\bridge\widgets;
+namespace Bridge\Core\Widgets;
 
 
 use kartik\select2\Select2;

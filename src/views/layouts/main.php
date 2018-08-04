@@ -6,7 +6,7 @@
 
 use Bridge\Core\Assets\AdminAsset;
 use Bridge\Core\Models\Settings;
-use naffiq\bridge\widgets\SideMenu;
+use Bridge\Core\Widgets\SideMenu;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\helpers\Url;
@@ -22,7 +22,7 @@ $user = \Yii::$app->user->identity;
 $adminModule = \Yii::$app->getModule('admin');
 
 $isMenuWide = \Yii::$app->session->get('bridge-menu-state', 0);
-\naffiq\bridge\widgets\Toastr::registerToasts($this);
+\Bridge\Core\Widgets\Toastr::registerToasts($this);
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>

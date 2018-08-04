@@ -17,11 +17,11 @@ echo "<?php\n";
 ?>
 
 use yii\bootstrap\Html;
-use naffiq\bridge\widgets\ActiveForm;
+use Bridge\Core\Widgets\ActiveForm;
 
 /* @var $this yii\web\View */
 /* @var $model <?= ltrim($generator->modelClass, '\\') ?> */
-/* @var $form naffiq\bridge\widgets\ActiveForm */
+/* @var $form Bridge\Core\Widgets\ActiveForm */
 ?>
 
 <?= "<?php " ?>$form = ActiveForm::begin(); ?>

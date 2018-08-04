@@ -6,7 +6,7 @@
  * Time: 11:57 PM
  */
 
-namespace naffiq\bridge\widgets;
+namespace Bridge\Core\Widgets;
 
 /**
  * Class ActiveForm
@@ -14,14 +14,14 @@ namespace naffiq\bridge\widgets;
  * Provides CMF-specific input field
  * @see ActiveField
  *
- * @package naffiq\bridge\widgets
+ * @package Bridge\Core\Widgets
  */
 class ActiveForm extends \yii\widgets\ActiveForm
 {
     /**
      * @inheritdoc
      */
-    public $fieldClass = '\naffiq\bridge\widgets\ActiveField';
+    public $fieldClass = '\Bridge\Core\Widgets\ActiveField';
 
     /**
      * @inheritdoc

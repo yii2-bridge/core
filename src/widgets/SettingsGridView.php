@@ -6,7 +6,7 @@
  * Time: 00:39
  */
 
-namespace naffiq\bridge\widgets;
+namespace Bridge\Core\Widgets;
 
 
 use dosamigos\grid\behaviors\ResizableColumnsBehavior;

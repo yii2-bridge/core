@@ -6,7 +6,7 @@
  * Time: 1:35 AM
  */
 
-namespace naffiq\bridge\widgets\columns;
+namespace Bridge\Core\Widgets\Columns;
 
 
 use Bridge\Core\Behaviors\BridgeUploadImageBehavior;
@@ -25,7 +25,7 @@ use yii\helpers\Html;
  * Otherwise, `$model` doesn't have behavior attached it just wraps value into `Html::img` tag, so be sure
  * to return img url
  *
- * @package naffiq\bridge\widgets\columns
+ * @package Bridge\Core\Widgets\Columns
  */
 class ImageColumn extends DataColumn
 {

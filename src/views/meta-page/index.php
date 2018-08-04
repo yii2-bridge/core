@@ -26,7 +26,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'meta_tag_id',*/
         // TODO: Добавить фильтрацию по заголовкам
         [
-            'class' => 'naffiq\bridge\widgets\columns\TitledImageColumn',
+            'class' => 'Bridge\Core\Widgets\Columns\TitledImageColumn',
             'imageAttribute' => 'metaTag.translation.image',
             'attribute' => 'title',
 //            'label' => $translation->getAttributeLabel('title'),
