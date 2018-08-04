@@ -12,7 +12,7 @@ use codemix\localeurls\UrlManager;
 use Da\User\Bootstrap;
 use Da\User\Component\AuthDbManagerComponent;
 use Da\User\Model\User;
-use naffiq\bridge\assets\ElFinderTheme;
+use Bridge\Core\Assets\ElFinderTheme;
 use naffiq\bridge\models\Settings;
 use yii\base\Application;
 use yii\base\BootstrapInterface;

@@ -6,7 +6,7 @@
  * Time: 10:38 PM
  */
 
-namespace naffiq\bridge\assets;
+namespace Bridge\Core\Assets;
 
 
 use naffiq\bridge\BridgeModule;

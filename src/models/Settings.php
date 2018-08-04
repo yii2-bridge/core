@@ -3,7 +3,7 @@
 namespace naffiq\bridge\models;
 
 use naffiq\bridge\behaviors\BridgeUploadImageBehavior;
-use naffiq\bridge\assets\AdminAsset;
+use Bridge\Core\Assets\AdminAsset;
 use naffiq\bridge\models\query\SettingsQuery;
 use Yii;
 use yii\base\InvalidCallException;

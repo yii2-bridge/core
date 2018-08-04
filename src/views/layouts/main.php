@@ -4,7 +4,7 @@
 
 /* @var $content string */
 
-use naffiq\bridge\assets\AdminAsset;
+use Bridge\Core\Assets\AdminAsset;
 use naffiq\bridge\models\Settings;
 use naffiq\bridge\widgets\SideMenu;
 use yii\helpers\ArrayHelper;

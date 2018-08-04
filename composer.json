@@ -33,7 +33,7 @@
     "autoload": {
         "psr-4": {
             "naffiq\\bridge\\": "src/",
-            "naffiq\\bridge\\assets\\": "src/assets/",
+            "Bridge\\Core\\Assets\\": "src/assets/",
             "naffiq\\bridge\\behaviors\\": "src/behaviors/",
             "naffiq\\bridge\\controllers\\": "src/controllers/",
             "naffiq\\bridge\\tests\fixtures\\": "tests/fixtures/",
