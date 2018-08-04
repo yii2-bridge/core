@@ -1,6 +1,6 @@
 <?php
 
-namespace naffiq\bridge\controllers;
+namespace Bridge\Core\Controllers;
 
 use yii\helpers\ArrayHelper;
 use yii2tech\admin\actions\Position;

@@ -1,6 +1,6 @@
 <?php
 
-namespace naffiq\bridge\controllers;
+namespace Bridge\Core\Controllers;
 use naffiq\bridge\models\Settings;
 use naffiq\bridge\models\SettingsGroup;
 use yii\helpers\ArrayHelper;

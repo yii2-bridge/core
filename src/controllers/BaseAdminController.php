@@ -6,7 +6,7 @@
  * Time: 1:11 AM
  */
 
-namespace naffiq\bridge\controllers;
+namespace Bridge\Core\Controllers;
 
 use naffiq\bridge\BridgeModule;
 use yii\base\InvalidConfigException;

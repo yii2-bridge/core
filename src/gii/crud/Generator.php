@@ -35,7 +35,7 @@ class Generator extends \yii2tech\admin\gii\crud\Generator
     /**
      * @inheritdoc
      */
-    public $baseControllerClass = 'naffiq\bridge\controllers\BaseAdminController';
+    public $baseControllerClass = 'Bridge\Core\Controllers\BaseAdminController';
 
     /**
      * @var string Generates controller with create scenario

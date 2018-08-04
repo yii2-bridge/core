@@ -1,6 +1,6 @@
 <?php
 
-namespace naffiq\bridge\controllers;
+namespace Bridge\Core\Controllers;
 
 /**
  * SettingsController implements the CRUD actions for [[app\modules\admin\models\Settings]] model.
