@@ -6,7 +6,7 @@
  * Time: 17:57
  */
 
-namespace naffiq\bridge\components;
+namespace Bridge\Core\Components;
 
 use Bridge\Core\Behaviors\MetaTagBehavior;
 use naffiq\bridge\models\MetaPage;

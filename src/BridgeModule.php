@@ -46,7 +46,7 @@ class BridgeModule extends Module implements BootstrapInterface
     /**
      * @var string class name for main admin dashboard action
      */
-    public $dashboardAction = '\naffiq\bridge\controllers\actions\DashboardAction';
+    public $dashboardAction = '\Bridge\Core\Controllers\Actions\DashboardAction';
 
     /**
      * @var array Configuration passed to yii2-usuario module
