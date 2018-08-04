@@ -18,7 +18,7 @@ class AdminAssetTest extends \PHPUnit\Framework\TestCase
 
     public function testAddExtraJsAndCss()
     {
-        \Yii::$app->setModule('admin', new \naffiq\bridge\BridgeModule('admin', null, [
+        \Yii::$app->setModule('admin', new \Bridge\Core\BridgeModule('admin', null, [
             'extraCss' => ['test_extra_css'],
             'extraJs' => ['test_extra_js']
         ]));
@@ -30,7 +30,7 @@ class AdminAssetTest extends \PHPUnit\Framework\TestCase
 
     public function testShouldNotAddExtraAssetIfNotClass()
     {
-        \Yii::$app->setModule('admin', new \naffiq\bridge\BridgeModule('admin', null, [
+        \Yii::$app->setModule('admin', new \Bridge\Core\BridgeModule('admin', null, [
             'extraAssets' => false
         ]));
 
@@ -40,8 +40,8 @@ class AdminAssetTest extends \PHPUnit\Framework\TestCase
 
     public function testShouldNotAddExtraAssetIfNotAssetBundle()
     {
-        \Yii::$app->setModule('admin', new \naffiq\bridge\BridgeModule('admin', null, [
-            'extraAssets' => new \naffiq\bridge\BridgeModule('admin')
+        \Yii::$app->setModule('admin', new \Bridge\Core\BridgeModule('admin', null, [
+            'extraAssets' => new \Bridge\Core\BridgeModule('admin')
         ]));
 
         $this->expectExceptionMessage('Invalid `admin` module config for `extraAssets` — it should be array with AssetBundle classes');
@@ -50,7 +50,7 @@ class AdminAssetTest extends \PHPUnit\Framework\TestCase
 
     public function testShouldAddExtraAsset()
     {
-        \Yii::$app->setModule('admin', new \naffiq\bridge\BridgeModule('admin', null, [
+        \Yii::$app->setModule('admin', new \Bridge\Core\BridgeModule('admin', null, [
             'extraAssets' => [new \yii\web\AssetBundle()]
         ]));
 

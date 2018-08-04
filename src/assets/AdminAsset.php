@@ -9,7 +9,7 @@
 namespace Bridge\Core\Assets;
 
 
-use naffiq\bridge\BridgeModule;
+use Bridge\Core\BridgeModule;
 use yii\base\InvalidConfigException;
 use yii\helpers\ArrayHelper;
 use yii\web\AssetBundle;

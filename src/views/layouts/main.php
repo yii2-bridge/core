@@ -18,7 +18,7 @@ AdminAsset::register($this);
 
 /** @var $user \Da\User\Model\User */
 $user = \Yii::$app->user->identity;
-/** @var \naffiq\bridge\BridgeModule $adminModule */
+/** @var \Bridge\Core\BridgeModule $adminModule */
 $adminModule = \Yii::$app->getModule('admin');
 
 $isMenuWide = \Yii::$app->session->get('bridge-menu-state', 0);

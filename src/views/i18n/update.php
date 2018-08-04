@@ -11,7 +11,7 @@ use Zelenin\yii\modules\I18n\models\SourceMessage;
 use Zelenin\yii\modules\I18n\Module;
 use Bridge\Core\Widgets\ActiveForm;
 
-/** @var \naffiq\bridge\BridgeModule $adminModule */
+/** @var \Bridge\Core\BridgeModule $adminModule */
 $adminModule = \Yii::$app->getModule('admin');
 
 $this->title = Module::t('Update') . ': ' . $model->message;

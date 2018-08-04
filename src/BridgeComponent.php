@@ -6,7 +6,7 @@
  * Time: 1:17
  */
 
-namespace naffiq\bridge;
+namespace Bridge\Core;
 
 
 use yii\base\Component;
@@ -16,7 +16,7 @@ use yii\base\Component;
  *
  * Service component for storing state and settings
  *
- * @package naffiq\bridge
+ * @package Bridge\Core
  */
 class BridgeComponent extends Component
 {

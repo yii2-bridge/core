@@ -9,7 +9,7 @@
 namespace Bridge\Core\Controllers;
 
 
-use naffiq\bridge\BridgeModule;
+use Bridge\Core\BridgeModule;
 use Bridge\Core\Models\LoginForm;
 use yii\filters\AccessControl;
 use yii\helpers\ArrayHelper;

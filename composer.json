@@ -32,7 +32,7 @@
     "bin": ["bin/bridge-install"],
     "autoload": {
         "psr-4": {
-            "naffiq\\bridge\\": "src/",
+            "Bridge\\Core\\": "src/",
             "Bridge\\Core\\Assets\\": "src/assets/",
             "Bridge\\Core\\Behaviors\\": "src/behaviors/",
             "Bridge\\Core\\Components\\": "src/components/",

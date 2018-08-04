@@ -6,7 +6,7 @@
  * Time: 1:19 AM
  */
 
-namespace naffiq\bridge;
+namespace Bridge\Core;
 
 use codemix\localeurls\UrlManager;
 use Da\User\Bootstrap;
@@ -29,7 +29,7 @@ use Zelenin\yii\modules\I18n\controllers\DefaultController;
  *
  * Main module for Bridge admin panel. Register your custom modules as submodules to this class in your config file.
  *
- * @package naffiq\bridge
+ * @package Bridge\Core
  */
 class BridgeModule extends Module implements BootstrapInterface
 {
@@ -80,7 +80,7 @@ class BridgeModule extends Module implements BootstrapInterface
      * Example:
      * ```php
      * [
-     *     'class' => 'naffiq\bridge\BridgeModule',
+     *     'class' => 'Bridge\Core\BridgeModule',
      *     'extraAssets' => [
      *         'app\assets\AdminAppAsset'
      *     ]

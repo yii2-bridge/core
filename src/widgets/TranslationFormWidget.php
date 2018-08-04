@@ -9,7 +9,7 @@
 namespace Bridge\Core\Widgets;
 
 
-use naffiq\bridge\BridgeModule;
+use Bridge\Core\BridgeModule;
 use yii\base\Widget;
 use yii\helpers\ArrayHelper;
 
