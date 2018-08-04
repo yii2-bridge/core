@@ -151,6 +151,8 @@ class BridgeModule extends Module implements BootstrapInterface
 
     public $showLanguageSwitcher = true;
 
+    public $languageSwitchAction = '\naffiq\bridge\controllers\actions\LanguageSwitchAction';
+
     /**
      * @inheritdoc
      */
