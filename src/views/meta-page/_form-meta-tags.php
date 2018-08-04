@@ -1,7 +1,7 @@
 <?php
 /**
  * @var $languageCode string
- * @var $model \naffiq\bridge\models\MetaTag
+ * @var $model \Bridge\Core\Models\MetaTag
  * @var $form \naffiq\bridge\widgets\ActiveForm
  */
 $translationModel = $model->getTranslation($languageCode);

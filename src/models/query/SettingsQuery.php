@@ -1,11 +1,11 @@
 <?php
 
-namespace naffiq\bridge\models\query;
+namespace Bridge\Core\Models\Query;
 
 /**
- * This is the ActiveQuery class for [[\naffiq\bridge\models\Settings]].
+ * This is the ActiveQuery class for [[\Bridge\Core\Models\Settings]].
  *
- * @see \naffiq\bridge\models\Settings
+ * @see \Bridge\Core\Models\Settings
  */
 class SettingsQuery extends \yii\db\ActiveQuery
 {
@@ -16,7 +16,7 @@ class SettingsQuery extends \yii\db\ActiveQuery
 
     /**
      * @inheritdoc
-     * @return \naffiq\bridge\models\Settings[]|array
+     * @return \Bridge\Core\Models\Settings[]|array
      */
     public function all($db = null)
     {
@@ -25,7 +25,7 @@ class SettingsQuery extends \yii\db\ActiveQuery
 
     /**
      * @inheritdoc
-     * @return \naffiq\bridge\models\Settings|array|null
+     * @return \Bridge\Core\Models\Settings|array|null
      */
     public function one($db = null)
     {

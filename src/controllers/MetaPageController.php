@@ -7,19 +7,19 @@ use yii2tech\admin\actions\Position;
 use dosamigos\grid\actions\ToggleAction;
 
 /**
- * MetaPageController implements the CRUD actions for [[naffiq\bridge\models\MetaPage]] model.
- * @see \naffiq\bridge\models\MetaPage
+ * MetaPageController implements the CRUD actions for [[Bridge\Core\Models\MetaPage]] model.
+ * @see \Bridge\Core\Models\MetaPage
  */
 class MetaPageController extends BaseAdminController
 {
     /**
      * @inheritdoc
      */
-    public $modelClass = 'naffiq\bridge\models\MetaPage';
+    public $modelClass = 'Bridge\Core\Models\MetaPage';
     /**
      * @inheritdoc
      */
-    public $searchModelClass = 'naffiq\bridge\models\search\MetaPageSearch';
+    public $searchModelClass = 'Bridge\Core\Models\Search\MetaPageSearch';
 
 
     /**
@@ -32,7 +32,7 @@ class MetaPageController extends BaseAdminController
             [
                 'toggle' => [
                     'class' => ToggleAction::className(),
-                    'modelClass' => 'naffiq\bridge\models\MetaPage',
+                    'modelClass' => 'Bridge\Core\Models\MetaPage',
                     'onValue' => 1,
                     'offValue' => 0
                 ],

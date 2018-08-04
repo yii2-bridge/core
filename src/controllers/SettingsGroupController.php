@@ -4,14 +4,14 @@ namespace Bridge\Core\Controllers;
 
 /**
  * SettingsController implements the CRUD actions for [[app\modules\admin\models\Settings]] model.
- * @see \naffiq\bridge\models\Settings
+ * @see \Bridge\Core\Models\Settings
  */
 class SettingsGroupController extends BaseAdminController
 {
     /**
      * @inheritdoc
      */
-    public $modelClass = 'naffiq\bridge\models\SettingsGroup';
+    public $modelClass = 'Bridge\Core\Models\SettingsGroup';
 
     /**
      * @inheritdoc

@@ -1,6 +1,6 @@
 <?php
 
-namespace naffiq\bridge\models;
+namespace Bridge\Core\Models;
 
 use Yii;
 use yii\base\Model;

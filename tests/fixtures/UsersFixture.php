@@ -16,5 +16,5 @@ use yii\test\ActiveFixture;
  */
 class UsersFixture extends ActiveFixture
 {
-    public $modelClass = '\naffiq\bridge\models\Users';
+    public $modelClass = '\Bridge\Core\Models\Users';
 }

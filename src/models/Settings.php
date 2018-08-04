@@ -1,10 +1,10 @@
 <?php
 
-namespace naffiq\bridge\models;
+namespace Bridge\Core\Models;
 
 use Bridge\Core\Behaviors\BridgeUploadImageBehavior;
 use Bridge\Core\Assets\AdminAsset;
-use naffiq\bridge\models\query\SettingsQuery;
+use Bridge\Core\Models\Query\SettingsQuery;
 use Yii;
 use yii\base\InvalidCallException;
 use yii\base\InvalidParamException;

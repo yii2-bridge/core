@@ -1,7 +1,7 @@
 <?php
 
 /* @var $this yii\web\View */
-/* @var $model naffiq\bridge\models\SettingsGroup */
+/* @var $model Bridge\Core\Models\SettingsGroup */
 
 $this->title = Yii::t('bridge', 'Create Settings Group');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('bridge', 'Settings'), 'url' => ['/admin/settings/index']];

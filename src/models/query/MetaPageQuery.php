@@ -1,11 +1,11 @@
 <?php
 
-namespace naffiq\bridge\models\query;
+namespace Bridge\Core\Models\Query;
 
 /**
- * This is the ActiveQuery class for [[\naffiq\bridge\models\MetaPage]].
+ * This is the ActiveQuery class for [[\Bridge\Core\Models\MetaPage]].
  *
- * @see \naffiq\bridge\models\MetaPage
+ * @see \Bridge\Core\Models\MetaPage
  */
 class MetaPageQuery extends \yii\db\ActiveQuery
 {
@@ -16,7 +16,7 @@ class MetaPageQuery extends \yii\db\ActiveQuery
 
     /**
      * @inheritdoc
-     * @return \naffiq\bridge\models\MetaPage[]|array
+     * @return \Bridge\Core\Models\MetaPage[]|array
      */
     public function all($db = null)
     {
@@ -25,7 +25,7 @@ class MetaPageQuery extends \yii\db\ActiveQuery
 
     /**
      * @inheritdoc
-     * @return \naffiq\bridge\models\MetaPage|array|null
+     * @return \Bridge\Core\Models\MetaPage|array|null
      */
     public function one($db = null)
     {

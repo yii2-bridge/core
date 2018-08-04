@@ -4,7 +4,7 @@ use yii\bootstrap\Html;
 use naffiq\bridge\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
-/* @var $model naffiq\bridge\models\MetaPage */
+/* @var $model Bridge\Core\Models\MetaPage */
 /* @var $form naffiq\bridge\widgets\ActiveForm */
 ?>
 

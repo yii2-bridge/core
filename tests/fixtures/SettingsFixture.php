@@ -12,5 +12,5 @@ use yii\test\ActiveFixture;
 
 class SettingsFixture extends ActiveFixture
 {
-    public $modelClass = '\naffiq\bridge\models\Settings';
+    public $modelClass = '\Bridge\Core\Models\Settings';
 }

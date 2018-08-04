@@ -1,7 +1,7 @@
 <?php
 
 /* @var $this yii\web\View */
-/* @var $model naffiq\bridge\models\Settings */
+/* @var $model Bridge\Core\Models\Settings */
 
 $this->title = Yii::t('bridge', 'Update Settings') . ': ' . $model->title;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('bridge', 'Settings'), 'url' => ['index']];

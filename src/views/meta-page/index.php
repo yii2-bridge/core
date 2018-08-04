@@ -5,7 +5,7 @@ use yii\helpers\Html;
 use yii2tech\admin\grid\ActionColumn;
 
 /* @var $this yii\web\View */
-/* @var $searchModel naffiq\bridge\models\search\MetaPageSearch */
+/* @var $searchModel Bridge\Core\Models\Search\MetaPageSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = Yii::t('bridge', 'Meta Pages');

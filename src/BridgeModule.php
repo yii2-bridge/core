@@ -13,7 +13,7 @@ use Da\User\Bootstrap;
 use Da\User\Component\AuthDbManagerComponent;
 use Da\User\Model\User;
 use Bridge\Core\Assets\ElFinderTheme;
-use naffiq\bridge\models\Settings;
+use Bridge\Core\Models\Settings;
 use yii\base\Application;
 use yii\base\BootstrapInterface;
 use yii\base\InvalidConfigException;

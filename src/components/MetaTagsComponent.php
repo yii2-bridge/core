@@ -9,8 +9,8 @@
 namespace Bridge\Core\Components;
 
 use Bridge\Core\Behaviors\MetaTagBehavior;
-use naffiq\bridge\models\MetaPage;
-use naffiq\bridge\models\MetaTagTranslation;
+use Bridge\Core\Models\MetaPage;
+use Bridge\Core\Models\MetaTagTranslation;
 use Yii;
 use yii\base\Component;
 use yii\base\InvalidArgumentException;

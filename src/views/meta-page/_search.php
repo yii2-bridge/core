@@ -4,7 +4,7 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
-/* @var $model naffiq\bridge\models\search\MetaPageSearch */
+/* @var $model Bridge\Core\Models\Search\MetaPageSearch */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 

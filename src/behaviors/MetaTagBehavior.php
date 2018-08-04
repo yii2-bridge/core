@@ -6,8 +6,8 @@
 
 namespace Bridge\Core\Behaviors;
 
-use naffiq\bridge\models\MetaModel;
-use naffiq\bridge\models\MetaTag;
+use Bridge\Core\Models\MetaModel;
+use Bridge\Core\Models\MetaTag;
 use yii\base\Behavior;
 use yii\db\ActiveRecord;
 

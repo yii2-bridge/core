@@ -5,7 +5,7 @@ use yii\helpers\Url;
 
 /* @var $this yii\web\View */
 /* @var $group string */
-/* @var $settingsGroups \naffiq\bridge\models\SettingsGroup[] */
+/* @var $settingsGroups \Bridge\Core\Models\SettingsGroup[] */
 
 $this->title = Yii::t('bridge', 'Settings');
 $this->params['breadcrumbs'][] = $this->title;

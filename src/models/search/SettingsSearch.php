@@ -1,14 +1,14 @@
 <?php
 
-namespace naffiq\bridge\models\search;
+namespace Bridge\Core\Models\Search;
 
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use naffiq\bridge\models\Settings;
+use Bridge\Core\Models\Settings;
 
 /**
- * Settings represents the model behind the search form about `naffiq\bridge\models\Settings`.
+ * Settings represents the model behind the search form about `Bridge\Core\Models\Settings`.
  */
 class SettingsSearch extends Settings
 {

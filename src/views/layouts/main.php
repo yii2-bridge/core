@@ -5,7 +5,7 @@
 /* @var $content string */
 
 use Bridge\Core\Assets\AdminAsset;
-use naffiq\bridge\models\Settings;
+use Bridge\Core\Models\Settings;
 use naffiq\bridge\widgets\SideMenu;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;

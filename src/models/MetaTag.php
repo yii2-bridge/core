@@ -1,8 +1,8 @@
 <?php
 
-namespace naffiq\bridge\models;
+namespace Bridge\Core\Models;
 
-use naffiq\bridge\models\query\MetaTagQuery;
+use Bridge\Core\Models\Query\MetaTagQuery;
 use Yii;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;

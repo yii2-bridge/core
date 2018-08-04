@@ -1,6 +1,6 @@
 <?php
 
-namespace naffiq\bridge\models;
+namespace Bridge\Core\Models;
 
 use Yii;
 use yii\base\InvalidParamException;
@@ -80,11 +80,11 @@ class SettingsGroup extends \yii\db\ActiveRecord
     
     /**
      * @inheritdoc
-     * @return \naffiq\bridge\models\query\SettingsGroupQuery the active query used by this AR class.
+     * @return \Bridge\Core\Models\Query\SettingsGroupQuery the active query used by this AR class.
      */
     public static function find()
     {
-        return new \naffiq\bridge\models\query\SettingsGroupQuery(get_called_class());
+        return new \Bridge\Core\Models\Query\SettingsGroupQuery(get_called_class());
     }
 
     /**

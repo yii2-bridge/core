@@ -1,8 +1,8 @@
 <?php
 
-namespace naffiq\bridge\models;
+namespace Bridge\Core\Models;
 
-use naffiq\bridge\models\query\MetaTagTranslationQuery;
+use Bridge\Core\Models\Query\MetaTagTranslationQuery;
 use Yii;
 use yii\db\ActiveRecord;
 
