@@ -6,7 +6,7 @@
  * Time: 9:20 PM
  */
 
-namespace naffiq\bridge\fixtures;
+namespace Bridge\Core\Tests\Fixtures;
 
 use yii\test\ActiveFixture;
 

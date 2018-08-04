@@ -6,13 +6,13 @@
  * Time: 9:19 PM
  */
 
-namespace naffiq\bridge\fixtures;
+namespace Bridge\Core\Tests\Fixtures;
 
 use yii\test\ActiveFixture;
 
 /**
  * Class UsersFixture
- * @package naffiq\bridge\fixtures
+ * @package Bridge\Core\Tests\Fixtures
  */
 class UsersFixture extends ActiveFixture
 {

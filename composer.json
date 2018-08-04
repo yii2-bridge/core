@@ -38,7 +38,7 @@
             "Bridge\\Core\\Components\\": "src/components/",
             "Bridge\\Core\\Controllers\\": "src/controllers/",
             "Bridge\\Core\\Controllers\\Actions\\": "src/controllers/actions",
-            "naffiq\\bridge\\tests\fixtures\\": "tests/fixtures/",
+            "Bridge\\Core\\Tests\fFixtures\\": "tests/fixtures/",
             "Bridge\\Core\\Models\\Query\\": "src/models/query/",
             "Bridge\\Core\\Models\\Search\\": "src/models/search/",
             "Bridge\\Core\\Models\\": "src/models/",
