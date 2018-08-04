@@ -359,8 +359,8 @@ class BridgeModule extends Module implements BootstrapInterface
         /** @var \yii\gii\Module $giiModule */
         $giiModule = $app->getModule('gii');
         if (!empty($giiModule)) {
-            $giiModule->generators['bridge-crud'] = ['class' => 'naffiq\bridge\gii\crud\Generator'];
-            $giiModule->generators['bridge-model'] = ['class' => 'naffiq\bridge\gii\model\Generator'];
+            $giiModule->generators['bridge-crud'] = ['class' => 'Bridge\Core\Gii\CRUD\Generator'];
+            $giiModule->generators['bridge-model'] = ['class' => 'Bridge\Core\Gii\Model\Generator'];
         }
     }
 

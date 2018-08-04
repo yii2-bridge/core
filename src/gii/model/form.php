@@ -4,7 +4,7 @@ use yii\gii\generators\model\Generator;
 
 /* @var $this yii\web\View */
 /* @var $form yii\widgets\ActiveForm */
-/* @var $generator \naffiq\bridge\gii\model\Generator */
+/* @var $generator \Bridge\Core\Gii\Model\Generator */
 
 echo $form->field($generator, 'tableName')->textInput(['table_prefix' => $generator->getTablePrefix()]);
 echo $form->field($generator, 'modelClass');

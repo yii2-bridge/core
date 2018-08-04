@@ -6,11 +6,11 @@
  * Time: 18:32
  */
 
-namespace naffiq\bridge\gii\helpers;
+namespace Bridge\Core\Gii\Helpers;
 
 /**
  * Class ArrayToString
- * @package naffiq\bridge\gii\helpers
+ * @package Bridge\Core\Gii\Helpers
  */
 class ArrayString
 {
