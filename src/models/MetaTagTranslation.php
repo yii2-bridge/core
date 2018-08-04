@@ -91,7 +91,7 @@ class MetaTagTranslation extends ActiveRecord
     {
         return [
             'imageUpload' => [
-                'class' => 'naffiq\bridge\behaviors\BridgeUploadImageBehavior',
+                'class' => 'Bridge\Core\Behaviors\BridgeUploadImageBehavior',
                 'attribute' => 'image',
                 'isTranslation' => true,
                 'instanceByName' => true,

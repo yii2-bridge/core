@@ -1,6 +1,6 @@
 <?php
 
-namespace naffiq\bridge\behaviors;
+namespace Bridge\Core\Behaviors;
 
 use mohorev\file\UploadImageBehavior;
 use yii\base\InvalidArgumentException;
@@ -10,7 +10,7 @@ use yii\web\UploadedFile;
 
 class BridgeUploadImageBehavior extends UploadImageBehavior
 {
-    // TODO: Код дублируется в классе \naffiq\bridge\behaviors\BridgeUploadBehavior
+    // TODO: Код дублируется в классе \Bridge\Core\Behaviors\BridgeUploadBehavior
     /**
      * Name of language column in model table
      * Example: 'lang'

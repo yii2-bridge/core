@@ -8,9 +8,9 @@
 
 namespace naffiq\bridge\gii\model;
 
-use naffiq\bridge\behaviors\BridgeUploadBehavior;
-use naffiq\bridge\behaviors\BridgeUploadImageBehavior;
-use naffiq\bridge\behaviors\BridgeSlugBehavior;
+use Bridge\Core\Behaviors\BridgeUploadBehavior;
+use Bridge\Core\Behaviors\BridgeUploadImageBehavior;
+use Bridge\Slug\BridgeSlugBehavior;
 use naffiq\bridge\gii\helpers\ArrayString;
 use naffiq\bridge\gii\helpers\BooleanString;
 use naffiq\bridge\gii\helpers\ColumnHelper;

@@ -1,6 +1,6 @@
 <?php
 
-namespace naffiq\bridge\behaviors;
+namespace Bridge\Core\Behaviors;
 
 use mohorev\file\UploadBehavior;
 use yii\base\InvalidArgumentException;

@@ -34,7 +34,7 @@
         "psr-4": {
             "naffiq\\bridge\\": "src/",
             "Bridge\\Core\\Assets\\": "src/assets/",
-            "naffiq\\bridge\\behaviors\\": "src/behaviors/",
+            "Bridge\\Core\\Behaviors\\": "src/behaviors/",
             "naffiq\\bridge\\controllers\\": "src/controllers/",
             "naffiq\\bridge\\tests\fixtures\\": "tests/fixtures/",
             "naffiq\\bridge\\modules\\query\\": "src/models/query/",

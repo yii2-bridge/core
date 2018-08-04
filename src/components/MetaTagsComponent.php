@@ -8,7 +8,7 @@
 
 namespace naffiq\bridge\components;
 
-use naffiq\bridge\behaviors\MetaTagBehavior;
+use Bridge\Core\Behaviors\MetaTagBehavior;
 use naffiq\bridge\models\MetaPage;
 use naffiq\bridge\models\MetaTagTranslation;
 use Yii;
@@ -38,7 +38,7 @@ class MetaTagsComponent extends Component
      *      return [
      *          ...
      *          'metaTag' => [
-     *              'class' => 'naffiq\bridge\behaviors\MetaTagBehavior',
+     *              'class' => 'Bridge\Core\Behaviors\MetaTagBehavior',
      *              'titleColumn' => 'title',
      *              'descriptionColumn' => 'description',
      *          ],

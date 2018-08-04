@@ -6,7 +6,7 @@
  * Time: 17:07
  */
 
-namespace naffiq\bridge\behaviors;
+namespace Bridge\Core\Behaviors;
 
 use naffiq\bridge\widgets\Toastr;
 use yii\base\Behavior;

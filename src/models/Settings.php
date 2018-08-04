@@ -2,7 +2,7 @@
 
 namespace naffiq\bridge\models;
 
-use naffiq\bridge\behaviors\BridgeUploadImageBehavior;
+use Bridge\Core\Behaviors\BridgeUploadImageBehavior;
 use Bridge\Core\Assets\AdminAsset;
 use naffiq\bridge\models\query\SettingsQuery;
 use Yii;
