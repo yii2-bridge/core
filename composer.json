@@ -44,9 +44,9 @@
             "naffiq\\bridge\\modules\\": "src/models/",
             "naffiq\\bridge\\widgets\\": "src/widgets/",
             "naffiq\\bridge\\widgets\\columns\\": "src/widgets/columns/",
-            "naffiq\\bridge\\gii\\helpers\\": "src/gii/helpers/",
-            "naffiq\\bridge\\gii\\crud\\": "src/gii/crud/",
-            "naffiq\\bridge\\gii\\model\\": "src/gii/model/"
+            "Bridge\\Core\\Gii\\Helpers\\": "src/gii/helpers/",
+            "Bridge\\Core\\Gii\\CRUD\\": "src/gii/crud/",
+            "Bridge\\Core\\Gii\\Model\\": "src/gii/model/"
         }
     },
     "require-dev": {
