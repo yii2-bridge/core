@@ -181,8 +181,8 @@ class BridgeModule extends Module implements BootstrapInterface
                 ]
             ]));
         } elseif ($app instanceof ConsoleApplication) {
-            \Yii::setAlias('@bridge-migrations', \Yii::getAlias('@vendor/naffiq/yii2-bridge/src/migrations/'));
-            \Yii::setAlias('@naffiq/bridge', \Yii::getAlias('@vendor/naffiq/yii2-bridge/src/'));
+            \Yii::setAlias('@bridge-migrations', \Yii::getAlias('@vendor/yii2-bridge/core/src/migrations/'));
+            \Yii::setAlias('@bridge', \Yii::getAlias('@vendor/yii2-bridge/core/src/'));
         }
 
         $this->registerGiiGenerators($app);
@@ -231,8 +231,8 @@ class BridgeModule extends Module implements BootstrapInterface
      */
     private function registerAliases()
     {
-        \Yii::setAlias('@bridge', \Yii::getAlias('@vendor/naffiq/yii2-bridge/src'));
-        \Yii::setAlias('@bridge-assets', \Yii::getAlias('@vendor/naffiq/yii2-bridge/src/assets/dist/'));
+        \Yii::setAlias('@bridge', \Yii::getAlias('@vendor/yii2-bridge/core/src/'));
+        \Yii::setAlias('@bridge-assets', \Yii::getAlias('@vendor/yii2-bridge/core/src/assets/dist/'));
     }
 
     /**
