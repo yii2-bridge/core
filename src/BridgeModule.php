@@ -151,6 +151,8 @@ class BridgeModule extends Module implements BootstrapInterface
 
     public $showLanguageSwitcher = true;
 
+    public $languageSwitchAction = '\Bridge\Core\Controllers\Actions\LanguageSwitchAction';
+
     /**
      * @inheritdoc
      */
