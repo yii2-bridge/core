@@ -175,7 +175,7 @@ class BridgeModule extends Module implements BootstrapInterface
                 echo "ok"; die;
             }
 
-            $app->setComponents(ArrayHelper::merge($app->components, [
+            $app->setComponents(ArrayHelper::merge($app->getComponents(false), [
                 'bridge' => [
                     'class' => BridgeComponent::class,
                 ]
