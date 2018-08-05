@@ -6,11 +6,11 @@
  * Time: 17:57
  */
 
-namespace naffiq\bridge\components;
+namespace Bridge\Core\Components;
 
-use naffiq\bridge\behaviors\MetaTagBehavior;
-use naffiq\bridge\models\MetaPage;
-use naffiq\bridge\models\MetaTagTranslation;
+use Bridge\Core\Behaviors\MetaTagBehavior;
+use Bridge\Core\Models\MetaPage;
+use Bridge\Core\Models\MetaTagTranslation;
 use Yii;
 use yii\base\Component;
 use yii\base\InvalidArgumentException;
@@ -38,7 +38,7 @@ class MetaTagsComponent extends Component
      *      return [
      *          ...
      *          'metaTag' => [
-     *              'class' => 'naffiq\bridge\behaviors\MetaTagBehavior',
+     *              'class' => 'Bridge\Core\Behaviors\MetaTagBehavior',
      *              'titleColumn' => 'title',
      *              'descriptionColumn' => 'description',
      *          ],

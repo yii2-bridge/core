@@ -26,7 +26,7 @@ return [
     // ... your config
     'modules' => [
         'admin' => [
-            'class' => '\naffiq\bridge\BridgeModule',
+            'class' => '\Bridge\Core\BridgeModule',
             // Add your projects modules here to keep right routing.
             'modules' => [
                 'customModule' => ['class' => '\app\modules\your\CustomModule']
@@ -78,7 +78,7 @@ And for console config, in order to run migrations:
 return [
     // ... your config
     'modules' => [
-        'admin' => ['class' => '\naffiq\bridge\BridgeModule']
+        'admin' => ['class' => '\Bridge\Core\BridgeModule']
     ],
     'bootstrap' => [        
         'admin' // add module id to bootstrap for proper aliases and url routes binding

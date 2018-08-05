@@ -1,9 +1,9 @@
 <?php
 
-use naffiq\bridge\gii\helpers\ColumnHelper;
+use Bridge\Core\Gii\Helpers\ColumnHelper;
 
 /* @var $this yii\web\View */
-/* @var $generator \naffiq\bridge\gii\crud\Generator */
+/* @var $generator \Bridge\Core\Gii\CRUD\Generator */
 
 /* @var $model \yii\db\ActiveRecord */
 $model = new $generator->modelClass();
@@ -17,11 +17,11 @@ echo "<?php\n";
 ?>
 
 use yii\bootstrap\Html;
-use naffiq\bridge\widgets\ActiveForm;
+use Bridge\Core\Widgets\ActiveForm;
 
 /* @var $this yii\web\View */
 /* @var $model <?= ltrim($generator->modelClass, '\\') ?> */
-/* @var $form naffiq\bridge\widgets\ActiveForm */
+/* @var $form Bridge\Core\Widgets\ActiveForm */
 ?>
 
 <?= "<?php " ?>$form = ActiveForm::begin(); ?>

@@ -6,14 +6,14 @@
  * Time: 18:09
  */
 
-namespace naffiq\bridge\gii\model;
+namespace Bridge\Core\Gii\Model;
 
-use naffiq\bridge\behaviors\BridgeUploadBehavior;
-use naffiq\bridge\behaviors\BridgeUploadImageBehavior;
-use naffiq\bridge\behaviors\BridgeSlugBehavior;
-use naffiq\bridge\gii\helpers\ArrayString;
-use naffiq\bridge\gii\helpers\BooleanString;
-use naffiq\bridge\gii\helpers\ColumnHelper;
+use Bridge\Core\Behaviors\BridgeUploadBehavior;
+use Bridge\Core\Behaviors\BridgeUploadImageBehavior;
+use Bridge\Slug\BridgeSlugBehavior;
+use Bridge\Core\Gii\Helpers\ArrayString;
+use Bridge\Core\Gii\Helpers\BooleanString;
+use Bridge\Core\Gii\Helpers\ColumnHelper;
 use phpDocumentor\Reflection\DocBlock;
 use phpDocumentor\Reflection\DocBlockFactory;
 use yii\base\NotSupportedException;

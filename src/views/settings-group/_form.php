@@ -1,10 +1,10 @@
 <?php
 
-use naffiq\bridge\widgets\ActiveForm;
+use Bridge\Core\Widgets\ActiveForm;
 use yii\bootstrap\Html;
 
 /* @var $this yii\web\View */
-/* @var $model \naffiq\bridge\models\SettingsGroup */
+/* @var $model \Bridge\Core\Models\SettingsGroup */
 ?>
 <?php $form = ActiveForm::begin(); ?>
 

@@ -6,11 +6,11 @@
  * Time: 23:32
  */
 
-namespace naffiq\bridge\tests\fixtures;
+namespace Bridge\Core\Tests\Fixtures;
 
 use yii\test\ActiveFixture;
 
 class SettingsGroupFixture extends ActiveFixture
 {
-    public $modelClass = '\naffiq\bridge\models\SettingsGroup';
+    public $modelClass = '\Bridge\Core\Models\SettingsGroup';
 }

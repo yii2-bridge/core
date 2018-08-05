@@ -6,7 +6,7 @@
  * Time: 14:35
  */
 
-use naffiq\bridge\gii\helpers\ColumnHelper;
+use Bridge\Core\Gii\Helpers\ColumnHelper;
 
 class ColumnHelperTest extends \PHPUnit\Framework\TestCase
 {

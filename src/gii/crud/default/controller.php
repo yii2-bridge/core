@@ -6,7 +6,7 @@
 use yii\helpers\StringHelper;
 
 /* @var $this yii\web\View */
-/* @var $generator \naffiq\bridge\gii\crud\Generator */
+/* @var $generator \Bridge\Core\Gii\CRUD\Generator */
 
 $controllerClass = StringHelper::basename($generator->controllerClass);
 $contexts = $generator->getContexts();

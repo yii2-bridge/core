@@ -1,8 +1,8 @@
 <?php
 
-namespace naffiq\bridge\models;
+namespace Bridge\Core\Models;
 
-use naffiq\bridge\models\query\MetaTagQuery;
+use Bridge\Core\Models\Query\MetaTagQuery;
 use Yii;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
@@ -93,7 +93,7 @@ class MetaTag extends ActiveRecord
                 'value' => new Expression('CURRENT_TIMESTAMP()'),
             ],
             'translation' => [
-                'class' => 'naffiq\bridge\behaviors\TranslationBehavior',
+                'class' => 'Bridge\Core\Behaviors\TranslationBehavior',
                 'translationModelClass' => MetaTagTranslation::class,
                 'translationModelRelationColumn' => 'meta_tag_id'
             ]

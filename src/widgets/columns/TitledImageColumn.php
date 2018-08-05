@@ -6,7 +6,7 @@
  * Time: 1:56 AM
  */
 
-namespace naffiq\bridge\widgets\columns;
+namespace Bridge\Core\Widgets\Columns;
 
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
@@ -21,7 +21,7 @@ use yii\helpers\Inflector;
  *
  * In addition to `ImageColumn`'s image, it adds `$titleAttribute` to column.
  *
- * @package naffiq\bridge\widgets\columns
+ * @package Bridge\Core\Widgets\Columns
  */
 class TitledImageColumn extends ImageColumn
 {

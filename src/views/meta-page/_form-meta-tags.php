@@ -1,8 +1,8 @@
 <?php
 /**
  * @var $languageCode string
- * @var $model \naffiq\bridge\models\MetaTag
- * @var $form \naffiq\bridge\widgets\ActiveForm
+ * @var $model \Bridge\Core\Models\MetaTag
+ * @var $form \Bridge\Core\Widgets\ActiveForm
  */
 $translationModel = $model->getTranslation($languageCode);
 ?>

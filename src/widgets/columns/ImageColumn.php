@@ -6,10 +6,10 @@
  * Time: 1:35 AM
  */
 
-namespace naffiq\bridge\widgets\columns;
+namespace Bridge\Core\Widgets\Columns;
 
 
-use naffiq\bridge\behaviors\BridgeUploadImageBehavior;
+use Bridge\Core\Behaviors\BridgeUploadImageBehavior;
 use yii\base\InvalidParamException;
 use yii\base\Model;
 use yii\grid\DataColumn;
@@ -19,13 +19,13 @@ use yii\helpers\Html;
 /**
  * Class ImageColumn
  *
- * Since yii2-bridge recommends using `naffiq\bridge\behaviors\BridgeUploadImageBehavior` heavily under the hood,
+ * Since yii2-bridge recommends using `Bridge\Core\Behaviors\BridgeUploadImageBehavior` heavily under the hood,
  * this class allows you to execute model's behavior attached to attribute specified.
  *
  * Otherwise, `$model` doesn't have behavior attached it just wraps value into `Html::img` tag, so be sure
  * to return img url
  *
- * @package naffiq\bridge\widgets\columns
+ * @package Bridge\Core\Widgets\Columns
  */
 class ImageColumn extends DataColumn
 {
@@ -48,7 +48,7 @@ class ImageColumn extends DataColumn
     public $format = 'raw';
 
     /**
-     * Checks `$model` if it has `\naffiq\bridge\behaviors\BridgeUploadImageBehavior` and returns its' `getThumbUploadUrl()` method
+     * Checks `$model` if it has `\Bridge\Core\Behaviors\BridgeUploadImageBehavior` and returns its' `getThumbUploadUrl()` method
      * result.
      *
      * If no BridgeUploadImageBehavior detected in `$model`, then it returns `DataColumn::getDataCellValue()` result
@@ -122,7 +122,7 @@ class ImageColumn extends DataColumn
                         $imgUrl = call_user_func([$behavior, $this->uploadBehaviorMethod], $attribute, $this->imageProfile);
                     } else {
                         throw new InvalidParamException(
-                            '`\naffiq\bridge\behaviors\BridgeUploadImageBehavior` doesn\'t have method '
+                            '`\Bridge\Core\Behaviors\BridgeUploadImageBehavior` doesn\'t have method '
                             . $this->uploadBehaviorMethod
                         );
                     }

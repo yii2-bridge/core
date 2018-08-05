@@ -6,9 +6,9 @@
  * Time: 1:11 AM
  */
 
-namespace naffiq\bridge\controllers;
+namespace Bridge\Core\Controllers;
 
-use naffiq\bridge\BridgeModule;
+use Bridge\Core\BridgeModule;
 use yii\base\InvalidConfigException;
 use yii2tech\admin\CrudController;
 use yii\filters\VerbFilter;
@@ -24,7 +24,7 @@ class BaseAdminController extends CrudController
 
     /**
      * @var array|null contains roles, that have access to the controller. If value is `null`, then
-     * it will be initialized from `naffiq\bridge\BridgeModule` config.
+     * it will be initialized from `Bridge\Core\BridgeModule` config.
      * Default value: `['admin']`
      */
     public $allowedRoles = null;

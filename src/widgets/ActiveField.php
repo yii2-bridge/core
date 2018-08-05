@@ -6,7 +6,7 @@
  * Time: 11:57 PM
  */
 
-namespace naffiq\bridge\widgets;
+namespace Bridge\Core\Widgets;
 
 use kartik\select2\Select2;
 use kartik\widgets\DatePicker;
@@ -17,7 +17,7 @@ use kolyunya\yii2\widgets\MapInputWidget;
 use dosamigos\ckeditor\CKEditor;
 use mihaildev\elfinder\ElFinder;
 use mohorev\file\UploadBehavior;
-use naffiq\bridge\models\Settings;
+use Bridge\Core\Models\Settings;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\web\Application;
@@ -29,7 +29,7 @@ use yii\helpers\Url;
  *
  * Has some shortcuts
  *
- * @package naffiq\bridge\widgets
+ * @package Bridge\Core\Widgets
  */
 class ActiveField extends \yii\widgets\ActiveField
 {

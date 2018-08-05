@@ -1,24 +1,24 @@
 <?php
 
-namespace naffiq\bridge\controllers;
-use naffiq\bridge\models\Settings;
-use naffiq\bridge\models\SettingsGroup;
+namespace Bridge\Core\Controllers;
+use Bridge\Core\Models\Settings;
+use Bridge\Core\Models\SettingsGroup;
 use yii\helpers\ArrayHelper;
 
 /**
  * SettingsController implements the CRUD actions for [[app\modules\admin\models\Settings]] model.
- * @see \naffiq\bridge\models\Settings
+ * @see \Bridge\Core\Models\Settings
  */
 class SettingsController extends BaseAdminController
 {
     /**
      * @inheritdoc
      */
-    public $modelClass = 'naffiq\bridge\models\Settings';
+    public $modelClass = 'Bridge\Core\Models\Settings';
     /**
      * @inheritdoc
      */
-    public $searchModelClass = 'naffiq\bridge\models\search\SettingsSearch';
+    public $searchModelClass = 'Bridge\Core\Models\Search\SettingsSearch';
 
     /**
      * @var string

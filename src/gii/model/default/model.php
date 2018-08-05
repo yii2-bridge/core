@@ -4,7 +4,7 @@
  */
 
 /* @var $this yii\web\View */
-/* @var $generator \naffiq\bridge\gii\model\Generator */
+/* @var $generator \Bridge\Core\Gii\Model\Generator */
 /* @var $tableName string full table name */
 /* @var $className string class name */
 /* @var $queryClassName string query class name */

@@ -2,10 +2,10 @@
 
 use yii\helpers\Inflector;
 use yii\helpers\StringHelper;
-use naffiq\bridge\gii\helpers\ColumnHelper;
+use Bridge\Core\Gii\Helpers\ColumnHelper;
 
 /* @var $this yii\web\View */
-/* @var $generator \naffiq\bridge\gii\crud\Generator */
+/* @var $generator \Bridge\Core\Gii\CRUD\Generator */
 
 $urlParams = $generator->generateUrlParams();
 $nameAttribute = $generator->getNameAttribute();

@@ -6,13 +6,13 @@
  * Time: 00:39
  */
 
-namespace naffiq\bridge\widgets;
+namespace Bridge\Core\Widgets;
 
 
 use dosamigos\grid\behaviors\ResizableColumnsBehavior;
 use dosamigos\grid\GridView;
-use naffiq\bridge\models\Settings;
-use naffiq\bridge\models\SettingsGroup;
+use Bridge\Core\Models\Settings;
+use Bridge\Core\Models\SettingsGroup;
 use yii\data\ActiveDataProvider;
 use yii\helpers\Html;
 use yii\helpers\StringHelper;
@@ -62,7 +62,7 @@ class SettingsGridView extends GridView
                 'format' => 'raw',
                 'value' => function ($data) {
                     /**
-                     * @var \naffiq\bridge\models\Settings $data
+                     * @var \Bridge\Core\Models\Settings $data
                      */
                     if ($data->type == Settings::TYPE_IMAGE) {
                         return Html::img($data->getThumbUploadUrl('value', 'preview'), [

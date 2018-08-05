@@ -6,14 +6,14 @@
  * Time: 16:53
  */
 
-namespace naffiq\bridge\gii\helpers;
+namespace Bridge\Core\Gii\Helpers;
 
 /**
  * Class ColumnHelper
  *
  * Helps determine
  *
- * @package naffiq\bridge\gii\helpers
+ * @package Bridge\Core\Gii\Helpers
  */
 class ColumnHelper
 {

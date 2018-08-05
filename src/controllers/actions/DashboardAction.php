@@ -6,15 +6,15 @@
  * Time: 16:42
  */
 
-namespace naffiq\bridge\controllers\actions;
+namespace Bridge\Core\Controllers\Actions;
 
-use naffiq\bridge\BridgeModule;
+use Bridge\Core\BridgeModule;
 use yii\base\Action;
 use yii\httpclient\Client;
 
 /**
  * Class DashboardAction
- * @package naffiq\bridge\controllers\actions
+ * @package Bridge\Core\Controllers\Actions
  */
 class DashboardAction extends Action
 {

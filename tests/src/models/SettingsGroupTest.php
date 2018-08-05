@@ -1,6 +1,6 @@
 <?php
 
-use naffiq\bridge\models\Settings;
+use Bridge\Core\Models\Settings;
 use yii\base\InvalidParamException;
 
 /**

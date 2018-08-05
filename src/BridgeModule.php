@@ -6,14 +6,14 @@
  * Time: 1:19 AM
  */
 
-namespace naffiq\bridge;
+namespace Bridge\Core;
 
 use codemix\localeurls\UrlManager;
 use Da\User\Bootstrap;
 use Da\User\Component\AuthDbManagerComponent;
 use Da\User\Model\User;
-use naffiq\bridge\assets\ElFinderTheme;
-use naffiq\bridge\models\Settings;
+use Bridge\Core\Assets\ElFinderTheme;
+use Bridge\Core\Models\Settings;
 use yii\base\Application;
 use yii\base\BootstrapInterface;
 use yii\base\InvalidConfigException;
@@ -29,7 +29,7 @@ use Zelenin\yii\modules\I18n\controllers\DefaultController;
  *
  * Main module for Bridge admin panel. Register your custom modules as submodules to this class in your config file.
  *
- * @package naffiq\bridge
+ * @package Bridge\Core
  */
 class BridgeModule extends Module implements BootstrapInterface
 {
@@ -46,7 +46,7 @@ class BridgeModule extends Module implements BootstrapInterface
     /**
      * @var string class name for main admin dashboard action
      */
-    public $dashboardAction = '\naffiq\bridge\controllers\actions\DashboardAction';
+    public $dashboardAction = '\Bridge\Core\Controllers\Actions\DashboardAction';
 
     /**
      * @var array Configuration passed to yii2-usuario module
@@ -80,7 +80,7 @@ class BridgeModule extends Module implements BootstrapInterface
      * Example:
      * ```php
      * [
-     *     'class' => 'naffiq\bridge\BridgeModule',
+     *     'class' => 'Bridge\Core\BridgeModule',
      *     'extraAssets' => [
      *         'app\assets\AdminAppAsset'
      *     ]
@@ -359,8 +359,8 @@ class BridgeModule extends Module implements BootstrapInterface
         /** @var \yii\gii\Module $giiModule */
         $giiModule = $app->getModule('gii');
         if (!empty($giiModule)) {
-            $giiModule->generators['bridge-crud'] = ['class' => 'naffiq\bridge\gii\crud\Generator'];
-            $giiModule->generators['bridge-model'] = ['class' => 'naffiq\bridge\gii\model\Generator'];
+            $giiModule->generators['bridge-crud'] = ['class' => 'Bridge\Core\Gii\CRUD\Generator'];
+            $giiModule->generators['bridge-model'] = ['class' => 'Bridge\Core\Gii\Model\Generator'];
         }
     }
 

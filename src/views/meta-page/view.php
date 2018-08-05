@@ -3,7 +3,7 @@
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
-/* @var $model naffiq\bridge\models\MetaPage */
+/* @var $model Bridge\Core\Models\MetaPage */
 
 $this->title = $model->id;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('bridge', 'Meta Pages'), 'url' => ['index']];

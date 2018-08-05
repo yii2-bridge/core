@@ -6,15 +6,15 @@
  * Time: 17:18
  */
 
-namespace naffiq\bridge\gii\crud;
+namespace Bridge\Core\Gii\CRUD;
 
 
 use dosamigos\grid\columns\ToggleColumn;
-use naffiq\bridge\gii\helpers\ArrayString;
-use naffiq\bridge\gii\helpers\ColumnHelper;
-use naffiq\bridge\widgets\columns\ImageColumn;
-use naffiq\bridge\widgets\columns\TitledImageColumn;
-use naffiq\bridge\widgets\columns\TruncatedTextColumn;
+use Bridge\Core\Gii\Helpers\ArrayString;
+use Bridge\Core\Gii\Helpers\ColumnHelper;
+use Bridge\Core\Widgets\Columns\ImageColumn;
+use Bridge\Core\Widgets\Columns\TitledImageColumn;
+use Bridge\Core\Widgets\Columns\TruncatedTextColumn;
 use yii\base\Model;
 use yii\db\ActiveRecord;
 use yii\db\Schema;
@@ -28,14 +28,14 @@ use yii2tech\admin\grid\PositionColumn;
  *
  * Custom generator, that allows developers to generate ready to user forms
  *
- * @package naffiq\bridge\gii\crud
+ * @package Bridge\Core\Gii\CRUD
  */
 class Generator extends \yii2tech\admin\gii\crud\Generator
 {
     /**
      * @inheritdoc
      */
-    public $baseControllerClass = 'naffiq\bridge\controllers\BaseAdminController';
+    public $baseControllerClass = 'Bridge\Core\Controllers\BaseAdminController';
 
     /**
      * @var string Generates controller with create scenario

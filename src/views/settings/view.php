@@ -4,7 +4,7 @@ use yii\bootstrap\Html;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
-/* @var $model naffiq\bridge\models\Settings */
+/* @var $model Bridge\Core\Models\Settings */
 
 $this->title = $model->title;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('bridge', 'Settings'), 'url' => ['index']];

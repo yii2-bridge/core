@@ -1,8 +1,8 @@
 <?php
 
-namespace naffiq\bridge\models;
+namespace Bridge\Core\Models;
 
-use naffiq\bridge\models\query\MetaPageQuery;
+use Bridge\Core\Models\Query\MetaPageQuery;
 use Yii;
 use yii\db\ActiveRecord;
 

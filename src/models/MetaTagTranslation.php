@@ -1,8 +1,8 @@
 <?php
 
-namespace naffiq\bridge\models;
+namespace Bridge\Core\Models;
 
-use naffiq\bridge\models\query\MetaTagTranslationQuery;
+use Bridge\Core\Models\Query\MetaTagTranslationQuery;
 use Yii;
 use yii\db\ActiveRecord;
 
@@ -91,7 +91,7 @@ class MetaTagTranslation extends ActiveRecord
     {
         return [
             'imageUpload' => [
-                'class' => 'naffiq\bridge\behaviors\BridgeUploadImageBehavior',
+                'class' => 'Bridge\Core\Behaviors\BridgeUploadImageBehavior',
                 'attribute' => 'image',
                 'isTranslation' => true,
                 'instanceByName' => true,

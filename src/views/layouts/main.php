@@ -4,9 +4,9 @@
 
 /* @var $content string */
 
-use naffiq\bridge\assets\AdminAsset;
-use naffiq\bridge\models\Settings;
-use naffiq\bridge\widgets\SideMenu;
+use Bridge\Core\Assets\AdminAsset;
+use Bridge\Core\Models\Settings;
+use Bridge\Core\Widgets\SideMenu;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\helpers\Url;
@@ -18,11 +18,11 @@ AdminAsset::register($this);
 
 /** @var $user \Da\User\Model\User */
 $user = \Yii::$app->user->identity;
-/** @var \naffiq\bridge\BridgeModule $adminModule */
+/** @var \Bridge\Core\BridgeModule $adminModule */
 $adminModule = \Yii::$app->getModule('admin');
 
 $isMenuWide = \Yii::$app->session->get('bridge-menu-state', 0);
-\naffiq\bridge\widgets\Toastr::registerToasts($this);
+\Bridge\Core\Widgets\Toastr::registerToasts($this);
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>

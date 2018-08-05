@@ -32,19 +32,21 @@
     "bin": ["bin/bridge-install"],
     "autoload": {
         "psr-4": {
-            "naffiq\\bridge\\": "src/",
-            "naffiq\\bridge\\assets\\": "src/assets/",
-            "naffiq\\bridge\\behaviors\\": "src/behaviors/",
-            "naffiq\\bridge\\controllers\\": "src/controllers/",
-            "naffiq\\bridge\\tests\fixtures\\": "tests/fixtures/",
-            "naffiq\\bridge\\modules\\query\\": "src/models/query/",
-            "naffiq\\bridge\\modules\\search\\": "src/models/search/",
-            "naffiq\\bridge\\modules\\": "src/models/",
-            "naffiq\\bridge\\widgets\\": "src/widgets/",
-            "naffiq\\bridge\\widgets\\columns\\": "src/widgets/columns/",
-            "naffiq\\bridge\\gii\\helpers\\": "src/gii/helpers/",
-            "naffiq\\bridge\\gii\\crud\\": "src/gii/crud/",
-            "naffiq\\bridge\\gii\\model\\": "src/gii/model/"
+            "Bridge\\Core\\": "src/",
+            "Bridge\\Core\\Assets\\": "src/assets/",
+            "Bridge\\Core\\Behaviors\\": "src/behaviors/",
+            "Bridge\\Core\\Components\\": "src/components/",
+            "Bridge\\Core\\Controllers\\": "src/controllers/",
+            "Bridge\\Core\\Controllers\\Actions\\": "src/controllers/actions",
+            "Bridge\\Core\\Tests\fFixtures\\": "tests/fixtures/",
+            "Bridge\\Core\\Models\\Query\\": "src/models/query/",
+            "Bridge\\Core\\Models\\Search\\": "src/models/search/",
+            "Bridge\\Core\\Models\\": "src/models/",
+            "Bridge\\Core\\Widgets\\": "src/widgets/",
+            "Bridge\\Core\\Widgets\\Columns\\": "src/widgets/columns/",
+            "Bridge\\Core\\Gii\\Helpers\\": "src/gii/helpers/",
+            "Bridge\\Core\\Gii\\CRUD\\": "src/gii/crud/",
+            "Bridge\\Core\\Gii\\Model\\": "src/gii/model/"
         }
     },
     "require-dev": {

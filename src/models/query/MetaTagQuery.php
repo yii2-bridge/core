@@ -1,11 +1,11 @@
 <?php
 
-namespace naffiq\bridge\models\query;
+namespace Bridge\Core\Models\Query;
 
 /**
- * This is the ActiveQuery class for [[\naffiq\bridge\models\MetaTag]].
+ * This is the ActiveQuery class for [[\Bridge\Core\Models\MetaTag]].
  *
- * @see \naffiq\bridge\models\MetaTag
+ * @see \Bridge\Core\Models\MetaTag
  */
 class MetaTagQuery extends \yii\db\ActiveQuery
 {
@@ -16,7 +16,7 @@ class MetaTagQuery extends \yii\db\ActiveQuery
 
     /**
      * @inheritdoc
-     * @return \naffiq\bridge\models\MetaTag[]|array
+     * @return \Bridge\Core\Models\MetaTag[]|array
      */
     public function all($db = null)
     {
@@ -25,7 +25,7 @@ class MetaTagQuery extends \yii\db\ActiveQuery
 
     /**
      * @inheritdoc
-     * @return \naffiq\bridge\models\MetaTag|array|null
+     * @return \Bridge\Core\Models\MetaTag|array|null
      */
     public function one($db = null)
     {

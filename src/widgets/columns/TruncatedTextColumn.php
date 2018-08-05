@@ -1,6 +1,6 @@
 <?php
 
-namespace naffiq\bridge\widgets\columns;
+namespace Bridge\Core\Widgets\Columns;
 
 use yii\grid\DataColumn;
 use yii\helpers\ArrayHelper;
@@ -18,7 +18,7 @@ use yii\helpers\StringHelper;
  *      'dataProvider' => $dataProvider,
  *      'columns' => [
  *          [
- *              'class' => '\naffiq\bridge\widgets\columns\TrimmedTextColumn',
+ *              'class' => '\Bridge\Core\Widgets\Columns\TrimmedTextColumn',
  *              'attribute' => 'description',
  *              'truncateLength' => 150, // Control length of truncated string, default is 100
  *          ]
@@ -27,7 +27,7 @@ use yii\helpers\StringHelper;
  *
  * ```
  *
- * @package naffiq\bridge\widgets\columns
+ * @package Bridge\Core\Widgets\Columns
  */
 class TruncatedTextColumn extends DataColumn
 {

@@ -1,14 +1,14 @@
 <?php
 
-namespace naffiq\bridge\models\search;
+namespace Bridge\Core\Models\Search;
 
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use naffiq\bridge\models\MetaPage;
+use Bridge\Core\Models\MetaPage;
 
 /**
- * MetaPageSearch represents the model behind the search form of `naffiq\bridge\models\MetaPage`.
+ * MetaPageSearch represents the model behind the search form of `Bridge\Core\Models\MetaPage`.
  */
 class MetaPageSearch extends MetaPage
 {

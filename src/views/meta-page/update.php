@@ -1,7 +1,7 @@
 <?php
 
 /* @var $this yii\web\View */
-/* @var $model naffiq\bridge\models\MetaPage */
+/* @var $model Bridge\Core\Models\MetaPage */
 
 $this->title = Yii::t('bridge', 'Update Meta Page: ') . $model->id;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('bridge', 'Meta Pages'), 'url' => ['index']];

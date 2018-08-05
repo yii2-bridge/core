@@ -6,7 +6,7 @@
  * Time: 07:41
  */
 
-namespace naffiq\bridge\widgets;
+namespace Bridge\Core\Widgets;
 
 
 use yii\base\BaseObject;
@@ -17,7 +17,7 @@ use yii\web\View;
  *
  * Send toasts through session flash!
  *
- * @package naffiq\bridge\widgets
+ * @package Bridge\Core\Widgets
  */
 class Toastr extends BaseObject
 {

@@ -40,7 +40,7 @@ if (file_exists(__DIR__. '/../.env')) {
     ],
     'modules' => [
         'admin' => [
-            'class' => \naffiq\bridge\BridgeModule::class
+            'class' => \Bridge\Core\BridgeModule::class
         ]
     ]
 ]))->run();

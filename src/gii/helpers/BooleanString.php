@@ -6,7 +6,7 @@
  * Time: 23:59
  */
 
-namespace naffiq\bridge\gii\helpers;
+namespace Bridge\Core\Gii\Helpers;
 
 
 class BooleanString

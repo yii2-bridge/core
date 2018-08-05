@@ -6,9 +6,9 @@
  * Time: 16:42
  */
 
-namespace naffiq\bridge\controllers\actions;
+namespace Bridge\Core\Controllers\Actions;
 
-use naffiq\bridge\BridgeModule;
+use Bridge\Core\BridgeModule;
 use yii\base\Action;
 use yii\helpers\Url;
 use yii\httpclient\Client;
@@ -19,7 +19,7 @@ use yii\web\Cookie;
  *
  * Storing language in cookies
  *
- * @package naffiq\bridge\controllers\actions
+ * @package Bridge\Core\Controllers\Actions
  */
 class LanguageSwitchAction extends Action
 {

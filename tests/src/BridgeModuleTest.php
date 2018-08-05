@@ -1,7 +1,7 @@
 <?php
 
-use naffiq\bridge\BridgeComponent;
-use naffiq\bridge\BridgeModule;
+use Bridge\Core\BridgeComponent;
+use Bridge\Core\BridgeModule;
 use yii\web\Application;
 
 /**

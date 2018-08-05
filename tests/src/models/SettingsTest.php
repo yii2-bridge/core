@@ -1,7 +1,7 @@
 <?php
 
-use naffiq\bridge\models\Settings;
-use naffiq\bridge\models\SettingsGroup;
+use Bridge\Core\Models\Settings;
+use Bridge\Core\Models\SettingsGroup;
 
 /**
  * Created by PhpStorm.

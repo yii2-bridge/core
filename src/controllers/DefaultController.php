@@ -6,11 +6,11 @@
  * Time: 10:33 PM
  */
 
-namespace naffiq\bridge\controllers;
+namespace Bridge\Core\Controllers;
 
 
-use naffiq\bridge\BridgeModule;
-use naffiq\bridge\models\LoginForm;
+use Bridge\Core\BridgeModule;
+use Bridge\Core\Models\LoginForm;
 use yii\filters\AccessControl;
 use yii\helpers\ArrayHelper;
 use yii\web\Controller;

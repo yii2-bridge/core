@@ -1,11 +1,11 @@
 <?php
 
-namespace naffiq\bridge\models\query;
+namespace Bridge\Core\Models\Query;
 
 /**
  * This is the ActiveQuery class for [[\app\models\SettingsGroup]].
  *
- * @see \naffiq\bridge\models\SettingsGroup
+ * @see \Bridge\Core\Models\SettingsGroup
  */
 class SettingsGroupQuery extends \yii\db\ActiveQuery
 {
@@ -16,7 +16,7 @@ class SettingsGroupQuery extends \yii\db\ActiveQuery
 
     /**
      * @inheritdoc
-     * @return \naffiq\bridge\models\SettingsGroup[]|array
+     * @return \Bridge\Core\Models\SettingsGroup[]|array
      */
     public function all($db = null)
     {
@@ -25,7 +25,7 @@ class SettingsGroupQuery extends \yii\db\ActiveQuery
 
     /**
      * @inheritdoc
-     * @return \naffiq\bridge\models\SettingsGroup|array|null
+     * @return \Bridge\Core\Models\SettingsGroup|array|null
      */
     public function one($db = null)
     {
