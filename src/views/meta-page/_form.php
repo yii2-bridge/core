@@ -11,7 +11,7 @@ use Bridge\Core\Widgets\ActiveForm;
 <?php $form = ActiveForm::begin(); ?>
 <div class="row">
     <div class="col-md-8">
-        <?= $form->translate($model->metaTag, '@app/vendor/naffiq/yii2-bridge/src/views/meta-page/_form-meta-tags') ?>
+        <?= $form->translate($model->metaTag, '@app/vendor/yii2-bridge/core/src/views/meta-page/_form-meta-tags') ?>
 
     </div>
 

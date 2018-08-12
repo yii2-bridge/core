@@ -17,12 +17,12 @@ $this->params['breadcrumbs'][] = $this->title;
             <?php if ($repoData['tag_name'] > $currentVersion) : ?>
                 <div class="alert alert-warning">
                     <i class="fa fa-exclamation"></i>
-                    <?= Yii::t('bridge', 'Update your admin panel by running <code>{0}</code>', ['composer update naffiq/yii2-bridge']) ?>
+                    <?= Yii::t('bridge', 'Update your admin panel by running <code>{0}</code>', ['composer update yii2-bridge/core']) ?>
                 </div>
             <?php else: ?>
                 <div class="alert alert-success">
                     <i class="fa fa-star"></i>
-                    <?= Yii::t('bridge', 'You have latest release of <code>{0}</code>', ['naffiq/yii2-bridge']) ?>
+                    <?= Yii::t('bridge', 'You have latest release of <code>{0}</code>', ['yii2-bridge/core']) ?>
                 </div>
             <?php endif; ?>
         <?php else: ?>
@@ -46,7 +46,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
                 <div class="links">
                     <a href="<?= $repoData['html_url'] ?>" class="btn btn-link"><i class="fa fa-download"></i> Get release</a>
-                    <a href="https://github.com/naffiq/yii2-bridge" class="btn btn-link"><i class="fa fa-github"></i> Visit repo</a>
+                    <a href="https://github.com/yii2-bridge/core" class="btn btn-link"><i class="fa fa-github"></i> Visit repo</a>
                 </div>
             <?php else: ?>
                 <div class="alert alert-default">Repo data unavailable</div>
