@@ -14,11 +14,11 @@ class SettingsController extends BaseAdminController
     /**
      * @inheritdoc
      */
-    public $modelClass = 'Bridge\Core\Models\Settings';
+    public $modelClass = '\Bridge\Core\Models\Settings';
     /**
      * @inheritdoc
      */
-    public $searchModelClass = 'Bridge\Core\Models\Search\SettingsSearch';
+    public $searchModelClass = '\Bridge\Core\Models\Search\SettingsSearch';
 
     /**
      * @var string

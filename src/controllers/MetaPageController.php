@@ -15,11 +15,11 @@ class MetaPageController extends BaseAdminController
     /**
      * @inheritdoc
      */
-    public $modelClass = 'Bridge\Core\Models\MetaPage';
+    public $modelClass = '\Bridge\Core\Models\MetaPage';
     /**
      * @inheritdoc
      */
-    public $searchModelClass = 'Bridge\Core\Models\Search\MetaPageSearch';
+    public $searchModelClass = '\Bridge\Core\Models\Search\MetaPageSearch';
 
 
     /**
@@ -32,7 +32,7 @@ class MetaPageController extends BaseAdminController
             [
                 'toggle' => [
                     'class' => ToggleAction::className(),
-                    'modelClass' => 'Bridge\Core\Models\MetaPage',
+                    'modelClass' => '\Bridge\Core\Models\MetaPage',
                     'onValue' => 1,
                     'offValue' => 0
                 ],
