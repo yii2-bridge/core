@@ -192,8 +192,10 @@ class BridgeModule extends Module implements BootstrapInterface
         $this->registerUsuario($app);
 
         \Yii::$app->on(\yii\web\Application::EVENT_BEFORE_ACTION, function () {
-            $this->registerGoogleAnalytics();
-            $this->registerYandexMetrika();
+            if (\Yii::$app->controller->module->id !== 'admin') {
+                $this->registerGoogleAnalytics();
+                $this->registerYandexMetrika();
+            }
         });
     }
 
