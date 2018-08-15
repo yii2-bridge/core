@@ -38,7 +38,7 @@ class MetaTagsComponent extends Component
      *      return [
      *          ...
      *          'metaTag' => [
-     *              'class' => 'Bridge\Core\Behaviors\MetaTagBehavior',
+     *              'class' => '\Bridge\Core\Behaviors\MetaTagBehavior',
      *              'titleColumn' => 'title',
      *              'descriptionColumn' => 'description',
      *          ],

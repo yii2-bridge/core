@@ -80,7 +80,7 @@ class BridgeModule extends Module implements BootstrapInterface
      * Example:
      * ```php
      * [
-     *     'class' => 'Bridge\Core\BridgeModule',
+     *     'class' => '\Bridge\Core\BridgeModule',
      *     'extraAssets' => [
      *         'app\assets\AdminAppAsset'
      *     ]
@@ -361,8 +361,8 @@ class BridgeModule extends Module implements BootstrapInterface
         /** @var \yii\gii\Module $giiModule */
         $giiModule = $app->getModule('gii');
         if (!empty($giiModule)) {
-            $giiModule->generators['bridge-crud'] = ['class' => 'Bridge\Core\Gii\CRUD\Generator'];
-            $giiModule->generators['bridge-model'] = ['class' => 'Bridge\Core\Gii\Model\Generator'];
+            $giiModule->generators['bridge-crud'] = ['class' => '\Bridge\Core\Gii\CRUD\Generator'];
+            $giiModule->generators['bridge-model'] = ['class' => '\Bridge\Core\Gii\Model\Generator'];
         }
     }
 

@@ -93,7 +93,7 @@ class MetaTag extends ActiveRecord
                 'value' => new Expression('CURRENT_TIMESTAMP()'),
             ],
             'translation' => [
-                'class' => 'Bridge\Core\Behaviors\TranslationBehavior',
+                'class' => '\Bridge\Core\Behaviors\TranslationBehavior',
                 'translationModelClass' => MetaTagTranslation::class,
                 'translationModelRelationColumn' => 'meta_tag_id'
             ]

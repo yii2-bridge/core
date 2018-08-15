@@ -11,7 +11,7 @@ class SettingsGroupController extends BaseAdminController
     /**
      * @inheritdoc
      */
-    public $modelClass = 'Bridge\Core\Models\SettingsGroup';
+    public $modelClass = '\Bridge\Core\Models\SettingsGroup';
 
     /**
      * @inheritdoc
