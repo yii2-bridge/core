@@ -153,6 +153,8 @@ class BridgeModule extends Module implements BootstrapInterface
 
     public $languageSwitchAction = '\Bridge\Core\Controllers\Actions\LanguageSwitchAction';
 
+    public $controllerNamespace = '\Bridge\Core\Controllers';
+
     /**
      * @inheritdoc
      */
