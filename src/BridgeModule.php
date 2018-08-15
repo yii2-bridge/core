@@ -92,12 +92,12 @@ class BridgeModule extends Module implements BootstrapInterface
     /**
      * @var string Module version
      */
-    public $version = 'v0.9.1';
+    public $version = 'v0.1.2';
 
     /**
      * @var string Module repository API URL, used to fetch latest version
      */
-    public $repoDataUrl = 'https://api.github.com/repos/naffiq/yii2-bridge/releases/latest';
+    public $repoDataUrl = 'https://api.github.com/repos/yii2-bridge/core/releases/latest';
 
     /**
      * @var array contains roles, that allowed to access admin panel. In order to change specific controllers behavior
