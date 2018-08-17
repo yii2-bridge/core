@@ -19,7 +19,9 @@
         "vlucas/phpdotenv": "^2.4",
         "kolyunya/yii2-map-input-widget": "^1.2",
         "mohorev/yii2-upload-behavior": "^0.2.0",
-        "yii2-bridge/slug-behavior": "^0.1"
+        "yii2-bridge/slug-behavior": "^0.1",
+        "yiisoft/yii2-imagine": "^2.1",
+        "2amigos/yii2-ckeditor-widget": "^2.1"
     },
     "license": "MIT",
     "authors": [
