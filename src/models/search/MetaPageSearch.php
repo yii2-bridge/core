@@ -6,6 +6,7 @@ use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use Bridge\Core\Models\MetaPage;
+use yii\helpers\ArrayHelper;
 
 /**
  * MetaPageSearch represents the model behind the search form of `Bridge\Core\Models\MetaPage`.
@@ -35,6 +36,11 @@ class MetaPageSearch extends MetaPage
     {
         // bypass scenarios() implementation in the parent class
         return Model::scenarios();
+    }
+
+    public function attributeLabels()
+    {
+        return ArrayHelper::merge(parent::attributeLabels(), ['title' => Yii::t('bridge', 'Title')]);
     }
 
 
