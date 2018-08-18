@@ -3,7 +3,7 @@
 namespace Bridge\Core\Models;
 
 use Yii;
-use yii\base\InvalidParamException;
+use yii\base\InvalidArgumentException;
 use yii\db\BaseActiveRecord;
 use yii\helpers\ArrayHelper;
 
@@ -105,7 +105,7 @@ class SettingsGroup extends \yii\db\ActiveRecord
      *
      * @param string $key key to be looking for
      * @return Settings
-     * @throws InvalidParamException when settings with key provided wasn't found
+     * @throws InvalidArgumentException when settings with key provided wasn't found
      */
     public static function get($key)
     {
@@ -116,7 +116,7 @@ class SettingsGroup extends \yii\db\ActiveRecord
         }
 
         if (empty($model)) {
-            throw new InvalidParamException("Setting with key '{$key}' wasn't found. Try creating it first or run getOrCreate method");
+            throw new InvalidArgumentException("Setting with key '{$key}' wasn't found. Try creating it first or run getOrCreate method");
         }
 
         Settings::$prevSettings[$key] = $model;
@@ -151,7 +151,7 @@ class SettingsGroup extends \yii\db\ActiveRecord
     {
         try {
             return self::get($key);
-        } catch (InvalidParamException $e) {
+        } catch (InvalidArgumentException $e) {
             return self::create(ArrayHelper::merge([
                 'key' => $key,
                 'title' => $key,

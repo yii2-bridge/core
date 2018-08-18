@@ -4,10 +4,11 @@ namespace Bridge\Core\Models;
 
 use Bridge\Core\Behaviors\BridgeUploadImageBehavior;
 use Bridge\Core\Assets\AdminAsset;
+use Bridge\Core\Behaviors\TranslationBehavior;
 use Bridge\Core\Models\Query\SettingsQuery;
 use Yii;
+use yii\base\InvalidArgumentException;
 use yii\base\InvalidCallException;
-use yii\base\InvalidParamException;
 use yii\helpers\ArrayHelper;
 use yii\web\JsExpression;
 use yii2tech\ar\position\PositionBehavior;
@@ -23,6 +24,10 @@ use yii2tech\ar\position\PositionBehavior;
  * @property integer $group_id
  * @property integer $position
  * @property string $type_settings
+ *
+ * @property SettingsTranslation[] $settingsTranslations
+ * @property SettingsTranslation $translation
+ * @method  SettingsTranslation getTranslation($languageCode)
  */
 class Settings extends \yii\db\ActiveRecord
 {
@@ -105,7 +110,12 @@ JS
             'position' => [
                 'class' => PositionBehavior::class,
                 'groupAttributes' => ['group_id']
-            ]
+            ],
+            'translation' => [
+                'class' => TranslationBehavior::class,
+                'translationModelClass' => SettingsTranslation::class,
+                'translationModelRelationColumn' => 'settings_id'
+            ],
         ];
     }
 
@@ -150,7 +160,7 @@ JS
      *
      * @param string $key key to be looking for
      * @return Settings
-     * @throws InvalidParamException when settings with key provided wasn't found
+     * @throws InvalidArgumentException when settings with key provided wasn't found
      */
     public static function get($key)
     {
@@ -161,7 +171,7 @@ JS
         }
 
         if (empty($model)) {
-            throw new InvalidParamException("Setting with key '{$key}' wasn't found. Try creating it first or run getOrCreate method");
+            throw new InvalidArgumentException("Setting with key '{$key}' wasn't found. Try creating it first or run getOrCreate method");
         }
 
         static::$prevSettings[$key] = $model;
@@ -211,7 +221,7 @@ JS
             }
 
             return $settings;
-        } catch (InvalidParamException $e) {
+        } catch (InvalidArgumentException $e) {
             return self::create(ArrayHelper::merge([
                 'key' => $key,
                 'title' => $key,
@@ -229,14 +239,14 @@ JS
     public function __toString()
     {
         if ($this->type == static::TYPE_IMAGE) {
-            if ($this->value) {
-                return $this->getUploadUrl('value');
+            if ($this->translation->value) {
+                return $this->translation->getUploadUrl('value');
             }
 
             $bundle = \Yii::$app->assetManager->getBundle(AdminAsset::class);
             return \Yii::$app->assetManager->getAssetUrl($bundle, 'avatar@2x.jpg');
         }
-        return (string) $this->value;
+        return (string) $this->translation->value;
     }
 
     /**
@@ -275,5 +285,13 @@ JS
             'description' => 'All the settings, that didn\t find their own place.',
             'icon' => 'fa-cogs'
         ]);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getSettingsTranslations()
+    {
+        return $this->hasMany(SettingsTranslation::class, ['settings_id' => 'id']);
     }
 }
