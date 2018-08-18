@@ -174,7 +174,7 @@ JS
         if (empty($options['key']) && $createKeySettings) {
             $options['key'] = Settings::group('app-keys', [
                 'title' => 'Keys',
-                'icon' => 'fa-keys'
+                'icon' => 'fa-key'
             ])->getOrCreate('google-map-key', [
                 'title' => 'Google Maps API key',
                 'type' => Settings::TYPE_STRING
