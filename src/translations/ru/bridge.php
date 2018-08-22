@@ -51,5 +51,7 @@ return [
     'Are you sure?' => 'Вы уверены?',
     'Yes' => 'Да',
     'No' => 'Нет',
-    'Map' => 'Карта'
+    'Map' => 'Карта',
+    'Clear cache' => 'Очистить кэш',
+    'Cache is cleared!' => 'Кэш очищен!'
 ];
