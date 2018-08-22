@@ -46,12 +46,13 @@ class TranslationBehavior extends Behavior
      * Returns translation model. If no `languageCode` is provided, then application language is used.
      *
      * @param null $languageCode
+     * @param null $cacheKey
      *
      * @return ActiveRecord
      */
-    public function getTranslation($languageCode = null)
+    public function getTranslation($languageCode = null, $cacheKey = null)
     {
-        return $this->getTranslationModel($languageCode ?: \Yii::$app->language);
+        return $this->getTranslationModel($languageCode ?: \Yii::$app->language, $cacheKey);
     }
 
     /**
@@ -83,15 +84,28 @@ class TranslationBehavior extends Behavior
      * Returns required translation model based on `lang` param provided.
      *
      * @param $lang string language code
+     * @param $cacheKey
      * @return mixed
      */
-    protected function getTranslationModel($lang)
+    protected function getTranslationModel($lang, $cacheKey = null)
     {
+        $cacheKey = $cacheKey !== null ? $cacheKey . '-' . $lang : false;
+
         $translationClass = $this->translationModelClass;
-        $translation = $translationClass::findOne([
-            $this->translationModelRelationColumn => $this->owner->getPrimaryKey(),
-            $this->translationModelLangColumn => $lang
-        ]);
+
+        if ($cacheKey) {
+            $translation = \Yii::$app->cache->getOrSet($cacheKey, function () use ($translationClass, $lang) {
+                return $translationClass::findOne([
+                    $this->translationModelRelationColumn => $this->owner->getPrimaryKey(),
+                    $this->translationModelLangColumn => $lang
+                ]);
+            });
+        } else {
+            $translation = $translationClass::findOne([
+                $this->translationModelRelationColumn => $this->owner->getPrimaryKey(),
+                $this->translationModelLangColumn => $lang
+            ]);
+        }
 
         if (!$translation) {
             $translation = new $translationClass([
