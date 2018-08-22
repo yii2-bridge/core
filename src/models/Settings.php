@@ -27,7 +27,7 @@ use yii2tech\ar\position\PositionBehavior;
  *
  * @property SettingsTranslation[] $settingsTranslations
  * @property SettingsTranslation $translation
- * @method  SettingsTranslation getTranslation($languageCode)
+ * @method  SettingsTranslation getTranslation($languageCode = null, $cacheKey = null)
  */
 class Settings extends \yii\db\ActiveRecord
 {
@@ -69,19 +69,17 @@ class Settings extends \yii\db\ActiveRecord
         return [
             [['title', 'key', 'type'], 'required'],
             [['type_settings'], 'string'],
-            ['value', 'safe'],
             [['type', 'group_id'], 'integer'],
             [['title', 'key'], 'string', 'max' => 255],
-
-            ['value', 'image', 'extensions' => 'jpg, jpeg, gif, png', 'on' => ['create', 'update'], 'when' => function () {
-                return $this->type == static::TYPE_IMAGE;
-            }, 'whenClient' => new JsExpression(<<<JS
-            function (attribute) {
-                return $('#settings-value').attr('type') == 'file';
-            }
-JS
-)],
+            ['value', 'safe'],
+            ['value', 'image', 'extensions' => 'jpg, jpeg, gif, png', 'on' => ['create', 'update'], 'when' => ['\Bridge\Core\Models\Settings', 'validateImageValue'], 'whenClient' => "function (attribute, value) {
+        return $('.js-setting-value').attr('type') == 'file';
+    }"],
         ];
+    }
+
+    public static function validateImageValue($model) {
+        return $model->type == static::TYPE_IMAGE;
     }
 
     /**
@@ -239,14 +237,14 @@ JS
     public function __toString()
     {
         if ($this->type == static::TYPE_IMAGE) {
-            if ($this->translation->value) {
-                return $this->translation->getUploadUrl('value');
+            if ($this->getTranslation(null, 'bridge_settings-' . $this->key)->value) {
+                return $this->getTranslation(null, 'bridge_settings-' . $this->key)->getUploadUrl('value');
             }
 
             $bundle = \Yii::$app->assetManager->getBundle(AdminAsset::class);
             return \Yii::$app->assetManager->getAssetUrl($bundle, 'avatar@2x.jpg');
         }
-        return (string) $this->translation->value;
+        return (string) $this->getTranslation(null, 'bridge_settings-' . $this->key)->value;
     }
 
     /**
@@ -260,7 +258,9 @@ JS
      */
     public static function group($groupKey, $defaults = [])
     {
-        $group = SettingsGroup::find()->where(['key' => $groupKey])->one();
+        $group = \Yii::$app->cache->getOrSet('bridge_settings_group-' . $groupKey, function () use ($groupKey) {
+            return SettingsGroup::find()->where(['key' => $groupKey])->one();
+        }, 86400);
 
         if (!$group) {
             $group = new SettingsGroup(ArrayHelper::merge([
@@ -293,5 +293,15 @@ JS
     public function getSettingsTranslations()
     {
         return $this->hasMany(SettingsTranslation::class, ['settings_id' => 'id']);
+    }
+
+    /**
+     * @param bool $insert
+     * @param array $changedAttributes
+     */
+    public function afterSave($insert, $changedAttributes){
+        parent::afterSave($insert, $changedAttributes);
+
+        \Yii::$app->cache->set('bridge_settings-' . $this->key, $this, 86400);
     }
 }

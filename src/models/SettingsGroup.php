@@ -5,6 +5,7 @@ namespace Bridge\Core\Models;
 use Yii;
 use yii\base\InvalidArgumentException;
 use yii\db\BaseActiveRecord;
+use yii\db\Exception;
 use yii\helpers\ArrayHelper;
 
 /**
@@ -77,7 +78,7 @@ class SettingsGroup extends \yii\db\ActiveRecord
     {
         return $this->hasMany(Settings::class, ['group_id' => 'id']);
     }
-    
+
     /**
      * @inheritdoc
      * @return \Bridge\Core\Models\Query\SettingsGroupQuery the active query used by this AR class.
@@ -112,7 +113,9 @@ class SettingsGroup extends \yii\db\ActiveRecord
         if (!empty(Settings::$prevSettings[$key])) {
             $model = Settings::$prevSettings[$key];
         } else {
-            $model = Settings::find()->key($key)->one();
+            $model = \Yii::$app->cache->getOrSet('bridge_settings-' . $key, function () use ($key) {
+                return Settings::find()->key($key)->one();
+            }, 86400);
         }
 
         if (empty($model)) {
@@ -120,6 +123,15 @@ class SettingsGroup extends \yii\db\ActiveRecord
         }
 
         Settings::$prevSettings[$key] = $model;
+
+        /** @var Settings $model */
+        $isSettingTranslated = \Yii::$app->cache->getOrSet('bridge_settings-' . $key . '-translated', function () use ($key, $model) {
+            return SettingsTranslation::find()->where(['settings_id' => $model->id])->exists();
+        });
+
+        if ($isSettingTranslated === false) {
+            self::createTranslations($model);
+        }
 
         return $model;
     }
@@ -134,6 +146,8 @@ class SettingsGroup extends \yii\db\ActiveRecord
     {
         $model = new Settings($params);
         $model->save();
+
+        self::createTranslations($model);
 
         Settings::$prevSettings[$model->key] = $model;
 
@@ -168,5 +182,49 @@ class SettingsGroup extends \yii\db\ActiveRecord
             [null => 'Разное'],
             ArrayHelper::map(static::find()->orderBy(['position' => SORT_ASC])->all(), 'id', 'title')
         );
+    }
+
+    /**
+     * Creates setting translations
+     *
+     * @param Settings $model
+     * @return bool
+     */
+    private static function createTranslations(Settings $model)
+    {
+        $data = [];
+
+        foreach (Yii::$app->urlManager->languages as $label => $code) {
+            $data[] = [
+                'lang' => $code,
+                'settings_id' => $model->id,
+                'value' => $model->value
+            ];
+        }
+
+        try {
+            Yii::$app->db
+                ->createCommand()
+                ->batchInsert('settings_translations', ['lang', 'settings_id', 'value'], $data)
+                ->execute();
+
+            Yii::$app->cache->set('bridge_settings-' . $model->key . '-translated', true);
+
+            return true;
+        } catch (Exception $exception) {
+            // TODO: Логировать ошибку создание переводов для настроек
+        }
+
+        return false;
+    }
+
+    /**
+     * @param bool $insert
+     * @param array $changedAttributes
+     */
+    public function afterSave($insert, $changedAttributes){
+        parent::afterSave($insert, $changedAttributes);
+
+        \Yii::$app->cache->set('bridge_settings_group-' . $this->key, $this, 86400);
     }
 }

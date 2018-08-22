@@ -47,7 +47,6 @@ class SettingsTranslation extends \yii\db\ActiveRecord
                 'settings_id' => Yii::t('bridge', 'Settings ID'),
             ])],
             [['settings_id'], 'exist', 'skipOnError' => true, 'targetClass' => Settings::class, 'targetAttribute' => ['settings_id' => 'id']],
-//            ['value', 'image', 'extensions' => 'jpg, jpeg, gif, png', 'on' => ['create', 'update', 'default'], 'when' => ['\Bridge\Core\Models\SettingsTranslation', 'validateImageValue']],
             ['value', 'image', 'extensions' => 'jpg, jpeg, gif, png', 'on' => ['create', 'update', 'default'], 'when' => ['\Bridge\Core\Models\SettingsTranslation', 'validateImageValue'], 'whenClient' => "function (attribute, value) {
         return $('.js-setting-value').attr('type') == 'file';
     }"],
@@ -134,5 +133,6 @@ class SettingsTranslation extends \yii\db\ActiveRecord
         parent::afterSave($insert, $changedAttributes);
 
         \Yii::$app->cache->set('bridge_settings-' . $this->setting->key . '-' . $this->lang, $this, 86400);
+        \Yii::$app->cache->set('bridge_settings-' . $this->setting->key . '-translated', true);
     }
 }
