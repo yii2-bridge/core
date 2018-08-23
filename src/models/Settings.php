@@ -76,6 +76,7 @@ class Settings extends \yii\db\ActiveRecord
             }
 JS
 )],
+            [['key'], 'unique', 'targetAttribute' => ['key']]
         ];
     }
 

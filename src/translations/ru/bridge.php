@@ -51,5 +51,12 @@ return [
     'Are you sure?' => 'Вы уверены?',
     'Yes' => 'Да',
     'No' => 'Нет',
-    'Map' => 'Карта'
+    'Map' => 'Карта',
+    'Language' => 'Язык',
+    'Meta-tags' => 'Мета-теги',
+    'Module name' => 'Название модуля',
+    'Controller name' => 'Название контроллера',
+    'Action name' => 'Название действия',
+    'Description' => 'Описание',
+    'Keywords' => 'Ключевые слова'
 ];

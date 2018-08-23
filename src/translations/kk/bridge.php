@@ -51,5 +51,12 @@ return [
     'Are you sure?' => 'Сіз сенімдісіз бе?',
     'Yes' => 'Ия',
     'No' => 'Жоқ',
-    'Map' => 'Карта'
+    'Map' => 'Карта',
+    'Language' => 'Тіл',
+    'Meta-tags' => 'Мета-тегтер',
+    'Module name' => 'Модуль атауы',
+    'Controller name' => 'Контроллер атауы',
+    'Action name' => 'Әрекет атауы',
+    'Description' => 'Сипаттама',
+    'Keywords' => 'Түйінді сөздер'
 ];
