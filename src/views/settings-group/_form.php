@@ -14,8 +14,9 @@ use yii\bootstrap\Html;
 
         <?= $form->field($model, 'icon')->fontAwesome() ?>
 
-
         <?= $form->field($model, 'description')->textarea() ?>
+
+        <?= $form->field($model, 'key')->textInput(['maxlength' => true]) ?>
     </div>
 </div>
 <div class="form-group clearfix">

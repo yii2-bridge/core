@@ -7,8 +7,28 @@
 $translationModel = $model->getTranslation($languageCode);
 ?>
 
-<?= $form->field($translationModel, '['.$languageCode.']meta_tag_id')->hiddenInput()->label(false) ?>
-<?= $form->field($translationModel, '['.$languageCode.']lang')->hiddenInput()->label(false)  ?>
-<?= $form->field($translationModel, '['.$languageCode.']title')->textInput() ?>
-<?= $form->field($translationModel, '['.$languageCode.']description')->richTextArea() ?>
-<?= $form->field($translationModel, '['.$languageCode.']image')->imageUpload() ?>
+<div class="row">
+    <div class="col-md-12">
+        <?= $form->field($translationModel, '[' . $languageCode . ']meta_tag_id')->hiddenInput()->label(false) ?>
+        <?= $form->field($translationModel, '[' . $languageCode . ']lang')->hiddenInput()->label(false) ?>
+        <?= $form->field($translationModel, '[' . $languageCode . ']title')->textInput() ?>
+    </div>
+    <div class="col-md-7">
+        <?= $form->field($translationModel, '[' . $languageCode . ']description')->richTextArea(
+            [
+                'preset' => 'custom'
+            ],
+            [
+                'height' => 225,
+                'toolbar' => [
+                    [
+                        'name' => 'document',
+                        'items' => ['Source']
+                    ]
+                ]
+            ]) ?>
+    </div>
+    <div class="col-md-5">
+        <?= $form->field($translationModel, '[' . $languageCode . ']image')->imageUpload() ?>
+    </div>
+</div>

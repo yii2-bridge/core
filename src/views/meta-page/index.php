@@ -8,7 +8,7 @@ use yii2tech\admin\grid\ActionColumn;
 /* @var $searchModel Bridge\Core\Models\Search\MetaPageSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = Yii::t('bridge', 'Meta Pages');
+$this->title = Yii::t('bridge', 'Meta-tags');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 
@@ -21,17 +21,12 @@ $this->params['breadcrumbs'][] = $this->title;
     'filterModel' => $searchModel,
     'columns' => [
         ['class' => 'yii\grid\SerialColumn'],
-
-        /*'id',
-        'meta_tag_id',*/
-        // TODO: Добавить фильтрацию по заголовкам
         [
             'class' => '\Bridge\Core\Widgets\Columns\TitledImageColumn',
             'imageAttribute' => 'metaTag.translation.image',
             'attribute' => 'title',
-//            'label' => $translation->getAttributeLabel('title'),
+            'label' => $searchModel->getAttributeLabel('title'),
             'value' => 'metaTag.translation.title',
-//            'filter' => Html::activeInput('text', $searchModel, 'title', ['placeholder' => $translation->getAttributeLabel('title'), 'class' => 'form-control']),
         ],
         'module',
         'controller',

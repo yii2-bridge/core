@@ -8,6 +8,7 @@
 
 namespace Bridge\Core;
 
+use Bridge\Core\Components\MetaTagsComponent;
 use codemix\localeurls\UrlManager;
 use Da\User\Bootstrap;
 use Da\User\Component\AuthDbManagerComponent;
@@ -188,6 +189,8 @@ class BridgeModule extends Module implements BootstrapInterface
                     'class' => BridgeComponent::class,
                 ]
             ]));
+
+            $this->registerMetaTags($app);
         } elseif ($app instanceof ConsoleApplication) {
             \Yii::setAlias('@bridge-migrations', \Yii::getAlias('@vendor/yii2-bridge/core/src/migrations/'));
             \Yii::setAlias('@bridge', \Yii::getAlias('@vendor/yii2-bridge/core/src/'));
@@ -197,7 +200,7 @@ class BridgeModule extends Module implements BootstrapInterface
 
         $this->registerUsuario($app);
 
-        \Yii::$app->on(\yii\web\Application::EVENT_BEFORE_ACTION, function () {
+        \Yii::$app->on(WebApplication::EVENT_BEFORE_ACTION, function () {
             if (\Yii::$app->controller->module->id !== 'admin') {
                 $this->registerGoogleAnalytics();
                 $this->registerYandexMetrika();
@@ -283,7 +286,7 @@ class BridgeModule extends Module implements BootstrapInterface
             'basePath' => '@bridge/translations',
         ];
 
-        if ($app instanceof \yii\web\Application) {
+        if ($app instanceof WebApplication) {
             $this->modules = ArrayHelper::merge($this->modules, [
                 'i18n' => [
                     'class' => \Zelenin\yii\modules\I18n\Module::class,
@@ -396,7 +399,7 @@ class BridgeModule extends Module implements BootstrapInterface
 
             $app->bridge->setIsAdmin();
 
-            if ($app instanceof \yii\web\Application) {
+            if ($app instanceof WebApplication) {
                 \Yii::$app->user->loginUrl = $this->loginUrl ?: [$this->id . '/default/login'];
             }
         });
@@ -493,5 +496,19 @@ HTML;
         }
 
         return $this->languages;
+    }
+
+    /**
+     * Register Meta-tags component
+     *
+     * @param WebApplication $app
+     */
+    private function registerMetaTags(WebApplication $app)
+    {
+        $app->setComponents(ArrayHelper::merge($app->getComponents(false), [
+            'metaTags' => [
+                'class' => MetaTagsComponent::class,
+            ]
+        ]));
     }
 }

@@ -54,6 +54,7 @@ class SettingsGroup extends \yii\db\ActiveRecord
             [['description'], 'string'],
             [['position'], 'integer'],
             [['key', 'title', 'icon'], 'string', 'max' => 255],
+            [['key'], 'unique', 'targetAttribute' => ['key']]
         ];
     }
 
@@ -68,6 +69,7 @@ class SettingsGroup extends \yii\db\ActiveRecord
             'description' => Yii::t('bridge', 'Group description'),
             'icon' => Yii::t('bridge', 'Group icon'),
             'position' => Yii::t('bridge', 'Order'),
+            'key' => Yii::t('bridge', 'Key'),
         ];
     }
 
