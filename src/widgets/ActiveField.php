@@ -241,7 +241,7 @@ JS
     {
         $uploadUrl = null;
         foreach ($this->model->getBehaviors() as $behavior) {
-            if ($behavior instanceof UploadBehavior && (($behavior->attribute == $this->attribute) || $behavior->isTranslation)) {
+            if ($behavior instanceof UploadBehavior && (($behavior->attribute == $this->attribute) || $behavior->isTranslation && preg_match("/\[.*\]{$behavior->attribute}$/", $this->attribute))) {
                 /**
                  * Если у поведения загрузки изображении атрибут isTranslation задан как true,
                  * то в переменной $this->attribute хранится атрибут ввиде к примеру [en-US]image.
