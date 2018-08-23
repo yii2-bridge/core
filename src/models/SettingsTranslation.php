@@ -132,7 +132,10 @@ class SettingsTranslation extends \yii\db\ActiveRecord
     public function afterSave($insert, $changedAttributes){
         parent::afterSave($insert, $changedAttributes);
 
-        \Yii::$app->cache->set('bridge_settings-' . $this->setting->key . '-' . $this->lang, $this, 86400);
-        \Yii::$app->cache->set('bridge_settings-' . $this->setting->key . '-translated', true);
+        /** Кэшируем переводы настройки */
+        if(\Yii::$app->getModule('admin')->settingsCaching) {
+            $cacheKey = \Yii::$app->getModule('admin')->settingsCacheKey;
+            \Yii::$app->cache->set($cacheKey .'-' . $this->setting->key . '-' . $this->lang, $this, 86400);
+        }
     }
 }

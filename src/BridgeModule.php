@@ -155,6 +155,10 @@ class BridgeModule extends Module implements BootstrapInterface
 
     public $controllerNamespace = '\Bridge\Core\Controllers';
 
+    public $settingsCaching = true;
+
+    public $settingsCacheKey = 'bridge_settings';
+
     /**
      * @inheritdoc
      */
@@ -447,7 +451,7 @@ class BridgeModule extends Module implements BootstrapInterface
     (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
     m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
     })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-        ga('create', '{$gaKey->getTranslation(null, 'bridge_settings-google-analytics-key')->value}', 'auto');
+        ga('create', '{$gaKey->getTranslation(null, $this->settingsCacheKey . '-google-analytics-key')->value}', 'auto');
     ga('send', 'pageview');
 JS
                 , View::POS_HEAD);
@@ -469,12 +473,12 @@ JS
                 echo <<<HTML
 <!-- Yandex.Metrika counter -->
 <script type="text/javascript">(function (d, w, c) { (w[c] = w[c] || []).push(function() 
-{ try { w.yaCounter28278981 = new Ya.Metrika({id:'{$ymKey->getTranslation(null, 'bridge_settings-yandex-metrika-key')->value}', webvisor:true, clickmap:true, trackLinks:true, accurateTrackBounce:true, trackHash:true}); }
+{ try { w.yaCounter28278981 = new Ya.Metrika({id:'{$ymKey->getTranslation(null, $this->settingsCacheKey . '-yandex-metrika-key')->value}', webvisor:true, clickmap:true, trackLinks:true, accurateTrackBounce:true, trackHash:true}); }
 catch(e) { } }); var n = d.getElementsByTagName("script")[0], s = d.createElement("script"), f = function () 
 { n.parentNode.insertBefore(s, n); }; s.type = "text/javascript"; s.async = true; s.src = (d.location.protocol == "https:" ? "https:" : "http:") + 
 "//mc.yandex.ru/metrika/watch.js"; if (w.opera == "[object Opera]") { d.addEventListener("DOMContentLoaded", f, false); } else { f(); } })
 (document, window, "yandex_metrika_callbacks");</script>
-<noscript><div><img src="//mc.yandex.ru/watch/{$ymKey->getTranslation(null, 'bridge_settings-yandex-metrika-key')->value}" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<noscript><div><img src="//mc.yandex.ru/watch/{$ymKey->getTranslation(null, $this->settingsCacheKey . '-yandex-metrika-key')->value}" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
 <!-- /Yandex.Metrika counter -->
 HTML;
             });

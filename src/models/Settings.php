@@ -5,6 +5,7 @@ namespace Bridge\Core\Models;
 use Bridge\Core\Behaviors\BridgeUploadImageBehavior;
 use Bridge\Core\Assets\AdminAsset;
 use Bridge\Core\Behaviors\TranslationBehavior;
+use Bridge\Core\BridgeModule;
 use Bridge\Core\Models\Query\SettingsQuery;
 use Yii;
 use yii\base\InvalidArgumentException;
@@ -237,14 +238,27 @@ class Settings extends \yii\db\ActiveRecord
     public function __toString()
     {
         if ($this->type == static::TYPE_IMAGE) {
-            if ($this->getTranslation(null, 'bridge_settings-' . $this->key)->value) {
-                return $this->getTranslation(null, 'bridge_settings-' . $this->key)->getUploadUrl('value');
+            if (\Yii::$app->getModule('admin')->settingsCaching) {
+                $cacheKey = \Yii::$app->getModule('admin')->settingsCacheKey;
+                if ($this->getTranslation(null, $cacheKey . '-' . $this->key)->value) {
+                    return $this->getTranslation(null, $cacheKey . '-' . $this->key)->getUploadUrl('value');
+                }
+            } else {
+                if ($this->translation->value) {
+                    return $this->translation->getUploadUrl('value');
+                }
             }
 
             $bundle = \Yii::$app->assetManager->getBundle(AdminAsset::class);
             return \Yii::$app->assetManager->getAssetUrl($bundle, 'avatar@2x.jpg');
         }
-        return (string) $this->getTranslation(null, 'bridge_settings-' . $this->key)->value;
+
+        if(\Yii::$app->getModule('admin')->settingsCaching) {
+            $cacheKey = \Yii::$app->getModule('admin')->settingsCacheKey;
+            return (string) $this->getTranslation(null, $cacheKey . '-' . $this->key)->value;
+        } else {
+            return (string) $this->translation->value;
+        }
     }
 
     /**
@@ -258,9 +272,14 @@ class Settings extends \yii\db\ActiveRecord
      */
     public static function group($groupKey, $defaults = [])
     {
-        $group = \Yii::$app->cache->getOrSet('bridge_settings_group-' . $groupKey, function () use ($groupKey) {
-            return SettingsGroup::find()->where(['key' => $groupKey])->one();
-        }, 86400);
+        if(\Yii::$app->getModule('admin')->settingsCaching) {
+            $cacheKey = \Yii::$app->getModule('admin')->settingsCacheKey;
+            $group = \Yii::$app->cache->getOrSet($cacheKey . '_group-' . $groupKey, function () use ($groupKey) {
+                return SettingsGroup::find()->where(['key' => $groupKey])->one();
+            }, 86400);
+        } else {
+            $group = SettingsGroup::find()->where(['key' => $groupKey])->one();
+        }
 
         if (!$group) {
             $group = new SettingsGroup(ArrayHelper::merge([
@@ -302,6 +321,10 @@ class Settings extends \yii\db\ActiveRecord
     public function afterSave($insert, $changedAttributes){
         parent::afterSave($insert, $changedAttributes);
 
-        \Yii::$app->cache->set('bridge_settings-' . $this->key, $this, 86400);
+        /** Кэшируем настройку */
+        if(\Yii::$app->getModule('admin')->settingsCaching) {
+            $cacheKey = \Yii::$app->getModule('admin')->settingsCacheKey;
+            \Yii::$app->cache->set($cacheKey . '-' . $this->key, $this, 86400);
+        }
     }
 }

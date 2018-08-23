@@ -112,10 +112,13 @@ class SettingsGroup extends \yii\db\ActiveRecord
     {
         if (!empty(Settings::$prevSettings[$key])) {
             $model = Settings::$prevSettings[$key];
-        } else {
-            $model = \Yii::$app->cache->getOrSet('bridge_settings-' . $key, function () use ($key) {
+        } elseif((\Yii::$app->getModule('admin')->settingsCaching)) {
+            $cacheKey = \Yii::$app->getModule('admin')->settingsCacheKey;
+            $model = \Yii::$app->cache->getOrSet($cacheKey . '-' . $key, function () use ($key) {
                 return Settings::find()->key($key)->one();
             }, 86400);
+        } else {
+            $model = Settings::find()->key($key)->one();
         }
 
         if (empty($model)) {
@@ -124,12 +127,9 @@ class SettingsGroup extends \yii\db\ActiveRecord
 
         Settings::$prevSettings[$key] = $model;
 
-        /** @var Settings $model */
-        $isSettingTranslated = \Yii::$app->cache->getOrSet('bridge_settings-' . $key . '-translated', function () use ($key, $model) {
-            return SettingsTranslation::find()->where(['settings_id' => $model->id])->exists();
-        });
+        $isSettingTranslated = SettingsTranslation::find()->where(['settings_id' => $model->id])->exists();
 
-        if ($isSettingTranslated === false) {
+        if (!$isSettingTranslated) {
             self::createTranslations($model);
         }
 
@@ -208,8 +208,6 @@ class SettingsGroup extends \yii\db\ActiveRecord
                 ->batchInsert('settings_translations', ['lang', 'settings_id', 'value'], $data)
                 ->execute();
 
-            Yii::$app->cache->set('bridge_settings-' . $model->key . '-translated', true);
-
             return true;
         } catch (Exception $exception) {
             // TODO: Логировать ошибку создание переводов для настроек
@@ -225,6 +223,10 @@ class SettingsGroup extends \yii\db\ActiveRecord
     public function afterSave($insert, $changedAttributes){
         parent::afterSave($insert, $changedAttributes);
 
-        \Yii::$app->cache->set('bridge_settings_group-' . $this->key, $this, 86400);
+        /** Кэшируем группу настройки */
+        if(\Yii::$app->getModule('admin')->settingsCaching) {
+            $cacheKey = \Yii::$app->getModule('admin')->settingsCacheKey;
+            \Yii::$app->cache->set($cacheKey . '_group-' . $this->key, $this, 86400);
+        }
     }
 }
