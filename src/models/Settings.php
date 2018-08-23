@@ -72,6 +72,7 @@ class Settings extends \yii\db\ActiveRecord
             [['type_settings'], 'string'],
             [['type', 'group_id'], 'integer'],
             [['title', 'key'], 'string', 'max' => 255],
+            [['key'], 'unique', 'targetAttribute' => ['key']],
             ['value', 'safe'],
             ['value', 'image', 'extensions' => 'jpg, jpeg, gif, png', 'on' => ['create', 'update'], 'when' => ['\Bridge\Core\Models\Settings', 'validateImageValue'], 'whenClient' => "function (attribute, value) {
         return $('.js-setting-value').attr('type') == 'file';

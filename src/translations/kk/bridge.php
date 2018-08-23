@@ -53,5 +53,12 @@ return [
     'No' => 'Жоқ',
     'Map' => 'Карта',
     'Clear cache' => 'Кэшті тазарту',
-    'Cache is cleared!' => 'Кэш тазартылды!'
+    'Cache is cleared!' => 'Кэш тазартылды!',
+    'Language' => 'Тіл',
+    'Meta-tags' => 'Мета-тегтер',
+    'Module name' => 'Модуль атауы',
+    'Controller name' => 'Контроллер атауы',
+    'Action name' => 'Әрекет атауы',
+    'Description' => 'Сипаттама',
+    'Keywords' => 'Түйінді сөздер'
 ];

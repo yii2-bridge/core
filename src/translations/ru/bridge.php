@@ -53,5 +53,12 @@ return [
     'No' => 'Нет',
     'Map' => 'Карта',
     'Clear cache' => 'Очистить кэш',
-    'Cache is cleared!' => 'Кэш очищен!'
+    'Cache is cleared!' => 'Кэш очищен!',
+    'Language' => 'Язык',
+    'Meta-tags' => 'Мета-теги',
+    'Module name' => 'Название модуля',
+    'Controller name' => 'Название контроллера',
+    'Action name' => 'Название действия',
+    'Description' => 'Описание',
+    'Keywords' => 'Ключевые слова'
 ];
