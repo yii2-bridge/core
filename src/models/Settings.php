@@ -4,10 +4,12 @@ namespace Bridge\Core\Models;
 
 use Bridge\Core\Behaviors\BridgeUploadImageBehavior;
 use Bridge\Core\Assets\AdminAsset;
+use Bridge\Core\Behaviors\TranslationBehavior;
+use Bridge\Core\BridgeModule;
 use Bridge\Core\Models\Query\SettingsQuery;
 use Yii;
+use yii\base\InvalidArgumentException;
 use yii\base\InvalidCallException;
-use yii\base\InvalidParamException;
 use yii\helpers\ArrayHelper;
 use yii\web\JsExpression;
 use yii2tech\ar\position\PositionBehavior;
@@ -23,6 +25,10 @@ use yii2tech\ar\position\PositionBehavior;
  * @property integer $group_id
  * @property integer $position
  * @property string $type_settings
+ *
+ * @property SettingsTranslation[] $settingsTranslations
+ * @property SettingsTranslation $translation
+ * @method  SettingsTranslation getTranslation($languageCode = null, $cacheKey = null)
  */
 class Settings extends \yii\db\ActiveRecord
 {
@@ -64,20 +70,18 @@ class Settings extends \yii\db\ActiveRecord
         return [
             [['title', 'key', 'type'], 'required'],
             [['type_settings'], 'string'],
-            ['value', 'safe'],
             [['type', 'group_id'], 'integer'],
             [['title', 'key'], 'string', 'max' => 255],
-
-            ['value', 'image', 'extensions' => 'jpg, jpeg, gif, png', 'on' => ['create', 'update'], 'when' => function () {
-                return $this->type == static::TYPE_IMAGE;
-            }, 'whenClient' => new JsExpression(<<<JS
-            function (attribute) {
-                return $('#settings-value').attr('type') == 'file';
-            }
-JS
-)],
-            [['key'], 'unique', 'targetAttribute' => ['key']]
+            [['key'], 'unique', 'targetAttribute' => ['key']],
+            ['value', 'safe'],
+            ['value', 'image', 'extensions' => 'jpg, jpeg, gif, png', 'on' => ['create', 'update'], 'when' => ['\Bridge\Core\Models\Settings', 'validateImageValue'], 'whenClient' => "function (attribute, value) {
+        return $('.js-setting-value').attr('type') == 'file';
+    }"],
         ];
+    }
+
+    public static function validateImageValue($model) {
+        return $model->type == static::TYPE_IMAGE;
     }
 
     /**
@@ -106,7 +110,12 @@ JS
             'position' => [
                 'class' => PositionBehavior::class,
                 'groupAttributes' => ['group_id']
-            ]
+            ],
+            'translation' => [
+                'class' => TranslationBehavior::class,
+                'translationModelClass' => SettingsTranslation::class,
+                'translationModelRelationColumn' => 'settings_id'
+            ],
         ];
     }
 
@@ -151,7 +160,7 @@ JS
      *
      * @param string $key key to be looking for
      * @return Settings
-     * @throws InvalidParamException when settings with key provided wasn't found
+     * @throws InvalidArgumentException when settings with key provided wasn't found
      */
     public static function get($key)
     {
@@ -162,7 +171,7 @@ JS
         }
 
         if (empty($model)) {
-            throw new InvalidParamException("Setting with key '{$key}' wasn't found. Try creating it first or run getOrCreate method");
+            throw new InvalidArgumentException("Setting with key '{$key}' wasn't found. Try creating it first or run getOrCreate method");
         }
 
         static::$prevSettings[$key] = $model;
@@ -212,7 +221,7 @@ JS
             }
 
             return $settings;
-        } catch (InvalidParamException $e) {
+        } catch (InvalidArgumentException $e) {
             return self::create(ArrayHelper::merge([
                 'key' => $key,
                 'title' => $key,
@@ -230,14 +239,27 @@ JS
     public function __toString()
     {
         if ($this->type == static::TYPE_IMAGE) {
-            if ($this->value) {
-                return $this->getUploadUrl('value');
+            if (\Yii::$app->getModule('admin')->settingsCaching) {
+                $cacheKey = \Yii::$app->getModule('admin')->settingsCacheKey;
+                if ($this->getTranslation(null, $cacheKey . '-' . $this->key)->value) {
+                    return $this->getTranslation(null, $cacheKey . '-' . $this->key)->getUploadUrl('value');
+                }
+            } else {
+                if ($this->translation->value) {
+                    return $this->translation->getUploadUrl('value');
+                }
             }
 
             $bundle = \Yii::$app->assetManager->getBundle(AdminAsset::class);
             return \Yii::$app->assetManager->getAssetUrl($bundle, 'avatar@2x.jpg');
         }
-        return (string) $this->value;
+
+        if(\Yii::$app->getModule('admin')->settingsCaching) {
+            $cacheKey = \Yii::$app->getModule('admin')->settingsCacheKey;
+            return (string) $this->getTranslation(null, $cacheKey . '-' . $this->key)->value;
+        } else {
+            return (string) $this->translation->value;
+        }
     }
 
     /**
@@ -251,7 +273,14 @@ JS
      */
     public static function group($groupKey, $defaults = [])
     {
-        $group = SettingsGroup::find()->where(['key' => $groupKey])->one();
+        if(\Yii::$app->getModule('admin')->settingsCaching) {
+            $cacheKey = \Yii::$app->getModule('admin')->settingsCacheKey;
+            $group = \Yii::$app->cache->getOrSet($cacheKey . '_group-' . $groupKey, function () use ($groupKey) {
+                return SettingsGroup::find()->where(['key' => $groupKey])->one();
+            }, 86400);
+        } else {
+            $group = SettingsGroup::find()->where(['key' => $groupKey])->one();
+        }
 
         if (!$group) {
             $group = new SettingsGroup(ArrayHelper::merge([
@@ -276,5 +305,27 @@ JS
             'description' => 'All the settings, that didn\t find their own place.',
             'icon' => 'fa-cogs'
         ]);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getSettingsTranslations()
+    {
+        return $this->hasMany(SettingsTranslation::class, ['settings_id' => 'id']);
+    }
+
+    /**
+     * @param bool $insert
+     * @param array $changedAttributes
+     */
+    public function afterSave($insert, $changedAttributes){
+        parent::afterSave($insert, $changedAttributes);
+
+        /** Кэшируем настройку */
+        if(\Yii::$app->getModule('admin')->settingsCaching) {
+            $cacheKey = \Yii::$app->getModule('admin')->settingsCacheKey;
+            \Yii::$app->cache->set($cacheKey . '-' . $this->key, $this, 86400);
+        }
     }
 }

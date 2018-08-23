@@ -52,6 +52,8 @@ return [
     'Yes' => 'Ия',
     'No' => 'Жоқ',
     'Map' => 'Карта',
+    'Clear cache' => 'Кэшті тазарту',
+    'Cache is cleared!' => 'Кэш тазартылды!',
     'Language' => 'Тіл',
     'Meta-tags' => 'Мета-тегтер',
     'Module name' => 'Модуль атауы',

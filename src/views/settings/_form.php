@@ -16,17 +16,7 @@ use Bridge\Core\Models\Settings;
 
         <?= $form->field($model, 'group_id')->relationalDropDown(SettingsGroup::class) ?>
 
-        <?php if ($model->type == Settings::TYPE_TEXT) : ?>
-            <?= $form->field($model, 'value')->richTextArea(['options' => ['rows' => 6]]) ?>
-        <?php elseif ($model->type == Settings::TYPE_IMAGE) : ?>
-            <?= $form->field($model, 'value')->imageUpload() ?>
-        <?php elseif ($model->type == Settings::TYPE_SWITCH): ?>
-            <?= $form->field($model, 'value')->switchInput() ?>
-        <?php elseif ($model->type == Settings::TYPE_MAP): ?>
-            <?= $form->field($model, 'value')->map() ?>
-        <?php else: ?>
-            <?= $form->field($model, 'value')->textInput() ?>
-        <?php endif; ?>
+        <?= $form->translate($model, '@bridge/views/settings/_form-translate') ?>
     </div>
     <div class="col-md-4">
 

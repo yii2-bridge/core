@@ -3,8 +3,9 @@
 namespace Bridge\Core\Models;
 
 use Yii;
-use yii\base\InvalidParamException;
+use yii\base\InvalidArgumentException;
 use yii\db\BaseActiveRecord;
+use yii\db\Exception;
 use yii\helpers\ArrayHelper;
 
 /**
@@ -79,7 +80,7 @@ class SettingsGroup extends \yii\db\ActiveRecord
     {
         return $this->hasMany(Settings::class, ['group_id' => 'id']);
     }
-    
+
     /**
      * @inheritdoc
      * @return \Bridge\Core\Models\Query\SettingsGroupQuery the active query used by this AR class.
@@ -107,21 +108,32 @@ class SettingsGroup extends \yii\db\ActiveRecord
      *
      * @param string $key key to be looking for
      * @return Settings
-     * @throws InvalidParamException when settings with key provided wasn't found
+     * @throws InvalidArgumentException when settings with key provided wasn't found
      */
     public static function get($key)
     {
         if (!empty(Settings::$prevSettings[$key])) {
             $model = Settings::$prevSettings[$key];
+        } elseif((\Yii::$app->getModule('admin')->settingsCaching)) {
+            $cacheKey = \Yii::$app->getModule('admin')->settingsCacheKey;
+            $model = \Yii::$app->cache->getOrSet($cacheKey . '-' . $key, function () use ($key) {
+                return Settings::find()->key($key)->one();
+            }, 86400);
         } else {
             $model = Settings::find()->key($key)->one();
         }
 
         if (empty($model)) {
-            throw new InvalidParamException("Setting with key '{$key}' wasn't found. Try creating it first or run getOrCreate method");
+            throw new InvalidArgumentException("Setting with key '{$key}' wasn't found. Try creating it first or run getOrCreate method");
         }
 
         Settings::$prevSettings[$key] = $model;
+
+        $isSettingTranslated = SettingsTranslation::find()->where(['settings_id' => $model->id])->exists();
+
+        if (!$isSettingTranslated) {
+            self::createTranslations($model);
+        }
 
         return $model;
     }
@@ -136,6 +148,8 @@ class SettingsGroup extends \yii\db\ActiveRecord
     {
         $model = new Settings($params);
         $model->save();
+
+        self::createTranslations($model);
 
         Settings::$prevSettings[$model->key] = $model;
 
@@ -153,7 +167,7 @@ class SettingsGroup extends \yii\db\ActiveRecord
     {
         try {
             return self::get($key);
-        } catch (InvalidParamException $e) {
+        } catch (InvalidArgumentException $e) {
             return self::create(ArrayHelper::merge([
                 'key' => $key,
                 'title' => $key,
@@ -170,5 +184,51 @@ class SettingsGroup extends \yii\db\ActiveRecord
             [null => 'Разное'],
             ArrayHelper::map(static::find()->orderBy(['position' => SORT_ASC])->all(), 'id', 'title')
         );
+    }
+
+    /**
+     * Creates setting translations
+     *
+     * @param Settings $model
+     * @return bool
+     */
+    private static function createTranslations(Settings $model)
+    {
+        $data = [];
+
+        foreach (Yii::$app->urlManager->languages as $label => $code) {
+            $data[] = [
+                'lang' => $code,
+                'settings_id' => $model->id,
+                'value' => $model->value
+            ];
+        }
+
+        try {
+            Yii::$app->db
+                ->createCommand()
+                ->batchInsert('settings_translations', ['lang', 'settings_id', 'value'], $data)
+                ->execute();
+
+            return true;
+        } catch (Exception $exception) {
+            // TODO: Логировать ошибку создание переводов для настроек
+        }
+
+        return false;
+    }
+
+    /**
+     * @param bool $insert
+     * @param array $changedAttributes
+     */
+    public function afterSave($insert, $changedAttributes){
+        parent::afterSave($insert, $changedAttributes);
+
+        /** Кэшируем группу настройки */
+        if(\Yii::$app->getModule('admin')->settingsCaching) {
+            $cacheKey = \Yii::$app->getModule('admin')->settingsCacheKey;
+            \Yii::$app->cache->set($cacheKey . '_group-' . $this->key, $this, 86400);
+        }
     }
 }

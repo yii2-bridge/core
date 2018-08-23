@@ -65,16 +65,16 @@ class SettingsGridView extends GridView
                      * @var \Bridge\Core\Models\Settings $data
                      */
                     if ($data->type == Settings::TYPE_IMAGE) {
-                        return Html::img($data->getThumbUploadUrl('value', 'preview'), [
+                        return Html::img($data->translation->getThumbUploadUrl('value', 'preview'), [
                             'class' => 'img-circle img-preview'
                         ]);
                     }
 
                     if ($data->type == Settings::TYPE_SWITCH) {
-                        return $data->value ? \Yii::t('bridge', 'Yes') : \Yii::t('bridge', 'No');
+                        return $data->translation->value ? \Yii::t('bridge', 'Yes') : \Yii::t('bridge', 'No');
                     }
 
-                    return StringHelper::truncate(strip_tags($data->value), 150);
+                    return StringHelper::truncate(strip_tags($data->translation->value), 150);
                 },
             ],
             [

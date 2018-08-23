@@ -129,19 +129,19 @@ JS
             ]);
         }
 
-        return $this->fileUpload(ArrayHelper::merge($options, [
+        return $this->fileUpload(ArrayHelper::merge([
             'pluginOptions' => [
                 'showUpload' => false,
                 'showRemove' => false,
                 'initialPreview' => $initialPreview,
                 'deleteUrl' => Url::to([
-                    '/base-admin/delete-file',
+                    '/admin/base-admin/delete-file',
                     'id' => $this->model->id,
                     'modelName' => get_class($this->model),
                     'behaviorName' => 'imageUpload'
                 ])
             ]
-        ]));
+        ], $options));
     }
 
     /**

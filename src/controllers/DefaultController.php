@@ -11,6 +11,7 @@ namespace Bridge\Core\Controllers;
 
 use Bridge\Core\BridgeModule;
 use Bridge\Core\Models\LoginForm;
+use Bridge\Core\Widgets\Toastr;
 use yii\filters\AccessControl;
 use yii\helpers\ArrayHelper;
 use yii\web\Controller;
@@ -120,5 +121,19 @@ class DefaultController extends Controller
         \Yii::$app->response->format = Response::FORMAT_JSON;
 
         return ['state' => $state];
+    }
+
+    /**
+     * Clear cache action.
+     *
+     * @return string
+     */
+    public function actionClearCache()
+    {
+        if(\Yii::$app->cache->flush()) {
+            Toastr::success(\Yii::t('bridge', 'Cache is cleared!'));
+        }
+
+        return \Yii::$app->response->redirect(\Yii::$app->request->referrer);
     }
 }

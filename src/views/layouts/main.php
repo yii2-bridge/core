@@ -99,6 +99,8 @@ $isMenuWide = \Yii::$app->session->get('bridge-menu-state', 0);
                 'url' => ['/admin/']
             ]
         ]) ?>
+
+        <a href="<?= Url::to(['/admin/default/clear-cache']); ?>" class="btn btn-warning" style="margin-left: auto;"><i class="fa fa-refresh"></i> <?= Yii::t('bridge', 'Clear cache') ?></a>
     </div>
 
     <div class="container-fluid clearfix">

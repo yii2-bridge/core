@@ -95,8 +95,8 @@ class MetaTagTranslation extends ActiveRecord
                 'attribute' => 'image',
                 'isTranslation' => true,
                 'instanceByName' => true,
-                'path' => '@webroot/media/meta_tag_translations/{id}',
-                'url' => '@web/media/meta_tag_translations/{id}',
+                'path' => '@webroot/media/meta-tag/{metaTag.id}/{lang}',
+                'url' => '@web/media/meta-tag/{metaTag.id}/{lang}',
                 'scenarios' => ['create', 'update', 'default'],
                 // TODO: Узнать размер превью для соц. сетей
                 'thumbs' => ['thumb' => ['width' => 200, 'height' => 200, 'quality' => 90], 'preview' => ['width' => 50, 'height' => 50, 'quality' => 90]],
