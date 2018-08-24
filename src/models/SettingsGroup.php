@@ -231,4 +231,15 @@ class SettingsGroup extends \yii\db\ActiveRecord
             \Yii::$app->cache->set($cacheKey . '_group-' . $this->key, $this, 86400);
         }
     }
+
+    public function afterDelete()
+    {
+        parent::afterDelete();
+
+        /** Удаляем группу настройки из кэша */
+        if(\Yii::$app->getModule('admin')->settingsCaching) {
+            $cacheKey = \Yii::$app->getModule('admin')->settingsCacheKey;
+            \Yii::$app->cache->delete($cacheKey . '_group-' . $this->key);
+        }
+    }
 }

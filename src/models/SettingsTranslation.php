@@ -138,4 +138,15 @@ class SettingsTranslation extends \yii\db\ActiveRecord
             \Yii::$app->cache->set($cacheKey .'-' . $this->setting->key . '-' . $this->lang, $this, 86400);
         }
     }
+
+    public function afterDelete()
+    {
+        parent::afterDelete();
+
+        /** Удаляем гпереводы настройки из кэша */
+        if(\Yii::$app->getModule('admin')->settingsCaching) {
+            $cacheKey = \Yii::$app->getModule('admin')->settingsCacheKey;
+            \Yii::$app->cache->delete($cacheKey .'-' . $this->setting->key . '-' . $this->lang);
+        }
+    }
 }

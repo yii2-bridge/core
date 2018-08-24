@@ -328,4 +328,15 @@ class Settings extends \yii\db\ActiveRecord
             \Yii::$app->cache->set($cacheKey . '-' . $this->key, $this, 86400);
         }
     }
+
+    public function afterDelete()
+    {
+        parent::afterDelete();
+
+        /** Удаляем настройку из кэша */
+        if(\Yii::$app->getModule('admin')->settingsCaching) {
+            $cacheKey = \Yii::$app->getModule('admin')->settingsCacheKey;
+            \Yii::$app->cache->delete($cacheKey . '-' . $this->key);
+        }
+    }
 }
