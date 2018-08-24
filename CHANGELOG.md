@@ -1,3 +1,8 @@
+### Version 0.2.1
+
+- Fixed clear cache after delete `Setting` or `SettingGroup`
+- Fixed create setting translations if they don't exist
+
 ### Version 0.2.0
 
 - The `Settings` value is now multilingual. By default it gets the value for the current language.
@@ -6,8 +11,8 @@ For example: `Settings::group('test-group')->get('test-setting')->getTranslation
 - Caching  `Settings`. By default, settings caching is enabled. If you want to disable caching, add the `'settingsCaching' => false` to the admin module configuration.
 Also, you can override the name of the cache key settings in the admin module configuration.
 For example: `'settingsCacheKey' => 'my_settings'`
-- Web analytics services (`google-analytics-key` and `yandex-metrika-key`) are registered everywhere except in the admin area. Earlier they were registered even in the admin panel, which spoiled the statistics.
-- Added the "**Clear cache**" button, which when clicked clears all caches.
+- Web analytics services (`google-analytics-key` and `yandex-metrika-key`) are registered everywhere except the admin area. Earlier they were also registered in the admin panel, which spoiled the statistics.
+- Added the "**Clear cache**" button, which clears all caches.
 - In `TranslationBehavior`, you can now specify the cache key, which makes it possible to retrieve the translation data from the cache.
 Earlier we received data in approximately this way: `$model->translation->title`.
 Now, to cache the translation data, it is enough to specify the unique cache key with the second parameter of the `getTranslation()` method: `$model->getTranslation(null, 'post-' . $model->id)->title`. (with the first argument, we set null to get the value for the current language).
