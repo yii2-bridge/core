@@ -5,7 +5,6 @@ namespace Bridge\Core\Models;
 use Yii;
 use yii\base\InvalidArgumentException;
 use yii\db\BaseActiveRecord;
-use yii\db\Exception;
 use yii\helpers\ArrayHelper;
 
 /**
@@ -129,12 +128,6 @@ class SettingsGroup extends \yii\db\ActiveRecord
 
         Settings::$prevSettings[$key] = $model;
 
-        $isSettingTranslated = SettingsTranslation::find()->where(['settings_id' => $model->id])->exists();
-
-        if (!$isSettingTranslated) {
-            self::createTranslations($model);
-        }
-
         return $model;
     }
 
@@ -187,38 +180,6 @@ class SettingsGroup extends \yii\db\ActiveRecord
     }
 
     /**
-     * Creates setting translations
-     *
-     * @param Settings $model
-     * @return bool
-     */
-    private static function createTranslations(Settings $model)
-    {
-        $data = [];
-
-        foreach (Yii::$app->urlManager->languages as $label => $code) {
-            $data[] = [
-                'lang' => $code,
-                'settings_id' => $model->id,
-                'value' => $model->value
-            ];
-        }
-
-        try {
-            Yii::$app->db
-                ->createCommand()
-                ->batchInsert('settings_translations', ['lang', 'settings_id', 'value'], $data)
-                ->execute();
-
-            return true;
-        } catch (Exception $exception) {
-            // TODO: Логировать ошибку создание переводов для настроек
-        }
-
-        return false;
-    }
-
-    /**
      * @param bool $insert
      * @param array $changedAttributes
      */
@@ -229,6 +190,17 @@ class SettingsGroup extends \yii\db\ActiveRecord
         if(\Yii::$app->getModule('admin')->settingsCaching) {
             $cacheKey = \Yii::$app->getModule('admin')->settingsCacheKey;
             \Yii::$app->cache->set($cacheKey . '_group-' . $this->key, $this, 86400);
+        }
+    }
+
+    public function afterDelete()
+    {
+        parent::afterDelete();
+
+        /** Удаляем группу настройки из кэша */
+        if(\Yii::$app->getModule('admin')->settingsCaching) {
+            $cacheKey = \Yii::$app->getModule('admin')->settingsCacheKey;
+            \Yii::$app->cache->delete($cacheKey . '_group-' . $this->key);
         }
     }
 }
