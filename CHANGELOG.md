@@ -2,7 +2,7 @@
 
 - The `Settings` value is now multilanguage. By default it gets the value for the current language.
 If you want to get a value from a specific language, you can simply specify the language code.
-For example: `Settings::group('test')->getTranslation('en-RU')`.
+For example: `Settings::group('test-group')->get('test-setting')->getTranslation('en-RU')`.
 - Caching  `Settings`. By default, settings caching is enabled. If you want to disable caching, add the `'settingsCaching' => false` to the admin module configuration.
 Also, you can override the name of the cache key settings in the admin module configuration.
 For example: `'settingsCacheKey' => 'my_settings'`
@@ -10,7 +10,7 @@ For example: `'settingsCacheKey' => 'my_settings'`
 - Added the "**Clear cache**" button, which when clicked clears all caches.
 - In `TranslationBehavior`, you can now specify the cache key, which makes it possible to retrieve the translation data from the cache.
 Earlier we received data in approximately this way: `$model->translation->title`.
-Now, to cache the translation data, it is enough to specify the unique cache key with the second parameter of the `getTranslation()` method: `$model->getTranslation (null, 'post-' . $model->id)->title`. (with the first argument, we set null to get the value for the current language).
+Now, to cache the translation data, it is enough to specify the unique cache key with the second parameter of the `getTranslation()` method: `$model->getTranslation(null, 'post-' . $model->id)->title`. (with the first argument, we set null to get the value for the current language).
 - New translations for Russian and Kazakh languages have been added.
 - Also fixed minor bugs.
 ----------------------
