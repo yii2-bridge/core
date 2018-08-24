@@ -373,7 +373,10 @@ class Settings extends \yii\db\ActiveRecord
 
             return true;
         } catch (Exception $exception) {
-            // TODO: Логировать ошибку создание переводов для настроек
+            \Yii::warning([
+                'message' => 'Couldn\'t translate model',
+                'model' => $model,
+            ], 'yii2-bridge');
         }
 
         return false;
