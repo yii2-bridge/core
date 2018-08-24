@@ -1,6 +1,6 @@
 # Yii2 Bridge [![Build Status](https://travis-ci.org/naffiq/yii2-bridge.svg?branch=master)](https://travis-ci.org/naffiq/yii2-bridge) [![Maintainability](https://api.codeclimate.com/v1/badges/179010503a3350d57f81/maintainability)](https://codeclimate.com/github/naffiq/yii2-bridge/maintainability)
 
-![Yet another admin panel](https://raw.githubusercontent.com/naffiq/yii2-bridge/master/src/assets/dist/bridge.jpg)
+![Yet another admin panel](https://raw.githubusercontent.com/yii2-bridge/core/master/src/assets/dist/bridge.jpg)
 
 ### [Краткое введение и туториал на русском](http://telegra.ph/Yii2-Bridge-03-26)
 
@@ -11,7 +11,7 @@ components and plugins for Yii2.
 
 Add it as Composer dependency by running
 ```bash
-$ composer require naffiq/yii2-bridge
+$ composer require yii2-bridge/core
 ```
 
 ####  Be sure to configure module (instructions below), before running migrations.
