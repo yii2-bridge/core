@@ -1,7 +1,7 @@
 ### Version 0.2.0
 
-- The `Settings` value is now multilanguage. By default it gets the value for the current language.
-If you want to get a value from a specific language, you can simply specify the language code.
+- The `Settings` value is now multilingual. By default it gets the value for the current language.
+If you want to get a value for a specific language, you can simply specify the language code.
 For example: `Settings::group('test-group')->get('test-setting')->getTranslation('en-RU')`.
 - Caching  `Settings`. By default, settings caching is enabled. If you want to disable caching, add the `'settingsCaching' => false` to the admin module configuration.
 Also, you can override the name of the cache key settings in the admin module configuration.
