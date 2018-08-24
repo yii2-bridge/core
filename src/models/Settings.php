@@ -13,7 +13,6 @@ use yii\base\InvalidCallException;
 use yii\helpers\ArrayHelper;
 use yii\web\JsExpression;
 use yii2tech\ar\position\PositionBehavior;
-use yii\db\Exception;
 
 /**
  * This is the model class for table "settings".
@@ -336,49 +335,53 @@ class Settings extends \yii\db\ActiveRecord
         }
     }
 
-    public function afterDelete()
+    public function beforeDelete()
     {
-        parent::afterDelete();
+        if (!parent::beforeDelete()) {
+            return false;
+        }
 
-        /** Удаляем настройку из кэша */
+        /** Удаляем переводы настройки из кэша связанные с этой настройкой */
         if(\Yii::$app->getModule('admin')->settingsCaching) {
             $cacheKey = \Yii::$app->getModule('admin')->settingsCacheKey;
-            \Yii::$app->cache->delete($cacheKey . '-' . $this->key);
+
+            /** Удаляем переводы настройки из кэша */
+            if (Yii::$app->urlManager->languages) {
+                foreach (Yii::$app->urlManager->languages as $label => $code) {
+                    if(\Yii::$app->cache->delete($cacheKey . '-' . $this->key . '-' . $code)) {
+                        \Yii::info(['message' => 'Cache "' . $cacheKey . '-' . $this->key . '-' . $code . '" has been deleted'], 'yii2-bridge');
+                    }
+                }
+            }
+            /** Удаляем настройку из кэша */
+            if(\Yii::$app->cache->delete($cacheKey . '-' . $this->key)) {
+                \Yii::info(['message' => 'Cache "' . $cacheKey . '-' . $this->key . '" has been deleted'], 'yii2-bridge');
+            }
         }
+
+        return true;
     }
 
     /**
      * Creates setting translations
      *
      * @param Settings $model
-     * @return bool
      */
-    private static function createTranslations(Settings $model)
+    public static function createTranslations(Settings $model)
     {
-        $data = [];
-
         foreach (Yii::$app->urlManager->languages as $label => $code) {
-            $data[] = [
-                'lang' => $code,
-                'settings_id' => $model->id,
-                'value' => $model->value
-            ];
+            try {
+                $modelTranslation = (new SettingsTranslation([
+                    'lang' => $code,
+                    'settings_id' => $model->id,
+                    'value' => $model->value
+                ]))->save();
+            } catch (\Exception $exception) {
+                \Yii::warning([
+                    'message' => 'Couldn\'t translate model',
+                    'model' => $model,
+                ], 'yii2-bridge');
+            }
         }
-
-        try {
-            Yii::$app->db
-                ->createCommand()
-                ->batchInsert('settings_translations', ['lang', 'settings_id', 'value'], $data)
-                ->execute();
-
-            return true;
-        } catch (Exception $exception) {
-            \Yii::warning([
-                'message' => 'Couldn\'t translate model',
-                'model' => $model,
-            ], 'yii2-bridge');
-        }
-
-        return false;
     }
 }

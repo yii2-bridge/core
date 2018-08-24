@@ -142,7 +142,7 @@ class SettingsGroup extends \yii\db\ActiveRecord
         $model = new Settings($params);
         $model->save();
 
-        self::createTranslations($model);
+        Settings::createTranslations($model);
 
         Settings::$prevSettings[$model->key] = $model;
 
@@ -193,14 +193,42 @@ class SettingsGroup extends \yii\db\ActiveRecord
         }
     }
 
-    public function afterDelete()
+    public function beforeDelete()
     {
-        parent::afterDelete();
+        if (!parent::beforeDelete()) {
+            return false;
+        }
 
-        /** Удаляем группу настройки из кэша */
+        /** Удаляем настройки из кэша связанные с этой группой */
         if(\Yii::$app->getModule('admin')->settingsCaching) {
             $cacheKey = \Yii::$app->getModule('admin')->settingsCacheKey;
-            \Yii::$app->cache->delete($cacheKey . '_group-' . $this->key);
+
+            $settingsKeys = ArrayHelper::getColumn(Settings::find()->select('key')->groupId($this->id)->asArray()->all(), 'key');
+
+            if($settingsKeys) {
+                foreach ($settingsKeys as $settingKey) {
+                    /** Удаляем переводы настройки из кэша */
+                    if(Yii::$app->urlManager->languages) {
+                        foreach (Yii::$app->urlManager->languages as $label => $code) {
+                            if(\Yii::$app->cache->delete($cacheKey . '-' . $settingKey . '-' . $code)) {
+                                \Yii::info(['message' => 'Cache "' . $cacheKey . '-' . $settingKey . '-' . $code . '" has been deleted'], 'yii2-bridge');
+                            }
+                        }
+                    }
+
+                    /** Удаляем настройку из кэша */
+                    if(\Yii::$app->cache->delete($cacheKey . '-' . $settingKey)) {
+                        \Yii::info(['message' => 'Cache "' . $cacheKey . '-' . $settingKey . '" has been deleted'], 'yii2-bridge');
+                    }
+                }
+            }
+
+            /** Удаляем группу настройки из кэша */
+            if(\Yii::$app->cache->delete($cacheKey . '_group-' . $this->key)) {
+                \Yii::info(['message' => 'Cache "' . $cacheKey . '_group-' . $this->key . '" has been deleted'], 'yii2-bridge');
+            }
         }
+
+        return true;
     }
 }

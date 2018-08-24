@@ -52,4 +52,15 @@ class SettingsQuery extends \yii\db\ActiveQuery
     {
         return $this->select(['key', 'value'])->asArray();
     }
+
+    /**
+     * Search by group_id
+     *
+     * @param int $groupId
+     * @return SettingsQuery
+     */
+    public function groupId($groupId)
+    {
+        return $this->andWhere(['group_id' => $groupId]);
+    }
 }
