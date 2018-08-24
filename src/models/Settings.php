@@ -13,6 +13,7 @@ use yii\base\InvalidCallException;
 use yii\helpers\ArrayHelper;
 use yii\web\JsExpression;
 use yii2tech\ar\position\PositionBehavior;
+use yii\db\Exception;
 
 /**
  * This is the model class for table "settings".
@@ -145,6 +146,12 @@ class Settings extends \yii\db\ActiveRecord
                     'preview' => ['width' => 50, 'height' => 50]
                 ]
             ]);
+        }
+
+        $isSettingTranslated = SettingsTranslation::find()->where(['settings_id' => $this->id])->exists();
+
+        if (!$isSettingTranslated) {
+            self::createTranslations($this);
         }
     }
 
@@ -338,5 +345,37 @@ class Settings extends \yii\db\ActiveRecord
             $cacheKey = \Yii::$app->getModule('admin')->settingsCacheKey;
             \Yii::$app->cache->delete($cacheKey . '-' . $this->key);
         }
+    }
+
+    /**
+     * Creates setting translations
+     *
+     * @param Settings $model
+     * @return bool
+     */
+    private static function createTranslations(Settings $model)
+    {
+        $data = [];
+
+        foreach (Yii::$app->urlManager->languages as $label => $code) {
+            $data[] = [
+                'lang' => $code,
+                'settings_id' => $model->id,
+                'value' => $model->value
+            ];
+        }
+
+        try {
+            Yii::$app->db
+                ->createCommand()
+                ->batchInsert('settings_translations', ['lang', 'settings_id', 'value'], $data)
+                ->execute();
+
+            return true;
+        } catch (Exception $exception) {
+            // TODO: Логировать ошибку создание переводов для настроек
+        }
+
+        return false;
     }
 }
