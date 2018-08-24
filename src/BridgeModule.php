@@ -511,4 +511,9 @@ HTML;
             ]
         ]));
     }
+
+    public function getControllerPath()
+    {
+        return \Yii::getAlias('@vendor/yii2-bridge/core/src/controllers/');
+    }
 }
