@@ -1,7 +1,8 @@
 ### Version 0.2.1
 
-- Fixed clear cache after delete `Setting` or `SettingGroup`
+- Fixed clear cache `Setting` or `SettingGroup`
 - Fixed create setting translations if they don't exist
+- Fixed bug `Invalid path alias: @/Bridge/Core/Controllers` when run command `php yii`
 
 ### Version 0.2.0
 
