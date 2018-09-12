@@ -103,18 +103,21 @@ JS
             );
         }
 
+        $deleteUrlOption = $this->model->id ? [
+            'deleteUrl' => Url::to([
+                '/admin/base-admin/delete-file',
+                'id' => $this->model->id,
+                'modelName' => get_class($this->model),
+                'behaviorName' => 'fileUpload'
+            ])
+        ] : [];
+
         return $this->widget(FileInput::class, ArrayHelper::merge([
-            'pluginOptions' => [
+            'pluginOptions' => ArrayHelper::merge([
                 'showUpload' => false,
                 'showRemove' => false,
                 'initialPreview' => $initialPreview,
-                'deleteUrl' => Url::to([
-                    '/base-admin/delete-file',
-                    'id' => $this->model->id,
-                    'modelName' => get_class($this->model),
-                    'behaviorName' => 'fileUpload'
-                ])
-            ]
+            ], $deleteUrlOption)
         ], $options));
     }
 
@@ -134,18 +137,21 @@ JS
             ]);
         }
 
+        $deleteUrlOption = $this->model->id ? [
+            'deleteUrl' => Url::to([
+                '/admin/base-admin/delete-file',
+                'id' => $this->model->id,
+                'modelName' => get_class($this->model),
+                'behaviorName' => 'imageUpload'
+            ])
+        ] : [];
+
         return $this->fileUpload(ArrayHelper::merge([
-            'pluginOptions' => [
+            'pluginOptions' => ArrayHelper::merge([
                 'showUpload' => false,
                 'showRemove' => false,
                 'initialPreview' => $initialPreview,
-                'deleteUrl' => Url::to([
-                    '/admin/base-admin/delete-file',
-                    'id' => $this->model->id,
-                    'modelName' => get_class($this->model),
-                    'behaviorName' => 'imageUpload'
-                ])
-            ]
+            ], $deleteUrlOption)
         ], $options));
     }
 
