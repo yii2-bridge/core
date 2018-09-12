@@ -78,6 +78,11 @@ JS
         $height = ArrayHelper::getValue($options, 'defaultImageHeight', '');
         $this->registerCKEditorImageDefaults($width, $height);
 
+        $ckeditorOptions = ArrayHelper::merge([
+            'allowedContent' => true,
+            'forcePasteAsPlainText' => true,
+        ], $ckeditorOptions);
+
         return $this->widget(CKEditor::class, ArrayHelper::merge([
             'clientOptions' => ElFinder::ckeditorOptions(['/admin/elfinder', 'path' => 'some/sub/path'],
                 $ckeditorOptions)
