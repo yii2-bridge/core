@@ -103,7 +103,7 @@ JS
             );
         }
 
-        $deleteUrlOption = $this->model->id ? [
+        $deleteUrlOption = isset($this->model->id) ? [
             'deleteUrl' => Url::to([
                 '/admin/base-admin/delete-file',
                 'id' => $this->model->id,
@@ -137,7 +137,7 @@ JS
             ]);
         }
 
-        $deleteUrlOption = $this->model->id ? [
+        $deleteUrlOption = isset($this->model->id) ? [
             'deleteUrl' => Url::to([
                 '/admin/base-admin/delete-file',
                 'id' => $this->model->id,
