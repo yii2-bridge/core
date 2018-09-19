@@ -109,17 +109,17 @@ class SettingsGroup extends \yii\db\ActiveRecord
      * @return Settings
      * @throws InvalidArgumentException when settings with key provided wasn't found
      */
-    public static function get($key)
+    public function get($key)
     {
         if (!empty(Settings::$prevSettings[$key])) {
             $model = Settings::$prevSettings[$key];
         } elseif((\Yii::$app->getModule('admin')->settingsCaching)) {
             $cacheKey = \Yii::$app->getModule('admin')->settingsCacheKey;
             $model = \Yii::$app->cache->getOrSet($cacheKey . '-' . $key, function () use ($key) {
-                return Settings::find()->key($key)->one();
+                return Settings::find()->key($key)->groupId($this->id)->one();
             }, 86400);
         } else {
-            $model = Settings::find()->key($key)->one();
+            $model = Settings::find()->key($key)->groupId($this->id)->one();
         }
 
         if (empty($model)) {
