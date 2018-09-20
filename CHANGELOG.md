@@ -1,3 +1,11 @@
+### Version 0.2.2
+
+- Added default options for `richTextArea` field of `ActiveFiled`. By default, the `allowedContent` and `forcePasteAsPlainText` options are enabled
+- Fixed bug `imageUpload` and `fileUpload` fields of `ActiveFiled`
+- Fixed bug when delete image in `Settings`
+- Updated index in `meta_tag_translations` table
+- Fixed bug when get `Settings`
+
 ### Version 0.2.1
 
 - Fixed clear cache `Setting` and `SettingGroup`
