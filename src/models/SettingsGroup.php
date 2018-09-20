@@ -111,15 +111,16 @@ class SettingsGroup extends \yii\db\ActiveRecord
      */
     public function get($key)
     {
+        $groupId = $this->id;
         if (!empty(Settings::$prevSettings[$key])) {
             $model = Settings::$prevSettings[$key];
         } elseif((\Yii::$app->getModule('admin')->settingsCaching)) {
             $cacheKey = \Yii::$app->getModule('admin')->settingsCacheKey;
-            $model = \Yii::$app->cache->getOrSet($cacheKey . '-' . $key, function () use ($key) {
-                return Settings::find()->key($key)->groupId($this->id)->one();
+            $model = \Yii::$app->cache->getOrSet($cacheKey . '-' . $key, function () use ($key, $groupId) {
+                return Settings::find()->key($key)->groupId($groupId)->one();
             }, 86400);
         } else {
-            $model = Settings::find()->key($key)->groupId($this->id)->one();
+            $model = Settings::find()->key($key)->groupId($groupId)->one();
         }
 
         if (empty($model)) {
