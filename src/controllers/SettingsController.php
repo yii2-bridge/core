@@ -32,19 +32,6 @@ class SettingsController extends BaseAdminController
 
     /**
      * @inheritdoc
-     */
-    public function accessRules()
-    {
-        return [
-            [
-                'allow' => true,
-                'roles' => ['admin'],
-            ],
-        ];
-    }
-
-    /**
-     * @inheritdoc
      *
      * Remove pre-defined `index` action
      *
