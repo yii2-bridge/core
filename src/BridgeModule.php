@@ -23,7 +23,7 @@ use yii\console\Application as ConsoleApplication;
 use yii\helpers\ArrayHelper;
 use yii\web\Application as WebApplication;
 use yii\web\View;
-use Zelenin\yii\modules\I18n\controllers\DefaultController;
+use Bridge\Core\Controllers\I18nController;
 
 /**
  * Class BridgeModule
@@ -293,7 +293,7 @@ class BridgeModule extends Module implements BootstrapInterface
                     'layout' => '@bridge/views/layouts/main',
                     'controllerMap' => [
                         'default' => [
-                            'class' => DefaultController::class,
+                            'class' => I18nController::class,
                             'viewPath' => '@bridge/views/i18n',
                         ]
                     ]

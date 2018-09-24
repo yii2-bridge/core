@@ -16,6 +16,7 @@ use yii\filters\AccessControl;
 use yii\helpers\ArrayHelper;
 use yii\web\Controller;
 use yii\web\Response;
+use yii\filters\VerbFilter;
 
 class DefaultController extends Controller
 {
@@ -34,6 +35,7 @@ class DefaultController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::class,
+                'only' => ['login', 'logout', 'set-menu-state', 'index', 'clear-cache', 'switch-language'],
                 'rules' => [
                     [
                         'allow' => true,
@@ -43,11 +45,19 @@ class DefaultController extends Controller
                     [
                         'allow' => true,
                         'actions' => ['set-menu-state'],
+                        'roles' => ArrayHelper::merge(['?'], $this->module->allowedRoles)
                     ],
                     [
                         'allow' => true,
-                        'roles' => ['@']
-                    ]
+                        'actions' => ['logout', 'index', 'clear-cache', 'switch-language'],
+                        'roles' => $this->module->allowedRoles
+                    ],
+                ],
+            ],
+            'verbs' => [
+                'class' => VerbFilter::className(),
+                'actions' => [
+                    'logout' => ['post'],
                 ],
             ],
         ];
