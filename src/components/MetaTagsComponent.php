@@ -98,11 +98,13 @@ class MetaTagsComponent extends Component
 
         $metaPage = MetaPage::getOrCreate($module, $controller, $action, $defaultParams);
 
-        $this->registerMetaTitle($metaPage->metaTag->translation->title);
-        $this->registerMetaDescription($metaPage->metaTag->translation->description);
-        $this->registerMetaUrl();
-        $this->registerMetaSiteName();
-        $this->registerMetaImage($this->getActionMetaImage($metaPage->metaTag->translation));
+        if ($metaPage) {
+            $this->registerMetaTitle($metaPage->title);
+            $this->registerMetaDescription($metaPage->description);
+            $this->registerMetaUrl();
+            $this->registerMetaSiteName();
+            $this->registerMetaImage($this->getActionMetaImage($metaPage));
+        }
     }
 
     /**

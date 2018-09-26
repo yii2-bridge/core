@@ -106,11 +106,14 @@ class MetaPage extends ActiveRecord
      * @param string $controller
      * @param string $action
      * @param array $defaultParams
-     * @return MetaPage
+     * @return MetaTagTranslation
      */
     public static function getOrCreate($module, $controller, $action, $defaultParams = [])
     {
-        $metaPage = self::findOne(['module' => $module, 'controller' => $controller, 'action' => $action]);
+        $metaPage = MetaTagTranslation::find()
+            ->joinWith(['metaTag.metaPage'], false)
+            ->where(['meta_pages.module' => $module, 'meta_pages.controller' => $controller, 'meta_pages.action' => $action])
+            ->one();
 
         return $metaPage ?? self::create($module, $controller, $action, $defaultParams);
     }
@@ -122,19 +125,23 @@ class MetaPage extends ActiveRecord
      * @param $controller
      * @param $action
      * @param array $defaultParams
-     * @return MetaPage
+     * @return MetaTagTranslation|false
      */
     private static function create($module, $controller, $action, $defaultParams = [])
     {
         $metaTag = MetaTag::create($defaultParams);
 
-        $metaPage = new MetaPage();
-        $metaPage->meta_tag_id = $metaTag->id;
-        $metaPage->module = $module;
-        $metaPage->controller = $controller;
-        $metaPage->action = $action;
-        $metaPage->save();
+        if (!$metaTag) {
+            return false;
+        }
 
-        return $metaPage;
+        $metaPage = new MetaPage([
+            'meta_tag_id' => $metaTag->id,
+            'module' => $module,
+            'controller' => $controller,
+            'action' => $action
+        ]);
+
+        return $metaPage->save() ? $metaTag->translation : false;
     }
 }

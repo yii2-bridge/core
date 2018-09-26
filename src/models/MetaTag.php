@@ -70,6 +70,14 @@ class MetaTag extends ActiveRecord
     }
 
     /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getMetaPage()
+    {
+        return $this->hasOne(MetaPage::class, ['meta_tag_id' => 'id']);
+    }
+
+    /**
      * @inheritdoc
      * @return MetaTagQuery the active query used by this AR class.
      */
@@ -104,7 +112,7 @@ class MetaTag extends ActiveRecord
      * Создание нового объекта класса MetaTag, со значениями по-умолчанию (если они указаны)
      *
      * @param array $defaultParams
-     * @return MetaTag
+     * @return MetaTag|false
      */
     public static function create($defaultParams = [])
     {
@@ -113,9 +121,7 @@ class MetaTag extends ActiveRecord
         // Добавляем в POST запрос данные, которые пришли как по-умолчанию
         Yii::$app->request->setBodyParams(ArrayHelper::merge(self::getTranslationParams($metaTag, $defaultParams), Yii::$app->request->getBodyParams()));
 
-        $metaTag->save();
-
-        return $metaTag;
+        return $metaTag->save() ? $metaTag : false;
     }
 
     /**
