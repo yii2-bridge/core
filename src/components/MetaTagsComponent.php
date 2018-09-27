@@ -8,14 +8,12 @@
 
 namespace Bridge\Core\Components;
 
-use Bridge\Core\Behaviors\MetaTagBehavior;
+use Bridge\Core\Models\MetaModel;
 use Bridge\Core\Models\MetaPage;
 use Bridge\Core\Models\MetaTagTranslation;
 use Yii;
 use yii\base\Component;
-use yii\base\InvalidArgumentException;
 use yii\db\ActiveRecord;
-use yii\helpers\ArrayHelper;
 use yii\helpers\StringHelper;
 use yii\helpers\Url;
 
@@ -49,21 +47,18 @@ class MetaTagsComponent extends Component
      * @param ActiveRecord $model
      * @param string $metaTagBehaviorName
      * @param string $imageUploadBehaviorName
-     * @internal param string $behaviorName
      */
     public function registerModel(ActiveRecord $model, string $metaTagBehaviorName = 'metaTag', string $imageUploadBehaviorName = 'imageUpload')
     {
-        $metaTagBehavior = $model->getBehavior($metaTagBehaviorName);
+        $metaModel = MetaModel::getOrCreate($model, $metaTagBehaviorName);
 
-        if (!$metaTagBehavior || !(get_class($metaTagBehavior) === MetaTagBehavior::class)) {
-            throw new InvalidArgumentException('Вы не указали поведение MetaTagBehavior в модели ' . get_class($model));
+        if ($metaModel) {
+            $this->registerMetaTitle($metaModel->title);
+            $this->registerMetaDescription($metaModel->description);
+            $this->registerMetaUrl();
+            $this->registerMetaSiteName();
+            $this->registerMetaImage($this->getModelMetaImage($metaModel, $model, $imageUploadBehaviorName));
         }
-
-        $this->registerMetaTitle($this->getModelMetaTitle($model, $metaTagBehavior));
-        $this->registerMetaDescription($this->getModelMetaDescription($model, $metaTagBehavior));
-        $this->registerMetaUrl();
-        $this->registerMetaSiteName();
-        $this->registerMetaImage($this->getModelMetaImage($model, $metaTagBehavior, $imageUploadBehaviorName));
     }
 
     /**
@@ -109,6 +104,7 @@ class MetaTagsComponent extends Component
 
     /**
      * Задаем для страницы Meta Title, Meta Open Graph Title, Meta Twitter Card Title
+     *
      * Пример:
      *  <title>Главная страница</title>
      *  <meta property="og:title" content="Главная страница">
@@ -129,6 +125,7 @@ class MetaTagsComponent extends Component
 
     /**
      * Задаем для страницы Meta Description, Meta Open Graph Description, Meta Twitter Card Description
+     *
      * Пример:
      *  <meta name="description" content="Описание">
      *  <meta property="og:description" content="Описание">
@@ -151,6 +148,7 @@ class MetaTagsComponent extends Component
 
     /**
      * Задаем для страницы Meta Open Graph Url
+     *
      * По-умолчанию задается текущая ссылка
      * Пример:
      *  <meta name="og:url" content="http://site.kz">
@@ -165,6 +163,7 @@ class MetaTagsComponent extends Component
 
     /**
      * Задаем для страницы Meta Open Graph Site Name
+     *
      * По-умолчанию задается название приложения, которую вы указали в конфигурациия приложения, в ключе 'name' ('name' => 'My Application')
      * Пример:
      *  <meta name="og:site_name" content="My Application">
@@ -179,6 +178,7 @@ class MetaTagsComponent extends Component
 
     /**
      * Задаем для страницы Meta Open Graph Image
+     *
      * По-умолчанию задается null
      * Пример:
      *  <meta name="og:image" content="http://example.com/image.jpg">
@@ -192,71 +192,41 @@ class MetaTagsComponent extends Component
     }
 
     /**
-     * Получаем Meta Title для страницы модели
-     * Если для данной модели незадано Meta Title, то получаем значение из ключа 'titleColumn', который указано в поведении MetaTagBehavior
-     * Если незадано ни Meta Title, ни 'titleColumn' в поведении MetaTagBehavior,
-     * то задаем название приложения, которую вы указали в конфигурациия приложения, в ключе 'name' ('name' => 'My Application')
-     *
-     * @param ActiveRecord $model
-     * @param MetaTagBehavior $metaTagBehavior
-     * @return string
-     */
-    private function getModelMetaTitle(ActiveRecord $model, MetaTagBehavior $metaTagBehavior)
-    {
-        $title = $metaTagBehavior->metaTag->translation->title
-            ? $metaTagBehavior->metaTag->translation->title
-            : ArrayHelper::getValue($model, $metaTagBehavior->titleColumn, Yii::$app->name);
-
-        return $title;
-    }
-
-    /**
-     * Получаем Meta Description для страницы модели
-     * Если для данной модели незадано Meta Description, то получаем значение из ключа 'descriptionColumn', который указано в поведении MetaTagBehavior
-     * Если незадано ни Meta Description, ни 'descriptionColumn' в поведении MetaTagBehavior,
-     * то задаем название приложения, которую вы указали в конфигурациия приложения, в ключе 'name' ('name' => 'My Application')
-     *
-     * @param ActiveRecord $model
-     * @param MetaTagBehavior $metaTagBehavior
-     * @return string
-     */
-    private function getModelMetaDescription(ActiveRecord $model, MetaTagBehavior $metaTagBehavior)
-    {
-        $description = $metaTagBehavior->metaTag->translation->description
-            ? $metaTagBehavior->metaTag->translation->description
-            : ArrayHelper::getValue($model, $metaTagBehavior->descriptionColumn, Yii::$app->name);
-
-        return $description;
-    }
-
-    /**
      * Получаем Meta Image для страницы модели
-     * Если для данной модели незадано Meta Image, то получаем значение из ключа 'imageColumn', который указано в поведении MetaTagBehavior
-     * Если незадано ни Meta Image, ни 'imageColumn' в поведении MetaTagBehavior,
-     * то задается null
      *
+     * Если для данной модели незадано Meta Image, то получаем значение из поведение загрузки изображения BridgeUploadImageBehavior у моделя.
+     * Если незадано ни Meta Image, ни поведение загрузки изображения BridgeUploadImageBehavior, то получаем значение из атрибута компонента мета-тегов $defaultMetaImage
+     *
+     * @param MetaTagTranslation $metaTagTranslationModel
      * @param ActiveRecord $model
-     * @param MetaTagBehavior $metaTagBehavior
+     * @param string $imageUploadBehaviorName
      * @return string
      */
-    private function getModelMetaImage(ActiveRecord $model, MetaTagBehavior $metaTagBehavior, $imageUploadBehaviorName)
+    private function getModelMetaImage(MetaTagTranslation $metaTagTranslationModel, ActiveRecord $model, string $imageUploadBehaviorName)
     {
-        if ($metaTagBehavior->metaTag->translation->image) {
-            return Url::to($metaTagBehavior->metaTag->translation->getUploadUrl('image'), true);
+        if ($metaTagTranslationModel->image) {
+            return Url::to($metaTagTranslationModel->getUploadUrl('image'), true);
         }
-        $image = $model->getBehavior($imageUploadBehaviorName) ? Url::to($model->getUploadUrl($model->getBehavior($imageUploadBehaviorName)->attribute), true) : null;
 
-        return $image;
+        $imageUploadBehavior = $model->getBehavior($imageUploadBehaviorName);
+
+        if ($imageUploadBehavior) {
+            return Url::to($model->getUploadUrl($imageUploadBehavior->attribute), true);
+        }
+
+        return $this->defaultMetaImage;
     }
 
     /**
      * Получаем Meta Image для страницы экшен (страница которая не связано конкретно с моделью)
+     *
      * Если для данного экщега незадано Meta Image, то получаем значение из атрибута компонента мета-тегов $defaultMetaImage
      *
      * @param MetaTagTranslation $metaTagTranslationModel
      * @return string
      */
-    private function getActionMetaImage(MetaTagTranslation $metaTagTranslationModel) {
+    private function getActionMetaImage(MetaTagTranslation $metaTagTranslationModel)
+    {
         if ($metaTagTranslationModel->image) {
             return Url::to($metaTagTranslationModel->getUploadUrl('image'), true);
         }
