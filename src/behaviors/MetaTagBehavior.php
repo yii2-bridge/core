@@ -29,14 +29,6 @@ class MetaTagBehavior extends Behavior
      */
     public $descriptionColumn;
 
-    /**
-     * Название колонки изображения вызываемой модели ($this->owner),
-     * для случая, если для данной модели не будет указано Meta og:image
-     *
-     * @var string|null
-     */
-    public $imageColumn;
-
     public function events()
     {
         return [
@@ -53,8 +45,7 @@ class MetaTagBehavior extends Behavior
     public function saveMetaTags()
     {
         if(!$this->owner->metaModel) {
-            $metaTag = MetaTag::create();
-            return MetaModel::create($this->owner, $metaTag);
+            return MetaModel::create($this->owner, null);
         }
 
         return $this->owner->metaTag->save();
