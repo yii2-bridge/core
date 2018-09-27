@@ -106,7 +106,7 @@ class MetaPage extends ActiveRecord
      * @param string $controller
      * @param string $action
      * @param array $defaultParams
-     * @return MetaTagTranslation
+     * @return MetaTagTranslation|false
      */
     public static function getOrCreate($module, $controller, $action, $defaultParams = [])
     {
