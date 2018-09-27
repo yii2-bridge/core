@@ -111,7 +111,7 @@ class MetaPage extends ActiveRecord
     public static function getOrCreate($module, $controller, $action, $defaultParams = [])
     {
         $metaPage = MetaTagTranslation::find()
-            ->joinWith(['metaTag.metaPage'], false)
+            ->joinWith('metaTag.metaPage', false)
             ->where(['meta_pages.module' => $module, 'meta_pages.controller' => $controller, 'meta_pages.action' => $action])
             ->one();
 
@@ -136,7 +136,7 @@ class MetaPage extends ActiveRecord
         }
 
         $metaPage = new MetaPage([
-            'meta_tag_id' => $metaTag->id,
+            'meta_tag_id' => $metaTag->primaryKey,
             'module' => $module,
             'controller' => $controller,
             'action' => $action
