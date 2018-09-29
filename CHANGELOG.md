@@ -5,6 +5,9 @@
 - Fixed bug when delete image in `Settings`
 - Updated index in `meta_tag_translations` table
 - Fixed bug when get `Settings`
+- Fixed close sub-menu when menu is narrow
+- Fixed bug when generate rules for `TINYINT` column
+- Optimized queries in the preparation of meta-tags
 
 ### Version 0.2.1
 
