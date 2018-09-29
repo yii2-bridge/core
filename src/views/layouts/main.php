@@ -56,7 +56,8 @@ $isMenuWide = \Yii::$app->session->get('bridge-menu-state', 0);
 
 
     <?= SideMenu::widget([
-        'items' => $adminModule->getMenuItems()
+        'items' => $adminModule->getMenuItems(),
+        'isMenuWide' => $isMenuWide
     ]) ?>
 
     <?php if (!\Yii::$app->user->isGuest) : ?>

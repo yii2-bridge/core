@@ -26,9 +26,14 @@ class SideMenu extends Widget
      */
     public $items;
 
+    /**
+     * @var integer
+     */
+    public $isMenuWide;
+
     public function run()
     {
-        return $this->render('side-menu', ['items' => $this->items]);
+        return $this->render('side-menu', ['items' => $this->items, 'isMenuWide' => $this->isMenuWide]);
     }
 
     /**
