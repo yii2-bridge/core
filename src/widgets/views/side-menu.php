@@ -5,6 +5,7 @@ use Bridge\Core\Widgets\SideMenu;
 
 /**
  * @var array $items
+ * @var integer $isMenuWide
  * @var \yii\web\View $this
  */
 ?>
@@ -40,7 +41,7 @@ use Bridge\Core\Widgets\SideMenu;
                             <?= $item['title'] ?>
                         </div>
                     </a>
-                    <ul class="sub-menu collapse<?= SideMenu::isActive($item) ? ' in' : '' ?>"
+                    <ul class="sub-menu collapse<?= SideMenu::isActive($item) && (bool) $isMenuWide ? ' in' : '' ?>"
                         id="collapse-<?= $key ?>" role="tabpanel" aria-labelledby="heading<?= $key ?>">
                         <?php foreach ($item['items'] as $subItem): ?>
                             <?php if(!SideMenu::isVisible($subItem)) continue ?>
