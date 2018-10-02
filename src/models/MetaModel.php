@@ -2,9 +2,12 @@
 
 namespace Bridge\Core\Models;
 
+use Bridge\Core\Behaviors\MetaTagBehavior;
 use Bridge\Core\Models\Query\MetaModelQuery;
 use Yii;
+use yii\base\InvalidArgumentException;
 use yii\db\ActiveRecord;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "meta_models".
@@ -70,23 +73,63 @@ class MetaModel extends ActiveRecord
     }
 
     /**
+     * Получаем мета-теги
+     * Если его не существует, то создаем его, с параметрами по-умолчанию
+     *
+     * @param ActiveRecord $model
+     * @param $metaTagBehaviorName
+     * @return MetaTagTranslation|false
+     */
+    public static function getOrCreate(ActiveRecord $model, string $metaTagBehaviorName)
+    {
+        $metaModel = MetaTagTranslation::find()
+            ->joinWith('metaTag.metaModel', false)
+            ->where(['meta_models.model' => get_class($model), 'meta_models.model_id' => $model->primaryKey])
+            ->one();
+
+        return $metaModel ?? self::create($model, $metaTagBehaviorName);
+    }
+
+    /**
      * Создаем новый объект класса MetaModel,
      * который связывает вызываемую модель ($this->owner) с MetaTag
      *
      * @param ActiveRecord $model
-     * @param MetaTag $metaTag
-     * @return MetaModel
+     * @param $metaTagBehaviorName
+     * @return MetaTagTranslation|false
      */
-    public static function create(ActiveRecord $model, MetaTag $metaTag)
+    public static function create(ActiveRecord $model, $metaTagBehaviorName)
     {
-        $metaModel = new MetaModel();
+        $defaultParams = [];
 
-        $metaModel->model = get_class($model);
-        $metaModel->model_id = $model->id;
-        $metaModel->meta_tag_id = $metaTag->id;
+        if ($metaTagBehaviorName !== null) {
+            $metaTagBehavior = $model->getBehavior($metaTagBehaviorName);
 
-        $metaModel->save();
+            if (!$metaTagBehavior || !(get_class($metaTagBehavior) === MetaTagBehavior::class)) {
+                throw new InvalidArgumentException('Вы не указали поведение MetaTagBehavior в модели ' . get_class($model));
+            }
 
-        return $metaModel;
+            foreach (Yii::$app->urlManager->languages as $label => $code) {
+                $defaultParams[$code] = [
+                    'lang' => $code,
+                    'title' => ArrayHelper::getValue($model, $metaTagBehavior->titleColumn, Yii::$app->name),
+                    'description' => ArrayHelper::getValue($model, $metaTagBehavior->titleColumn, Yii::$app->name)
+                ];
+            }
+        }
+
+        $metaTag = MetaTag::create($defaultParams);
+
+        if (!$metaTag) {
+            return false;
+        }
+
+        $metaModel = new MetaModel([
+            'meta_tag_id' => $metaTag->primaryKey,
+            'model' => get_class($model),
+            'model_id' => $model->primaryKey,
+        ]);
+
+        return $metaModel->save() ? $metaTag->translation : false;
     }
 }

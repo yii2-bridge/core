@@ -17,7 +17,7 @@ use yii\helpers\StringHelper;
  * @property string $created_at
  * @property string $updated_at
  *
- * @property MetaModel[] $metaModels
+ * @property MetaModel $metaModel
  * @property MetaTagTranslation[] $metaTagTranslations
  * @property MetaTagTranslation $translation
  */
@@ -56,9 +56,9 @@ class MetaTag extends ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getMetaModels()
+    public function getMetaModel()
     {
-        return $this->hasMany(MetaModel::class, ['meta_tag_id' => 'id']);
+        return $this->hasOne(MetaModel::class, ['meta_tag_id' => 'id']);
     }
 
     /**
@@ -67,6 +67,14 @@ class MetaTag extends ActiveRecord
     public function getMetaTagTranslations()
     {
         return $this->hasMany(MetaTagTranslation::class, ['meta_tag_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getMetaPage()
+    {
+        return $this->hasOne(MetaPage::class, ['meta_tag_id' => 'id']);
     }
 
     /**
@@ -104,7 +112,7 @@ class MetaTag extends ActiveRecord
      * Создание нового объекта класса MetaTag, со значениями по-умолчанию (если они указаны)
      *
      * @param array $defaultParams
-     * @return MetaTag
+     * @return MetaTag|false
      */
     public static function create($defaultParams = [])
     {
@@ -113,13 +121,11 @@ class MetaTag extends ActiveRecord
         // Добавляем в POST запрос данные, которые пришли как по-умолчанию
         Yii::$app->request->setBodyParams(ArrayHelper::merge(self::getTranslationParams($metaTag, $defaultParams), Yii::$app->request->getBodyParams()));
 
-        $metaTag->save();
-
-        return $metaTag;
+        return $metaTag->save() ? $metaTag : false;
     }
 
     /**
-     * Получаем массив со своими значениями по-умолчанию для перевода мета-тегов
+     * Возвращаем массив со своими значениями по-умолчанию для перевода мета-тегов
      * Пример:
      *  'MetaTagTranslation' => [
      *      'en-US' => [
