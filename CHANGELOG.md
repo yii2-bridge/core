@@ -9,6 +9,12 @@
 - Fixed bug when generate rules for `TINYINT` column
 - Optimized queries in the preparation of meta-tags
 
+#### Deprecation notice ⚠️
+Remove the `imageColumn` attribute from the configuration `MetaTagBehavior`.
+When calling `Yii::$app->metaTags->registerModel()`, simply specify as the third parameter the name of the image loading behavior (`BridgeUploadImageBehavior`).<br>
+The default name is `imageUpload`.<br>
+Example: `Yii::$app->metaTags->registerModel($model, 'metaTag', 'imageUpload')`
+
 ### Version 0.2.1
 
 - Fixed clear cache `Setting` and `SettingGroup`
