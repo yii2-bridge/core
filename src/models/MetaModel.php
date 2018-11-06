@@ -113,7 +113,7 @@ class MetaModel extends ActiveRecord
                 $defaultParams[$code] = [
                     'lang' => $code,
                     'title' => ArrayHelper::getValue($model, $metaTagBehavior->titleColumn, Yii::$app->name),
-                    'description' => ArrayHelper::getValue($model, $metaTagBehavior->titleColumn, Yii::$app->name)
+                    'description' => ArrayHelper::getValue($model, $metaTagBehavior->descriptionColumn, Yii::$app->name)
                 ];
             }
         }

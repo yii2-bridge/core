@@ -6,6 +6,7 @@
  */
 
 use Bridge\Core\Models\Settings;
+use yii\helpers\Url;
 
 $translationModel = $model->getTranslation($languageCode);
 ?>
