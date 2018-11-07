@@ -5,6 +5,7 @@ namespace Bridge\Core\Models;
 use Bridge\Core\Models\Query\MetaPageQuery;
 use Yii;
 use yii\db\ActiveRecord;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "meta_pages".
@@ -110,12 +111,17 @@ class MetaPage extends ActiveRecord
      */
     public static function getOrCreate($module, $controller, $action, $defaultParams = [])
     {
-        $metaPage = MetaTagTranslation::find()
+        $metaTagTranslation = MetaTagTranslation::find()
             ->joinWith('metaTag.metaPage', false)
-            ->where(['meta_pages.module' => $module, 'meta_pages.controller' => $controller, 'meta_pages.action' => $action])
+            ->where([
+                'meta_pages.module' => $module,
+                'meta_pages.controller' => $controller,
+                'meta_pages.action' => $action,
+                'meta_tag_translations.lang' => Yii::$app->language
+            ])
             ->one();
 
-        return $metaPage ?? self::create($module, $controller, $action, $defaultParams);
+        return $metaTagTranslation ?? self::create($module, $controller, $action, $defaultParams);
     }
 
     /**
@@ -129,13 +135,32 @@ class MetaPage extends ActiveRecord
      */
     private static function create($module, $controller, $action, $defaultParams = [])
     {
+        $metaPage = self::find()
+            ->where([
+                'module' => $module,
+                'controller' => $controller,
+                'action' => $action
+            ])
+            ->one();
+
+        if (!is_null($metaPage)) {
+            $metaTagTranslation = new MetaTagTranslation([
+                'meta_tag_id' => $metaPage->meta_tag_id,
+                'lang' => Yii::$app->language,
+                'title' => ArrayHelper::getValue($defaultParams, Yii::$app->language . '.title', Yii::$app->name),
+                'description' => ArrayHelper::getValue($defaultParams, Yii::$app->language . '.description', Yii::$app->name)
+            ]);
+
+            return $metaTagTranslation->save() ? $metaTagTranslation : false;
+        }
+
         $metaTag = MetaTag::create($defaultParams);
 
         if (!$metaTag) {
             return false;
         }
 
-        $metaPage = new MetaPage([
+        $metaPage = new self([
             'meta_tag_id' => $metaTag->primaryKey,
             'module' => $module,
             'controller' => $controller,
