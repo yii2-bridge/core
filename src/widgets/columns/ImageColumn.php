@@ -105,11 +105,11 @@ class ImageColumn extends DataColumn
      * @param mixed $key the key associated with the data model
      * @param int $index the zero-based index of the data model among the models array returned by [[GridView::dataProvider]].
      * @param null|string image attribute for child classes
-     * @return string image url
+     * @return string|null image url
      */
     protected function getImageUrl($model, $key, $index, $attribute)
     {
-        $imgUrl = false;
+        $imgUrl = null;
 
         if (is_object($model) && method_exists($model, 'getBehaviors')) {
 
@@ -129,10 +129,6 @@ class ImageColumn extends DataColumn
                     break;
                 }
             }
-        }
-
-        if (!$imgUrl) {
-            $imgUrl = $this->getAttributeCellValue($model, $key, $index, $attribute);
         }
 
         return $imgUrl;
