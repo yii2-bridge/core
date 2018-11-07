@@ -8,6 +8,7 @@
 
 namespace Bridge\Core\Components;
 
+use Bridge\Core\Behaviors\BridgeUploadImageBehavior;
 use Bridge\Core\Models\MetaModel;
 use Bridge\Core\Models\MetaPage;
 use Bridge\Core\Models\MetaTagTranslation;
@@ -204,14 +205,18 @@ class MetaTagsComponent extends Component
      */
     private function getModelMetaImage(MetaTagTranslation $metaTagTranslationModel, ActiveRecord $model, string $imageUploadBehaviorName)
     {
-        if ($metaTagTranslationModel->image) {
-            return Url::to($metaTagTranslationModel->getUploadUrl('image'), true);
+        $image = $metaTagTranslationModel->getUploadUrl('image');
+        if (!is_null($image)) {
+            return Url::to($image, true);
         }
 
+        /** @var BridgeUploadImageBehavior $imageUploadBehavior */
         $imageUploadBehavior = $model->getBehavior($imageUploadBehaviorName);
-
-        if ($imageUploadBehavior) {
-            return Url::to($model->getUploadUrl($imageUploadBehavior->attribute), true);
+        if (!is_null($imageUploadBehavior) && (get_class($imageUploadBehavior) === BridgeUploadImageBehavior::class)) {
+            $image = $model->getUploadUrl($imageUploadBehavior->attribute);
+            if (!is_null($image)) {
+                return Url::to($image, true);
+            }
         }
 
         return $this->defaultMetaImage;
@@ -227,8 +232,9 @@ class MetaTagsComponent extends Component
      */
     private function getActionMetaImage(MetaTagTranslation $metaTagTranslationModel)
     {
-        if ($metaTagTranslationModel->image) {
-            return Url::to($metaTagTranslationModel->getUploadUrl('image'), true);
+        $image = $metaTagTranslationModel->getUploadUrl('image');
+        if (!is_null($image)) {
+            return Url::to($image, true);
         }
 
         return $this->defaultMetaImage;
