@@ -82,12 +82,16 @@ class MetaModel extends ActiveRecord
      */
     public static function getOrCreate(ActiveRecord $model, string $metaTagBehaviorName)
     {
-        $metaModel = MetaTagTranslation::find()
+        $metaTagTranslation = MetaTagTranslation::find()
             ->joinWith('metaTag.metaModel', false)
-            ->where(['meta_models.model' => get_class($model), 'meta_models.model_id' => $model->primaryKey])
+            ->where([
+                'meta_models.model' => get_class($model),
+                'meta_models.model_id' => $model->primaryKey,
+                'meta_tag_translations.lang' => Yii::$app->language
+            ])
             ->one();
 
-        return $metaModel ?? self::create($model, $metaTagBehaviorName);
+        return $metaTagTranslation ?? self::create($model, $metaTagBehaviorName);
     }
 
     /**
@@ -100,22 +104,43 @@ class MetaModel extends ActiveRecord
      */
     public static function create(ActiveRecord $model, $metaTagBehaviorName)
     {
+        $metaTagBehavior = $model->getBehavior($metaTagBehaviorName);
+        $modelClassName = get_class($model);
+        $modelId = $model->primaryKey;
+
+        if (!$metaTagBehavior || (get_class($metaTagBehavior) !== MetaTagBehavior::class)) {
+            throw new InvalidArgumentException('Вы не указали поведение MetaTagBehavior в модели ' . $modelClassName);
+        }
+
+        $title = ArrayHelper::getValue($model, $metaTagBehavior->titleColumn, Yii::$app->name);
+        $description = ArrayHelper::getValue($model, $metaTagBehavior->descriptionColumn, Yii::$app->name);
+
+        $metaModel = self::find()
+            ->where([
+                'meta_models.model' => $modelClassName,
+                'meta_models.model_id' => $modelId,
+            ])
+            ->one();
+
+        if (!is_null($metaModel)) {
+            $metaTagTranslation = new MetaTagTranslation([
+                'meta_tag_id' => $metaModel->meta_tag_id,
+                'lang' => Yii::$app->language,
+                'title' => $title,
+                'description' => $description
+            ]);
+
+            return $metaTagTranslation->save() ? $metaTagTranslation : false;
+        }
+
         $defaultParams = [];
 
-        if ($metaTagBehaviorName !== null) {
-            $metaTagBehavior = $model->getBehavior($metaTagBehaviorName);
-
-            if (!$metaTagBehavior || !(get_class($metaTagBehavior) === MetaTagBehavior::class)) {
-                throw new InvalidArgumentException('Вы не указали поведение MetaTagBehavior в модели ' . get_class($model));
-            }
-
-            foreach (Yii::$app->urlManager->languages as $label => $code) {
-                $defaultParams[$code] = [
-                    'lang' => $code,
-                    'title' => ArrayHelper::getValue($model, $metaTagBehavior->titleColumn, Yii::$app->name),
-                    'description' => ArrayHelper::getValue($model, $metaTagBehavior->descriptionColumn, Yii::$app->name)
-                ];
-            }
+        foreach (Yii::$app->urlManager->languages as $label => $code) {
+            $defaultParams[$code] = [
+                'lang' => $code,
+                'title' => $title,
+                'description' => $description
+            ];
         }
 
         $metaTag = MetaTag::create($defaultParams);
@@ -124,10 +149,10 @@ class MetaModel extends ActiveRecord
             return false;
         }
 
-        $metaModel = new MetaModel([
+        $metaModel = new self([
             'meta_tag_id' => $metaTag->primaryKey,
-            'model' => get_class($model),
-            'model_id' => $model->primaryKey,
+            'model' => $modelClassName,
+            'model_id' => $modelId,
         ]);
 
         return $metaModel->save() ? $metaTag->translation : false;
