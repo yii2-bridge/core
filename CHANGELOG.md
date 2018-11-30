@@ -1,3 +1,9 @@
+### Version 0.2.3
+
+- Fixed bug when use `ImageColumn` and `TitledImageColumn`
+- Fixed bug when get *og:image* in `MetaTagsComponent`
+- Fixed bug in `MetaTags` when use translation model
+
 ### Version 0.2.2
 
 - Added default options for `richTextArea` field of `ActiveFiled`. By default, the `allowedContent` and `forcePasteAsPlainText` options are enabled
