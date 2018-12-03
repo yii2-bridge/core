@@ -114,7 +114,7 @@ class ImageColumn extends DataColumn
         if (is_object($model) && method_exists($model, 'getBehaviors')) {
 
             foreach ($model->getBehaviors() as $behavior) {
-                if ($behavior::className() == BridgeUploadImageBehavior::class && $behavior->attribute == $attribute) {
+                if (($behavior instanceof BridgeUploadImageBehavior) && ($behavior->attribute === $attribute)) {
                     /**
                      * @var $behavior BridgeUploadImageBehavior
                      */
