@@ -286,6 +286,11 @@ class BridgeModule extends Module implements BootstrapInterface
             'basePath' => '@bridge/translations',
         ];
 
+        $app->i18n->translations['zelenin/modules/i18n'] = [
+            'class' => 'yii\i18n\PhpMessageSource',
+            'basePath' => '@Zelenin/yii/modules/I18n/messages',
+        ];
+
         if ($app instanceof WebApplication) {
             $this->modules = ArrayHelper::merge($this->modules, [
                 'i18n' => [
