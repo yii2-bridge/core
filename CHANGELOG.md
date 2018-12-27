@@ -1,3 +1,9 @@
+### Version 0.2.4 under development
+- Changed the order of the execution of migration commands
+- Fixed bug when extend `ImageColumn` and `TitledImageColumn` classes
+- Removed unused packages
+- Fixed bug in `I18n` module
+
 ### Version 0.2.3
 
 - Fixed bug when use `ImageColumn` and `TitledImageColumn`
