@@ -14,6 +14,7 @@ use yii2tech\admin\CrudController;
 use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
 use yii\web\NotFoundHttpException;
+use yii\db\ActiveRecord;
 
 class BaseAdminController extends CrudController
 {
@@ -98,26 +99,27 @@ class BaseAdminController extends CrudController
      */
     public function actionDeleteFile(int $id, string $modelName, string $behaviorName = 'imageUpload')
     {
+        /** @var ActiveRecord $model */
         $model = $modelName::findOne($id);
 
         if (!$model) {
             throw new NotFoundHttpException();
         }
 
-        $imageBehavior = $model->getBehavior($behaviorName);
+        $uploadBehavior = $model->getBehavior($behaviorName);
 
         /**
          * Удаляем сам файл.
          * Если мы удаляем изображение, то удаляется и их превью.
          */
-        $imageBehavior->afterDelete();
+        $uploadBehavior->afterDelete();
 
         /**
          * Удаляем запись файла в самом модели
          */
-        $model->{$imageBehavior->attribute} = null;
+        $model->{$uploadBehavior->attribute} = null;
         $model->detachBehaviors();
 
-        return $model->save(false);
+        return $model->save(false, [$uploadBehavior->attribute]);
     }
 }
