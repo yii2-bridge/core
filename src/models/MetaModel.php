@@ -6,6 +6,7 @@ use Bridge\Core\Behaviors\MetaTagBehavior;
 use Bridge\Core\Models\Query\MetaModelQuery;
 use Yii;
 use yii\base\InvalidArgumentException;
+use yii\base\UnknownPropertyException;
 use yii\db\ActiveRecord;
 use yii\helpers\ArrayHelper;
 
@@ -104,43 +105,53 @@ class MetaModel extends ActiveRecord
      */
     public static function create(ActiveRecord $model, $metaTagBehaviorName)
     {
-        $metaTagBehavior = $model->getBehavior($metaTagBehaviorName);
+        $defaultParams = [];
+
         $modelClassName = get_class($model);
         $modelId = $model->primaryKey;
 
-        if (!$metaTagBehavior || (get_class($metaTagBehavior) !== MetaTagBehavior::class)) {
-            throw new InvalidArgumentException('Вы не указали поведение MetaTagBehavior в модели ' . $modelClassName);
-        }
+        if (!is_null($metaTagBehaviorName)) {
+            $metaTagBehavior = $model->getBehavior($metaTagBehaviorName);
 
-        $title = ArrayHelper::getValue($model, $metaTagBehavior->titleColumn, Yii::$app->name);
-        $description = ArrayHelper::getValue($model, $metaTagBehavior->descriptionColumn, Yii::$app->name);
+            if (is_null($metaTagBehavior) || !(get_class($metaTagBehavior) === MetaTagBehavior::class)) {
+                throw new InvalidArgumentException('Вы не указали поведение MetaTagBehavior в модели ' . get_class($model));
+            }
 
-        $metaModel = self::find()
-            ->where([
+            try {
+                $title = ArrayHelper::getValue($model, $metaTagBehavior->titleColumn);
+            } catch (UnknownPropertyException $exception) {
+                $title = Yii::$app->name;
+            }
+
+            try {
+                $description = ArrayHelper::getValue($model, $metaTagBehavior->descriptionColumn);
+            } catch (UnknownPropertyException $exception) {
+                $description = Yii::$app->name;
+            }
+
+            $metaModel = MetaModel::find()->where([
                 'meta_models.model' => $modelClassName,
                 'meta_models.model_id' => $modelId,
-            ])
-            ->one();
+            ])->one();
 
-        if (!is_null($metaModel)) {
-            $metaTagTranslation = new MetaTagTranslation([
-                'meta_tag_id' => $metaModel->meta_tag_id,
-                'lang' => Yii::$app->language,
-                'title' => $title,
-                'description' => $description
-            ]);
+            if (!is_null($metaModel)) {
+                $metaTagTranslation = new MetaTagTranslation([
+                    'lang' => Yii::$app->language,
+                    'meta_tag_id' => $metaModel->meta_tag_id,
+                    'title' => $title,
+                    'description' => $description
+                ]);
 
-            return $metaTagTranslation->save() ? $metaTagTranslation : false;
-        }
+                return $metaTagTranslation->save() ? $metaTagTranslation : false;
+            }
 
-        $defaultParams = [];
-
-        foreach (Yii::$app->urlManager->languages as $label => $code) {
-            $defaultParams[$code] = [
-                'lang' => $code,
-                'title' => $title,
-                'description' => $description
-            ];
+            foreach (Yii::$app->urlManager->languages as $label => $code) {
+                $defaultParams[$code] = [
+                    'lang' => $code,
+                    'title' => $title,
+                    'description' => $description
+                ];
+            }
         }
 
         $metaTag = MetaTag::create($defaultParams);
@@ -149,7 +160,7 @@ class MetaModel extends ActiveRecord
             return false;
         }
 
-        $metaModel = new self([
+        $metaModel = new MetaModel([
             'meta_tag_id' => $metaTag->primaryKey,
             'model' => $modelClassName,
             'model_id' => $modelId,
