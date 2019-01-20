@@ -1,8 +1,10 @@
-### Version 0.2.4 under development
+### Version 0.2.4
 - Changed the order of the execution of migration commands
-- Fixed bug when extend `ImageColumn` and `TitledImageColumn` classes
 - Removed unused packages
+- Fixed bug when extend `ImageColumn` and `TitledImageColumn` classes
 - Fixed bug in `I18n` module
+- Fixed bug in `MetaTagsComponent`
+- Fixed bug when delete file via `fileUpload()` or `imageUpload()` fields 
 
 ### Version 0.2.3
 
