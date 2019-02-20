@@ -97,10 +97,11 @@ class BaseAdminController extends CrudController
      * @return mixed
      * @throws NotFoundHttpException
      */
-    public function actionDeleteFile(int $id, string $modelName, string $behaviorName = 'imageUpload')
+    public function actionDeleteFile(int $id, string $modelName, $behaviorName = 'imageUpload')
     {
         /** @var ActiveRecord $model */
-        $model = $modelName::findOne($id);
+        $className = urldecode($modelName);
+        $model = $className::findOne($id);
 
         if (!$model) {
             throw new NotFoundHttpException();
