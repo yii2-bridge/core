@@ -402,9 +402,8 @@ class BridgeModule extends Module implements BootstrapInterface
         $this->on(static::EVENT_BEFORE_ACTION, function () {
             $app = \Yii::$app;
 
-            $app->bridge->setIsAdmin();
-
             if ($app instanceof WebApplication) {
+                $app->bridge->setIsAdmin();
                 \Yii::$app->user->loginUrl = $this->loginUrl ?: [$this->id . '/default/login'];
             }
         });
