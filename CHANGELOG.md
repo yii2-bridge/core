@@ -1,5 +1,6 @@
 ### Version 0.2.5
 - Fixed bug with `extraAssets`
+- Fixed bug with method `setIsAdmin` in `bridge` component
 
 ### Version 0.2.4
 - Changed the order of the execution of migration commands
