@@ -35,6 +35,7 @@ use yii\helpers\ArrayHelper;
  */
 class SettingsGroup extends \yii\db\ActiveRecord
 {
+
     /**
      * @inheritdoc
      */
@@ -114,7 +115,7 @@ class SettingsGroup extends \yii\db\ActiveRecord
         $groupId = $this->id;
         if (!empty(Settings::$prevSettings[$key])) {
             $model = Settings::$prevSettings[$key];
-        } elseif((\Yii::$app->getModule('admin')->settingsCaching)) {
+        } elseif ((\Yii::$app->getModule('admin')->settingsCaching)) {
             $cacheKey = \Yii::$app->getModule('admin')->settingsCacheKey;
             $model = \Yii::$app->cache->getOrSet($cacheKey . '-' . $key, function () use ($key, $groupId) {
                 return Settings::find()->key($key)->groupId($groupId)->one();
@@ -163,20 +164,20 @@ class SettingsGroup extends \yii\db\ActiveRecord
             return self::get($key);
         } catch (InvalidArgumentException $e) {
             return self::create(ArrayHelper::merge([
-                'key' => $key,
-                'title' => $key,
-                'type' => Settings::TYPE_STRING,
-                'value' => '',
-                'group_id' => $this->id
-            ], $defaultParams));
+                        'key' => $key,
+                        'title' => $key,
+                        'type' => Settings::TYPE_STRING,
+                        'value' => '',
+                        'group_id' => $this->id
+                        ], $defaultParams));
         }
     }
 
     public static function getDropDownData()
     {
         return ArrayHelper::merge(
-            [null => 'Разное'],
-            ArrayHelper::map(static::find()->orderBy(['position' => SORT_ASC])->all(), 'id', 'title')
+                [null => \Yii::t('bridge', 'Miscellaneous')],
+                ArrayHelper::map(static::find()->orderBy(['position' => SORT_ASC])->all(), 'id', 'title')
         );
     }
 
@@ -184,11 +185,12 @@ class SettingsGroup extends \yii\db\ActiveRecord
      * @param bool $insert
      * @param array $changedAttributes
      */
-    public function afterSave($insert, $changedAttributes){
+    public function afterSave($insert, $changedAttributes)
+    {
         parent::afterSave($insert, $changedAttributes);
 
-        /** Кэшируем группу настройки */
-        if(\Yii::$app->getModule('admin')->settingsCaching) {
+        /** Cache settings group */
+        if (\Yii::$app->getModule('admin')->settingsCaching) {
             $cacheKey = \Yii::$app->getModule('admin')->settingsCacheKey;
             \Yii::$app->cache->set($cacheKey . '_group-' . $this->key, $this, 86400);
         }
@@ -200,32 +202,32 @@ class SettingsGroup extends \yii\db\ActiveRecord
             return false;
         }
 
-        /** Удаляем настройки из кэша связанные с этой группой */
-        if(\Yii::$app->getModule('admin')->settingsCaching) {
+        /** Remove settings from the cache associated with this group */
+        if (\Yii::$app->getModule('admin')->settingsCaching) {
             $cacheKey = \Yii::$app->getModule('admin')->settingsCacheKey;
 
             $settingsKeys = ArrayHelper::getColumn(Settings::find()->select('key')->groupId($this->id)->asArray()->all(), 'key');
 
-            if($settingsKeys) {
+            if ($settingsKeys) {
                 foreach ($settingsKeys as $settingKey) {
-                    /** Удаляем переводы настройки из кэша */
-                    if(Yii::$app->urlManager->languages) {
+                    /** Delete setting translations from the cache */
+                    if (Yii::$app->urlManager->languages) {
                         foreach (Yii::$app->urlManager->languages as $label => $code) {
-                            if(\Yii::$app->cache->delete($cacheKey . '-' . $settingKey . '-' . $code)) {
+                            if (\Yii::$app->cache->delete($cacheKey . '-' . $settingKey . '-' . $code)) {
                                 \Yii::info(['message' => 'Cache "' . $cacheKey . '-' . $settingKey . '-' . $code . '" has been deleted'], 'yii2-bridge');
                             }
                         }
                     }
 
-                    /** Удаляем настройку из кэша */
-                    if(\Yii::$app->cache->delete($cacheKey . '-' . $settingKey)) {
+                    /** Remove the setting from the cache */
+                    if (\Yii::$app->cache->delete($cacheKey . '-' . $settingKey)) {
                         \Yii::info(['message' => 'Cache "' . $cacheKey . '-' . $settingKey . '" has been deleted'], 'yii2-bridge');
                     }
                 }
             }
 
-            /** Удаляем группу настройки из кэша */
-            if(\Yii::$app->cache->delete($cacheKey . '_group-' . $this->key)) {
+            /** Remove the settings group from the cache */
+            if (\Yii::$app->cache->delete($cacheKey . '_group-' . $this->key)) {
                 \Yii::info(['message' => 'Cache "' . $cacheKey . '_group-' . $this->key . '" has been deleted'], 'yii2-bridge');
             }
         }
