@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: naffiq
@@ -8,7 +9,6 @@
 
 namespace Bridge\Core\Assets;
 
-
 use Bridge\Core\BridgeModule;
 use yii\base\InvalidConfigException;
 use yii\helpers\ArrayHelper;
@@ -17,7 +17,6 @@ use yii\web\AssetBundle;
 class AdminAsset extends AssetBundle
 {
     public $sourcePath = '@bridge-assets';
-
     public $css = [
         '//fonts.googleapis.com/css?family=Open+Sans:300,400,700|Roboto:500&amp;subset=cyrillic,cyrillic-ext',
         '//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css',
@@ -26,17 +25,18 @@ class AdminAsset extends AssetBundle
         'admin.css',
         'elfinder/css/theme.css',
     ];
-
     public $js = [
         '//cdnjs.cloudflare.com/ajax/libs/jquery.perfect-scrollbar/0.8.1/js/perfect-scrollbar.jquery.min.js',
         '//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js',
         'admin.main.js'
     ];
-
     public $depends = [
         'yii\web\YiiAsset',
         'yii\bootstrap\BootstrapAsset',
         'yii\bootstrap\BootstrapPluginAsset',
+    ];
+    public $publishOptions = [
+        'forceCopy' => YII_ENV_DEV,
     ];
 
     /**
