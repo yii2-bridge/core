@@ -25,7 +25,7 @@ $(function() {
         toggleMenuWide();
 
         if ($('.nav-menu').hasClass('wide')) {
-            $('.side-menu--collapsable').attr('data-toggle', 'collapse');
+            $('.side-menu--collapsable').attr('data-toggle', 'collapse').addClass('collapsed');
             $('ul.side-menu li.side-menu--item, .form--sign-out button').tooltip('destroy');
         } else {
             $('ul.side-menu li.side-menu--item, .form--sign-out button').tooltip();

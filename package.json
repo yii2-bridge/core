@@ -4,7 +4,7 @@
   "description": "Yii2 Bridge CMF",
   "main": "index.js",
   "scripts": {
-    "scss": "./node_modules/.bin/node-sass -w src/assets/admin/admin.scss src/assets/dist/admin.css --output-style compressed"
+    "scss": "./node_modules/.bin/node-sass -w src/assets/admin/admin.scss src/assets/dist/admin.css --source-map true --output-style compressed"
   },
   "repository": {
     "type": "git",

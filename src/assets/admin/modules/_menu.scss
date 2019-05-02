@@ -45,6 +45,21 @@
         .title {
           display: inline;
         }
+        .caret{
+          margin-left: auto;
+          margin-right: 10px;
+          color: #FFF;
+          transform: rotate(0);
+          -webkit-transition: transform .2s;
+          transition: transform .2s;
+        }
+        &.collapsed{
+          .caret{
+            transform: rotate(-90deg);
+            -webkit-transition: transform .2s;
+            transition: transform .2s;
+          }
+        }
       }
     }
     .form--sign-out .sign-out--title {
@@ -95,7 +110,9 @@
           height: auto !important;
         }
       }
-
+      .caret{
+        display: none;
+      }
       .sub-menu {
         border-left: 3px $nav-menu--header-bg solid;
         background-color: #1a1a1a;
@@ -110,7 +127,7 @@
         }
 
         .title {
-          width: calc(100% - 55px);
+          max-width: calc(100% - 55px);
           display: inline-block;
         }
       }
@@ -231,7 +248,7 @@
           line-height: 50px;
           font-size: 14px;
           font-weight: lighter;
-          width: calc(100% - 50px);
+          max-width: calc(100% - 50px);
           padding-left: 10px;
 
           white-space: nowrap;
