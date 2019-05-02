@@ -5,3 +5,4 @@ composer.lock
 .sass-cache
 node_modules/
 .env
+/nbproject/private/

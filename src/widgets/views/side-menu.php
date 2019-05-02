@@ -15,21 +15,21 @@ use Bridge\Core\Widgets\SideMenu;
         <?php if (is_string($item)) : ?>
             <li class="side-menu--item-divider"><?= $item ?></li>
         <?php else: ?>
-            <?php if(!SideMenu::isVisible($item)) continue ?>
-            <li class="side-menu--item<?= SideMenu::isActive($item) ? ' active' : '' ?><?= !empty($item['items']) ? ' with--sub-menu' : '' ?>"
+            <?php if (!SideMenu::isVisible($item)) continue ?>
+            <li class="side-menu--item <?= SideMenu::isActive($item) ? ' active' : '' ?><?= !empty($item['items']) ? ' with--sub-menu' : '' ?>"
                 data-toggle="tooltip" data-placement="right" title="<?= $item['title'] ?>"
                 <?php if (!empty($item['items'])) : ?>
                     role="tab" id="heading<?= $key ?>"
                 <?php endif; ?>
-            >
-                <?php if (!empty($item['url'])) : ?>
-                    <?= $this->render('_site-menu--item', ['item' => $item]); ?>
-                <?php elseif (!empty($item['items'])) : ?>
+                >
+                    <?php if (!empty($item['url'])) : ?>
+                        <?= $this->render('_site-menu--item', ['item' => $item]); ?>
+                    <?php elseif (!empty($item['items'])) : ?>
 
                     <a data-toggle="collapse" data-parent="#bridge--side-menu"
                        aria-expanded="false" aria-controls="collapse-<?= $key ?>"
                        href="#collapse-<?= $key ?>" class="side-menu--link side-menu--collapsable"
-                    >
+                       >
                         <div class="icon">
                             <?php if (!empty($item['image'])) : ?>
                                 <img src="<?= $item['image'] ?>" alt="" class="img-circle" width="30">
@@ -40,12 +40,13 @@ use Bridge\Core\Widgets\SideMenu;
                         <div class="title">
                             <?= $item['title'] ?>
                         </div>
+                        <span class="caret"></span>
                     </a>
-                    <ul class="sub-menu collapse<?= SideMenu::isActive($item) && (bool) $isMenuWide ? ' in' : '' ?>"
+                    <ul class="sub-menu collapse <?= SideMenu::isActive($item) && (bool) $isMenuWide ? 'in' : '' ?>"
                         id="collapse-<?= $key ?>" role="tabpanel" aria-labelledby="heading<?= $key ?>">
-                        <?php foreach ($item['items'] as $subItem): ?>
-                            <?php if(!SideMenu::isVisible($subItem)) continue ?>
-                            <li class="side-menu--item">
+                            <?php foreach ($item['items'] as $subItem): ?>
+                                <?php if (!SideMenu::isVisible($subItem)) continue ?>
+                            <li class="side-menu--item<?= SideMenu::isActive($subItem) ? ' active' : '' ?>">
                                 <?= $this->render('_site-menu--item', ['item' => $subItem]) ?>
                             </li>
                         <?php endforeach ?>
