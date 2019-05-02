@@ -45,7 +45,7 @@ use Bridge\Core\Widgets\SideMenu;
                         id="collapse-<?= $key ?>" role="tabpanel" aria-labelledby="heading<?= $key ?>">
                         <?php foreach ($item['items'] as $subItem): ?>
                             <?php if(!SideMenu::isVisible($subItem)) continue ?>
-                            <li class="side-menu--item">
+                            <li class="side-menu--item<?= SideMenu::isActive($subItem) ? ' active' : '' ?>">
                                 <?= $this->render('_site-menu--item', ['item' => $subItem]) ?>
                             </li>
                         <?php endforeach ?>
