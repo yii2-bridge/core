@@ -20,8 +20,6 @@ use yii\filters\VerbFilter;
 
 class DefaultController extends Controller
 {
-    public $layout = '@bridge/views/layouts/main';
-
     /**
      * @var BridgeModule
      */

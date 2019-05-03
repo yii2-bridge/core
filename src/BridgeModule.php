@@ -160,6 +160,8 @@ class BridgeModule extends Module implements BootstrapInterface
 
     public $settingsCacheKey = 'bridge_settings';
 
+    public $layout = '@bridge/views/layouts/main';
+
     /**
      * @inheritdoc
      */
@@ -234,7 +236,7 @@ class BridgeModule extends Module implements BootstrapInterface
                 'on beforeAction' => function () {
                     ElFinderTheme::register(\Yii::$app->view);
                 },
-                'layout' => '@bridge/views/layouts/main.php'
+                'layout' => $this->layout
             ], $this->elFinderConfig)
         ]);
     }
@@ -295,7 +297,6 @@ class BridgeModule extends Module implements BootstrapInterface
             $this->modules = ArrayHelper::merge($this->modules, [
                 'i18n' => [
                     'class' => \Zelenin\yii\modules\I18n\Module::class,
-                    'layout' => '@bridge/views/layouts/main',
                     'controllerMap' => [
                         'default' => [
                             'class' => I18nController::class,
@@ -349,7 +350,7 @@ class BridgeModule extends Module implements BootstrapInterface
                     'welcomeMailSubject' => \Yii::t('bridge', 'Welcome to {0}', [$app->name]),
                 ],
                 'administratorPermissionName' => 'admin',
-                'layout' => '@bridge/views/layouts/main',
+                'layout' => $this->layout,
                 'enableRegistration' => false
             ], $this->userSettings);
 

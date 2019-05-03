@@ -19,11 +19,6 @@ use yii\db\ActiveRecord;
 class BaseAdminController extends CrudController
 {
     /**
-     * @var string
-     */
-    public $layout = '@bridge/views/layouts/main';
-
-    /**
      * @var array|null contains roles, that have access to the controller. If value is `null`, then
      * it will be initialized from `Bridge\Core\BridgeModule` config.
      * Default value: `['admin']`
