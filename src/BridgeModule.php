@@ -160,6 +160,11 @@ class BridgeModule extends Module implements BootstrapInterface
 
     public $settingsCacheKey = 'bridge_settings';
 
+    /**
+     * @var string|bool the layout that should be applied for views within this module. This refers to a view name
+     * relative to [[layoutPath]]. If this is not set, it means the layout value of the [[module|parent module]]
+     * will be taken. If this is `false`, layout will be disabled within this module.
+     */
     public $layout = '@bridge/views/layouts/main';
 
     /**
