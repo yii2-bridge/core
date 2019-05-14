@@ -161,6 +161,13 @@ class BridgeModule extends Module implements BootstrapInterface
     public $settingsCacheKey = 'bridge_settings';
 
     /**
+     * @var string|bool the layout that should be applied for views within this module. This refers to a view name
+     * relative to [[layoutPath]]. If this is not set, it means the layout value of the [[module|parent module]]
+     * will be taken. If this is `false`, layout will be disabled within this module.
+     */
+    public $layout = '@bridge/views/layouts/main';
+
+    /**
      * @inheritdoc
      */
     public function bootstrap($app)
@@ -237,7 +244,7 @@ class BridgeModule extends Module implements BootstrapInterface
                 'on beforeAction' => function () {
                     ElFinderTheme::register(\Yii::$app->view);
                 },
-                'layout' => '@bridge/views/layouts/main.php'
+                'layout' => $this->layout
             ], $this->elFinderConfig)
         ]);
     }
@@ -298,7 +305,6 @@ class BridgeModule extends Module implements BootstrapInterface
             $this->modules = ArrayHelper::merge($this->modules, [
                 'i18n' => [
                     'class' => \Zelenin\yii\modules\I18n\Module::class,
-                    'layout' => '@bridge/views/layouts/main',
                     'controllerMap' => [
                         'default' => [
                             'class' => I18nController::class,
@@ -352,7 +358,7 @@ class BridgeModule extends Module implements BootstrapInterface
                     'welcomeMailSubject' => \Yii::t('bridge', 'Welcome to {0}', [$app->name]),
                 ],
                 'administratorPermissionName' => 'admin',
-                'layout' => '@bridge/views/layouts/main',
+                'layout' => $this->layout,
                 'enableRegistration' => false
             ], $this->userSettings);
 
