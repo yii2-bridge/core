@@ -191,6 +191,9 @@ class BridgeModule extends Module implements BootstrapInterface
             ]));
 
             $this->registerMetaTags($app);
+
+            $this->setViewPath('@bridge/views');
+
         } elseif ($app instanceof ConsoleApplication) {
             \Yii::setAlias('@bridge-migrations', \Yii::getAlias('@vendor/yii2-bridge/core/src/migrations/'));
             \Yii::setAlias('@bridge', \Yii::getAlias('@vendor/yii2-bridge/core/src/'));
