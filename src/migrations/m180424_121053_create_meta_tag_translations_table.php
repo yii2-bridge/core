@@ -7,6 +7,7 @@ use yii\db\Migration;
  */
 class m180424_121053_create_meta_tag_translations_table extends Migration
 {
+
     /**
      * @inheritdoc
      */
@@ -14,13 +15,13 @@ class m180424_121053_create_meta_tag_translations_table extends Migration
     {
         $this->createTable('meta_tag_translations', [
             'id' => $this->primaryKey(),
-            'lang' => $this->string()->notNull()->comment('Язык перевода'),
-            'meta_tag_id' => $this->integer()->notNull()->comment('Мета-тег'),
-            'title' => $this->string()->comment('Заголовок'),
-            'description' => $this->text()->comment('Описание'),
-            'keywords' => $this->string()->comment('Ключевые слова'),
-            'image' => $this->string()->comment('Изображение'),
-            'type' => $this->string()->comment('Тип страницы'),
+            'lang' => $this->string()->notNull()->comment('Translation language'),
+            'meta_tag_id' => $this->integer()->notNull()->comment('Meta tag'),
+            'title' => $this->string()->comment('Headline'),
+            'description' => $this->text()->comment('Description'),
+            'keywords' => $this->string()->comment('Keywords'),
+            'image' => $this->string()->comment('Picture'),
+            'type' => $this->string()->comment('Page type'),
         ]);
 
         // creates index for columns `lang` and `meta_tag_id`
