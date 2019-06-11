@@ -1,3 +1,11 @@
+### Version 0.3.0
+- Added `$layout` property for `BridgeModule`. If you need, you can install your own layout or edit existing. [#43](https://github.com/yii2-bridge/core/pull/43)
+- Now, in your project config you can override bridge views. For [example](https://github.com/yii2-bridge/core/wiki/Custom-view-path). [#45](https://github.com/yii2-bridge/core/pull/45)
+- The submenu now also becomes highlighted if it is active. [#42](https://github.com/yii2-bridge/core/pull/42)
+- Added a caret icon and animation to menu items which have a sub-menu. [#40](https://github.com/yii2-bridge/core/pull/40)
+- Fixed bug with migration. [#46](https://github.com/yii2-bridge/core/pull/46)
+- Fixed missing translation in dropdown menu. [#39](https://github.com/yii2-bridge/core/pull/39)
+
 ### Version 0.2.5
 - Fixed bug with `extraAssets`
 - Fixed bug with method `setIsAdmin` in `bridge` component

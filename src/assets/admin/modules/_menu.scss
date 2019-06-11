@@ -272,6 +272,9 @@
               padding-left: 0;
             }
           }
+          &.active {
+            background-color: $sub-menu--active-item;
+          }
         }
       }
     }
