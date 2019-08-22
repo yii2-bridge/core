@@ -94,7 +94,7 @@ class BridgeModule extends Module implements BootstrapInterface
     /**
      * @var string Module version
      */
-    public $version = 'v0.3.0';
+    public $version = 'v0.3.1';
 
     /**
      * @var string Module repository API URL, used to fetch latest version
