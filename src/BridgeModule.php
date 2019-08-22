@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: naffiq
@@ -126,7 +127,6 @@ class BridgeModule extends Module implements BootstrapInterface
      * ```
      */
     public $composeMenu;
-
     public $elFinderConfig = [];
 
     /**
@@ -142,22 +142,14 @@ class BridgeModule extends Module implements BootstrapInterface
         'ru-RU' => 'RU',
         'kk-KZ' => 'KZ',
     ];
-
     public $urlLanguageCodeFormer = null;
-
     public $urlManagerConfig = [
     ];
-
     public $defaultLanguage = 'en-US';
-
     public $showLanguageSwitcher = true;
-
     public $languageSwitchAction = '\Bridge\Core\Controllers\Actions\LanguageSwitchAction';
-
     public $controllerNamespace = '\Bridge\Core\Controllers';
-
     public $settingsCaching = true;
-
     public $settingsCacheKey = 'bridge_settings';
 
     /**
@@ -188,19 +180,19 @@ class BridgeModule extends Module implements BootstrapInterface
                 }
 
                 $app->user->identityClass = $this->userClass;
-                echo "ok"; die;
+                echo "ok";
+                die;
             }
 
             $app->setComponents(ArrayHelper::merge($app->getComponents(false), [
-                'bridge' => [
-                    'class' => BridgeComponent::class,
-                ]
+                    'bridge' => [
+                        'class' => BridgeComponent::class,
+                    ]
             ]));
 
             $this->registerMetaTags($app);
 
             $this->setViewPath('@bridge/views');
-
         } elseif ($app instanceof ConsoleApplication) {
             \Yii::setAlias('@bridge-migrations', \Yii::getAlias('@vendor/yii2-bridge/core/src/migrations/'));
             \Yii::setAlias('@bridge', \Yii::getAlias('@vendor/yii2-bridge/core/src/'));
@@ -229,23 +221,23 @@ class BridgeModule extends Module implements BootstrapInterface
     private function registerElFinder()
     {
         $this->controllerMap = ArrayHelper::merge($this->controllerMap, [
-            'elfinder' => ArrayHelper::merge([
-                'class' => 'mihaildev\elfinder\Controller',
-                'access' => $this->allowedRoles,
-                'disabledCommands' => ['netmount'],
-                'roots' => [
-                    [
-                        'baseUrl' => '@web',
-                        'basePath' => '@webroot',
-                        'path' => 'media/',
-                        'name' => 'Global'
+                'elfinder' => ArrayHelper::merge([
+                    'class' => 'mihaildev\elfinder\Controller',
+                    'access' => $this->allowedRoles,
+                    'disabledCommands' => ['netmount'],
+                    'roots' => [
+                        [
+                            'baseUrl' => '@web',
+                            'basePath' => '@webroot',
+                            'path' => 'media/',
+                            'name' => 'Global'
+                        ],
                     ],
-                ],
-                'on beforeAction' => function () {
-                    ElFinderTheme::register(\Yii::$app->view);
-                },
-                'layout' => $this->layout
-            ], $this->elFinderConfig)
+                    'on beforeAction' => function () {
+                        ElFinderTheme::register(\Yii::$app->view);
+                    },
+                    'layout' => $this->layout
+                    ], $this->elFinderConfig)
         ]);
     }
 
@@ -270,7 +262,7 @@ class BridgeModule extends Module implements BootstrapInterface
             ['class' => 'yii\web\UrlRule', 'pattern' => $this->id . '/<id:\w+>', 'route' => $this->id . '/default/view'],
             ['class' => 'yii\web\UrlRule', 'pattern' => $this->id . '/<controller:[\w\-]+>/<action:[\w\-]+>', 'route' => $this->id . '/<controller>/<action>'],
             ['class' => 'yii\web\UrlRule', 'pattern' => $this->id . '/<module:[\w\-]+>/<controller:[\w\-]+>/<action:[\w\-]+>', 'route' => $this->id . '/<module>/<controller>/<action>'],
-        ], false);
+            ], false);
     }
 
     /**
@@ -278,7 +270,7 @@ class BridgeModule extends Module implements BootstrapInterface
      *
      * @param Application $app
      */
-    private function registerTranslations(Application $app)
+    protected function registerTranslations(Application $app)
     {
         $app->set('i18n', [
             'class' => \Zelenin\yii\modules\I18n\components\I18N::class,
@@ -303,15 +295,15 @@ class BridgeModule extends Module implements BootstrapInterface
 
         if ($app instanceof WebApplication) {
             $this->modules = ArrayHelper::merge($this->modules, [
-                'i18n' => [
-                    'class' => \Zelenin\yii\modules\I18n\Module::class,
-                    'controllerMap' => [
-                        'default' => [
-                            'class' => I18nController::class,
-                            'viewPath' => '@bridge/views/i18n',
+                    'i18n' => [
+                        'class' => \Zelenin\yii\modules\I18n\Module::class,
+                        'controllerMap' => [
+                            'default' => [
+                                'class' => I18nController::class,
+                                'viewPath' => '@bridge/views/i18n',
+                            ]
                         ]
                     ]
-                ]
             ]);
 
 
@@ -352,15 +344,15 @@ class BridgeModule extends Module implements BootstrapInterface
         // Registering yii2-usuario module
         if (!$app->hasModule('user') || !($app->getModule('user') instanceof \Da\User\Module)) {
             $moduleConfig = ArrayHelper::merge([
-                'class' => \Da\User\Module::class,
-                'mailParams' => [
-                    'fromEmail' => 'noreply@bridge.dev',
-                    'welcomeMailSubject' => \Yii::t('bridge', 'Welcome to {0}', [$app->name]),
-                ],
-                'administratorPermissionName' => 'admin',
-                'layout' => $this->layout,
-                'enableRegistration' => false
-            ], $this->userSettings);
+                    'class' => \Da\User\Module::class,
+                    'mailParams' => [
+                        'fromEmail' => 'noreply@bridge.dev',
+                        'welcomeMailSubject' => \Yii::t('bridge', 'Welcome to {0}', [$app->name]),
+                    ],
+                    'administratorPermissionName' => 'admin',
+                    'layout' => $this->layout,
+                    'enableRegistration' => false
+                    ], $this->userSettings);
 
             $app->setModule('user', $moduleConfig);
         }
@@ -386,7 +378,7 @@ class BridgeModule extends Module implements BootstrapInterface
         /** @var \yii\gii\Module $giiModule */
         $giiModule = $app->getModule('gii');
         if (!empty($giiModule)) {
-            $giiModule->generators['bridge-crud'] = ['class' => '\Bridge\Core\Gii\CRUD\Generator'];
+            $giiModule->generators['bridge-crud']  = ['class' => '\Bridge\Core\Gii\CRUD\Generator'];
             $giiModule->generators['bridge-model'] = ['class' => '\Bridge\Core\Gii\Model\Generator'];
         }
     }
@@ -404,7 +396,7 @@ class BridgeModule extends Module implements BootstrapInterface
             \Yii::$app->view->params['admin-menu'] = $this->menu;
         } else {
             \Yii::$app->view->params['admin-menu'] = ArrayHelper::merge(
-                \Yii::$app->view->params['admin-menu'], $this->menu
+                    \Yii::$app->view->params['admin-menu'], $this->menu
             );
         }
 
@@ -417,7 +409,6 @@ class BridgeModule extends Module implements BootstrapInterface
             }
         });
     }
-
 
     /**
      * Composes menu for admin panel from config
@@ -458,9 +449,9 @@ class BridgeModule extends Module implements BootstrapInterface
     {
         try {
             $gaKey = Settings::group('seo-and-analytics', [
-                'title' => 'Seo and Analytics',
-                'icon' => 'fa-bar-chart'
-            ])->get('google-analytics-key');
+                    'title' => 'Seo and Analytics',
+                    'icon' => 'fa-bar-chart'
+                ])->get('google-analytics-key');
 //            \Yii::$app->view->on(View::EVENT)
             \Yii::$app->view->registerJs(<<<JS
     (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -472,6 +463,7 @@ class BridgeModule extends Module implements BootstrapInterface
 JS
                 , View::POS_HEAD);
         } catch (\Exception $e) {
+
         }
     }
 
@@ -482,16 +474,16 @@ JS
     {
         try {
             $ymKey = Settings::group('seo-and-analytics', [
-                'title' => 'Seo and Analytics',
-                'icon' => 'fa-bar-chart'
-            ])->get('yandex-metrika-key');
+                    'title' => 'Seo and Analytics',
+                    'icon' => 'fa-bar-chart'
+                ])->get('yandex-metrika-key');
             \Yii::$app->view->on(View::EVENT_BEGIN_BODY, function () use ($ymKey) {
                 echo <<<HTML
 <!-- Yandex.Metrika counter -->
-<script type="text/javascript">(function (d, w, c) { (w[c] = w[c] || []).push(function() 
+<script type="text/javascript">(function (d, w, c) { (w[c] = w[c] || []).push(function()
 { try { w.yaCounter28278981 = new Ya.Metrika({id:'{$ymKey->getTranslation(null, $this->settingsCacheKey . '-yandex-metrika-key')->value}', webvisor:true, clickmap:true, trackLinks:true, accurateTrackBounce:true, trackHash:true}); }
-catch(e) { } }); var n = d.getElementsByTagName("script")[0], s = d.createElement("script"), f = function () 
-{ n.parentNode.insertBefore(s, n); }; s.type = "text/javascript"; s.async = true; s.src = (d.location.protocol == "https:" ? "https:" : "http:") + 
+catch(e) { } }); var n = d.getElementsByTagName("script")[0], s = d.createElement("script"), f = function ()
+{ n.parentNode.insertBefore(s, n); }; s.type = "text/javascript"; s.async = true; s.src = (d.location.protocol == "https:" ? "https:" : "http:") +
 "//mc.yandex.ru/metrika/watch.js"; if (w.opera == "[object Opera]") { d.addEventListener("DOMContentLoaded", f, false); } else { f(); } })
 (document, window, "yandex_metrika_callbacks");</script>
 <noscript><div><img src="//mc.yandex.ru/watch/{$ymKey->getTranslation(null, $this->settingsCacheKey . '-yandex-metrika-key')->value}" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
@@ -499,6 +491,7 @@ catch(e) { } }); var n = d.getElementsByTagName("script")[0], s = d.createElemen
 HTML;
             });
         } catch (\Exception $e) {
+
         }
     }
 
@@ -519,9 +512,9 @@ HTML;
     private function registerMetaTags(WebApplication $app)
     {
         $app->setComponents(ArrayHelper::merge($app->getComponents(false), [
-            'metaTags' => [
-                'class' => MetaTagsComponent::class,
-            ]
+                'metaTags' => [
+                    'class' => MetaTagsComponent::class,
+                ]
         ]));
     }
 
