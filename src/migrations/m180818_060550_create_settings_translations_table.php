@@ -7,6 +7,7 @@ use yii\db\Migration;
  */
 class m180818_060550_create_settings_translations_table extends Migration
 {
+
     /**
      * {@inheritdoc}
      */
@@ -14,9 +15,9 @@ class m180818_060550_create_settings_translations_table extends Migration
     {
         $this->createTable('settings_translations', [
             'id' => $this->primaryKey(),
-            'lang' => $this->string()->notNull()->comment('Язык перевода'),
-            'settings_id' => $this->integer()->notNull()->comment('Настройка'),
-            'value' => $this->text()->null()->comment('Значение'),
+            'lang' => $this->string()->notNull()->comment('Translation language'),
+            'settings_id' => $this->integer()->notNull()->comment('Customization'),
+            'value' => $this->text()->null()->comment('Value'),
         ]);
 
         // creates index for columns `settings_id` and `lang`
