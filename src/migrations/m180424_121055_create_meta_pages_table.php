@@ -7,6 +7,7 @@ use yii\db\Migration;
  */
 class m180424_121055_create_meta_pages_table extends Migration
 {
+
     /**
      * @inheritdoc
      */
@@ -14,10 +15,10 @@ class m180424_121055_create_meta_pages_table extends Migration
     {
         $this->createTable('meta_pages', [
             'id' => $this->primaryKey(),
-            'meta_tag_id' => $this->integer()->notNull()->comment('Мета-тег'),
-            'module' => $this->string()->notNull()->comment('Название модуля'),
-            'controller' => $this->string()->notNull()->comment('Название контроллера'),
-            'action' => $this->string()->notNull()->comment('Название экшена'),
+            'meta_tag_id' => $this->integer()->notNull()->comment('Meta tag'),
+            'module' => $this->string()->notNull()->comment('Module Name'),
+            'controller' => $this->string()->notNull()->comment('Controller name'),
+            'action' => $this->string()->notNull()->comment('Action name'),
         ]);
 
         // add foreign key for table `meta_tags`

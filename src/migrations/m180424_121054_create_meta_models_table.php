@@ -7,6 +7,7 @@ use yii\db\Migration;
  */
 class m180424_121054_create_meta_models_table extends Migration
 {
+
     /**
      * @inheritdoc
      */
@@ -14,9 +15,9 @@ class m180424_121054_create_meta_models_table extends Migration
     {
         $this->createTable('meta_models', [
             'id' => $this->primaryKey(),
-            'meta_tag_id' => $this->integer()->notNull()->comment('Мета-тег'),
-            'model' => $this->string()->notNull()->comment('Класс модели'),
-            'model_id' => $this->integer()->notNull()->comment('ID записи модели'),
+            'meta_tag_id' => $this->integer()->notNull()->comment('Meta tag'),
+            'model' => $this->string()->notNull()->comment('Model class'),
+            'model_id' => $this->integer()->notNull()->comment('Model entry ID'),
         ]);
 
         // add foreign key for table `meta_tags`
