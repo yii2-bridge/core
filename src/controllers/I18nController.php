@@ -9,6 +9,7 @@ use Bridge\Core\BridgeModule;
 use yii\filters\AccessControl;
 use yii\base\InvalidConfigException;
 use Zelenin\yii\modules\I18n\Module;
+use Bridge\Core\Models\Search\SourceMessageSearch;
 use Zelenin\yii\modules\I18n\models\SourceMessage;
 use Zelenin\yii\modules\I18n\controllers\DefaultController as BaseI18nController;
 
@@ -52,6 +53,19 @@ class I18nController extends BaseI18nController
         }
 
         return $module;
+    }
+
+    /**
+     * @return string
+     */
+    public function actionIndex()
+    {
+        $searchModel = new SourceMessageSearch;
+        $dataProvider = $searchModel->search(Yii::$app->getRequest()->get());
+        return $this->render('index', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider
+        ]);
     }
 
     /**
