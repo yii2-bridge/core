@@ -49,9 +49,9 @@ class SideMenu extends Widget
                 return true;
             }
         }
-
         if (empty($item['active'])) {
-            return !empty($item['url']) && Url::current() === Url::to($item['url']);
+            $url = explode('?', Url::current());
+            return !empty($item['url']) && $url[0] === Url::to($item['url']);
         }
 
         $active = $item['active'];
@@ -78,9 +78,11 @@ class SideMenu extends Widget
         }
         $controller = \Yii::$app->controller;
 
+
         if ((!empty($active['module']) && $active['module'] != $controller->module->id)
             || (!empty($active['controller']) && $active['controller'] != $controller->id)
             || (!empty($active['action']) && $active['action'] != $controller->action->id)) {
+
             return false;
         }
 
