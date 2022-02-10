@@ -23,6 +23,6 @@
   "homepage": "https://github.com/naffiq/yii2-bridge#readme",
   "dependencies": {},
   "devDependencies": {
-    "node-sass": "^4.13.1"
+    "node-sass": "^7.0.0"
   }
 }
